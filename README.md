@@ -1,17 +1,30 @@
 # Star Wars Canonical Timeline Gantt
 
-An interactive Gantt chart visualizing the complete Star Wars canon timeline (BBY/ABY), covering all major media: films, animated series, live-action series, comics, novels, and video games.
+An interactive Gantt chart visualizing the complete Star Wars canon timeline (BBY/ABY), covering all major media: films, animated series, live-action series, comics, novels, video games, and Legends soft-canon references.
 
 ![Star Wars Timeline](https://img.shields.io/badge/Star%20Wars-Canon%20Timeline-f5c030?style=flat&labelColor=090910)
 ![React](https://img.shields.io/badge/React-18-38b4f0?style=flat&labelColor=090910)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-6dc87a?style=flat&labelColor=090910)
+
+**Live demo:** [simmonsstummer.github.io/starwars-gantt](https://simmonsstummer.github.io/starwars-gantt)
+
+---
 
 ## Features
 
-- **Dual scale** — compressed before 30 BBY (High Republic era), expanded for the main saga
-- **Split bars** — broken bars with dashed connectors show temporal jumps within the same series
-- **6 media categories** — films, animated series, live-action, comics, novels, video games
-- **Hover info** — hover any row for exact year ranges and notes
-- **Era backgrounds** — color-coded bands for Alta Repubblica, Era Imperiale, Ribellione, etc.
+- **3-zone non-linear scale** — ultra-compressed before 392 BBY (Old Republic era), compressed between 392–30 BBY (High Republic era), expanded for the main saga
+- **Scale-break indicators** — zigzag lines mark where the scale changes, with legend explaining the compression factor
+- **Split bars** — broken bars with dashed connectors show temporal jumps within the same series (e.g. Clone Wars, Andor S2)
+- **7 media categories** — films, animated series, live-action, comics, novels, video games, and soft canon (Legends references in Disney canon)
+- **Collapsible categories** — click any category header to collapse/expand its rows; expand-all / collapse-all buttons in the label header
+- **Era backgrounds** — color-coded bands for High Republic, Fall of the Republic, Imperial Era, Rebellion, New Republic, Rise of the First Order
+- **Side panel** — click any row to pin a detail panel showing: spoiler-free description, era, timeline segments, seasons/arcs, canonical notes, and source links
+- **Scrubber line** — move the mouse over the chart to see what media is active at any point in time; click to lock the scrubber and get a list of active titles at that exact year
+- **Drag to pan** — click and drag to scroll the timeline horizontally
+- **Ctrl+scroll to zoom** — zoom in/out with Ctrl+mouse wheel; plain scroll moves the page normally
+- **Zoom buttons** — −/reset/+ buttons in the header for keyboard-free zoom control
+
+---
 
 ## Media included
 
@@ -19,12 +32,47 @@ An interactive Gantt chart visualizing the complete Star Wars canon timeline (BB
 |---|---|
 | Films | All 11 canon films (Episodes I–IX, Rogue One, Solo) |
 | Animated | Clone Wars, Rebels, Bad Batch, Resistance, Tales of the Jedi, Tales of the Empire, Tales of the Underworld, Maul: Shadow Lord, Young Jedi Adventures, The Acolyte |
-| Live-action | Mandalorian, Andor, Obi-Wan Kenobi, Ahsoka, Book of Boba Fett, Skeleton Crew |
-| Comics | High Republic (3 phases), Darth Vader: Dark Lord, Doctor Aphra, Star Wars (Marvel 2015), War of the Bounty Hunters / Crimson Reign |
+| Live-action | Mandalorian, Andor (S1+S2), Obi-Wan Kenobi, Ahsoka, Book of Boba Fett, Skeleton Crew |
+| Comics | High Republic (3 phases), Shadow of Maul, Darth Vader: Dark Lord, Doctor Aphra, Star Wars (Marvel 2015), War of the Bounty Hunters / Crimson Reign |
 | Novels | High Republic (3 phases), Ahsoka, Thrawn, Lost Stars, Aftermath, Alphabet Squadron |
-| Video games | Jedi: Fallen Order, Jedi: Survivor, Star Wars Outlaws, Battlefront II |
+| Video games | Jedi: Fallen Order, Jedi: Survivor, Star Wars Outlaws, Battlefront II (story mode) |
+| Soft Canon | KOTOR I & II, The Old Republic (MMO), Republic Commando, The Force Unleashed I+II, Shadows of the Empire |
+
+### Season / arc breakdowns
+
+Series with non-linear or multi-era timelines include per-season year placements:
+
+- **The Clone Wars** — 7 seasons (~22–19 BBY)
+- **The Bad Batch** — 3 seasons (19–17 BBY)
+- **Star Wars Rebels** — 4 seasons + epilogue (5 BBY – 4 ABY)
+- **Star Wars Resistance** — 2 seasons (34–35 ABY)
+- **Andor** — S1 + S2 in 4 chapters, each +1 year (5–1 BBY)
+- **The Mandalorian** — 3 seasons (9–10 ABY)
+- **Book of Boba Fett** — flashbacks (4 ABY) + present (9 ABY)
+- **Ahsoka** — S1 (9 ABY)
+
+---
+
+## Architecture
+
+The project is a **single self-contained `index.html`** file — no build step required. It uses:
+
+- **React 18** + **ReactDOM** via CDN
+- **Babel Standalone** for in-browser JSX transpilation
+- **DM Mono** (Google Fonts) for typography
+- No external dependencies beyond the above
+
+This makes it trivially deployable on GitHub Pages by just serving the file.
+
+The JSX source component (`starwars-gantt.jsx`) is also included in the repo for reference, but the `index.html` is the canonical version served by GitHub Pages.
+
+---
 
 ## Run locally
+
+Simply open `index.html` in a browser — no server needed.
+
+Or, to use the JSX component in a React project:
 
 ```bash
 npx create-react-app starwars-gantt
@@ -35,12 +83,17 @@ npm start
 
 Then open [http://localhost:3000](http://localhost:3000).
 
+---
+
 ## Data sources
 
-- [Wookieepedia](https://starwars.fandom.com) — canonical year references
+- [Wookieepedia](https://starwars.fandom.com) — canonical year references and episode-level details
 - [GamesRadar Star Wars Timeline](https://www.gamesradar.com/star-wars-timeline/)
 - [Empire Online Star Wars Timeline](https://www.empireonline.com/movies/features/star-wars-timeline-chronological-order/)
+- [Wikipedia](https://en.wikipedia.org) — general publication and plot information
+
+---
 
 ## Disclaimer
 
-This is an unofficial fan project. Star Wars and all related properties are trademarks of Lucasfilm Ltd. / The Walt Disney Company. This project is not affiliated with or endorsed by Lucasfilm or Disney.
+This is an unofficial fan project created for informational and entertainment purposes only. It is not affiliated with, endorsed by, or connected to Lucasfilm Ltd., The Walt Disney Company, or any of their subsidiaries or affiliates. Star Wars and all related names, characters, titles, and indicia are trademarks and/or copyrights of Lucasfilm Ltd. / The Walt Disney Company. All rights reserved. No copyright infringement is intended. No commercial use is made of any protected material.
