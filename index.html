@@ -20,33 +20,21 @@
     const { useState, useEffect, useRef } = React;
 
     // ── Scale: 3 zones ───────────────────────────────────────────────────────
-    // Zone 1: YMIN → BREAK2  (ancient / Old Republic era,  ultra-compressed)
-    // Zone 2: BREAK2 → BREAK (High Republic era,           compressed)
-    // Zone 3: BREAK  → YMAX  (main saga,                   expanded)
-    const YMIN   = -4300;
-    const YMAX   = 38;
-    const BREAK2 = -392;   // Old Republic / High Republic boundary
-    const BREAK  = -30;    // High Republic / main saga boundary
-    const S_ULTRA = 0.1;   // px / yr  zone 1
-    const S_EARLY = 1.6;   // px / yr  zone 2
-    const S_MAIN  = 12;    // px / yr  zone 3
+    const YMIN    = -4300;
+    const YMAX    = 38;
+    const BREAK2  = -392;
+    const BREAK   = -30;
+    const S_ULTRA = 0.1;
+    const S_EARLY = 1.6;
+    const S_MAIN  = 12;
 
-    const B2X = (BREAK2 - YMIN) * S_ULTRA;          // base px at BREAK2
-    const BX  = B2X + (BREAK - BREAK2) * S_EARLY;   // base px at BREAK
+    const B2X = (BREAK2 - YMIN) * S_ULTRA;
+    const BX  = B2X + (BREAK - BREAK2) * S_EARLY;
 
-    const basePx = y => {
-      if (y <= BREAK2) return (y - YMIN) * S_ULTRA;
-      if (y <= BREAK)  return B2X + (y - BREAK2) * S_EARLY;
-      return BX + (y - BREAK) * S_MAIN;
-    };
-    const baseInvPx = x => {
-      if (x <= B2X) return x / S_ULTRA + YMIN;
-      if (x <= BX)  return (x - B2X) / S_EARLY + BREAK2;
-      return (x - BX) / S_MAIN + BREAK;
-    };
-
-    const makePx    = z => y => basePx(y) * z;
-    const makeInvPx = z => x => baseInvPx(x / z);
+    const basePx    = y => y <= BREAK2 ? (y-YMIN)*S_ULTRA : y <= BREAK ? B2X+(y-BREAK2)*S_EARLY : BX+(y-BREAK)*S_MAIN;
+    const baseInvPx = x => x <= B2X ? x/S_ULTRA+YMIN : x <= BX ? (x-B2X)/S_EARLY+BREAK2 : (x-BX)/S_MAIN+BREAK;
+    const makePx    = z => y => basePx(y)*z;
+    const makeInvPx = z => x => baseInvPx(x/z);
 
     // ── Eras ─────────────────────────────────────────────────────────────────
     const ERAS = [
@@ -60,520 +48,529 @@
     ];
 
     const TYPE_INFO = {
-      f: { label: "Film",         color: "#f5c030" },
-      a: { label: "Animated",     color: "#38b4f0" },
-      l: { label: "Live-Action",  color: "#f07248" },
-      c: { label: "Comics",       color: "#6dc87a" },
-      v: { label: "Novel",        color: "#c077d4" },
-      g: { label: "Video Game",   color: "#e09830" },
-      s: { label: "Soft Canon",   color: "#c8a060" },
+      f: { label: "Film",        color: "#f5c030" },
+      a: { label: "Animated",    color: "#38b4f0" },
+      l: { label: "Live-Action", color: "#f07248" },
+      c: { label: "Comics",      color: "#6dc87a" },
+      v: { label: "Novel",       color: "#c077d4" },
+      g: { label: "Video Game",  color: "#e09830" },
+      s: { label: "Soft Canon",  color: "#c8a060" },
     };
 
     // ── Data ─────────────────────────────────────────────────────────────────
     const DATA = [
-      // FILMS
-      { n: "The Phantom Menace",       t: "f", seg: [[-32, -31]] },
-      { n: "Attack of the Clones",     t: "f", seg: [[-22, -21]] },
-      { n: "Revenge of the Sith",      t: "f", seg: [[-19, -18.5]] },
-      { n: "Solo: A Star Wars Story",  t: "f", seg: [[-13, -10]] },
-      { n: "Rogue One",                t: "f", seg: [[-0.5, 0]] },
-      { n: "A New Hope (Ep. IV)",      t: "f", seg: [[0, 0.5]] },
-      { n: "The Empire Strikes Back",  t: "f", seg: [[3, 3.5]] },
-      { n: "Return of the Jedi",       t: "f", seg: [[4, 4.5]] },
-      { n: "The Force Awakens",        t: "f", seg: [[34, 34.5]] },
-      { n: "The Last Jedi",            t: "f", seg: [[34.5, 35]] },
-      { n: "The Rise of Skywalker",    t: "f", seg: [[35, 35.5]] },
+      // ─ FILMS ────────────────────────────────────────────────────────────────
+      { n: "The Phantom Menace",      t:"f", seg:[[-32,-31]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_I_The_Phantom_Menace"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Phantom_Menace"}] },
+      { n: "Attack of the Clones",    t:"f", seg:[[-22,-21]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_II_Attack_of_the_Clones"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Attack_of_the_Clones"}] },
+      { n: "Revenge of the Sith",     t:"f", seg:[[-19,-18.5]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_III_Revenge_of_the_Sith"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Revenge_of_the_Sith"}] },
+      { n: "Solo: A Star Wars Story", t:"f", seg:[[-13,-10]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Solo:_A_Star_Wars_Story"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Solo:_A_Star_Wars_Story"}] },
+      { n: "Rogue One",               t:"f", seg:[[-0.5,0]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Rogue_One:_A_Star_Wars_Story"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Rogue_One"}] },
+      { n: "A New Hope (Ep. IV)",     t:"f", seg:[[0,0.5]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_IV_A_New_Hope"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_(film)"}] },
+      { n: "The Empire Strikes Back", t:"f", seg:[[3,3.5]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_V_The_Empire_Strikes_Back"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Empire_Strikes_Back"}] },
+      { n: "Return of the Jedi",      t:"f", seg:[[4,4.5]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_VI_Return_of_the_Jedi"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Return_of_the_Jedi"}] },
+      { n: "The Force Awakens",       t:"f", seg:[[34,34.5]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Force_Awakens"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Force_Awakens"}] },
+      { n: "The Last Jedi",           t:"f", seg:[[34.5,35]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Last_Jedi"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Last_Jedi"}] },
+      { n: "The Rise of Skywalker",   t:"f", seg:[[35,35.5]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Rise_of_Skywalker"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Rise_of_Skywalker"}] },
 
-      // ANIMATED
-      { n: "Young Jedi Adventures",    t: "a", seg: [[-132, -131]], lbl: ["132 BBY"] },
-      { n: "Tales of the Underworld",  t: "a", seg: [[-52,-49],[-43,-40],[-33,-30],[-19,-16]], lbl: ["Bane I","Bane II","Bane III","Ventress"], note: "Cad Bane (3 arcs ~52–33 BBY) + Asajj Ventress (19–16 BBY)" },
-      { n: "Tales of the Jedi",        t: "a", seg: [[-48,-47],[-32,-31],[-22,-21],[-19,-18.5]], lbl: ["Dooku","Qui-Gon","Ahsoka CW","Ord.66"], note: "Anthology: Dooku and Ahsoka arcs across multiple eras" },
-      { n: "The Clone Wars (film)",    t: "a", seg: [[-22, -21]] },
-      { n: "The Clone Wars",           t: "a", seg: [[-22, -19]] },
-      { n: "The Bad Batch",            t: "a", seg: [[-19, -17]] },
-      { n: "Tales of the Empire",      t: "a", seg: [[-19,-10],[9,9.5]], lbl: ["Imp. Era","NR"], note: "Morgan Elsbeth (Imperial Era) + Barriss Offee → New Republic" },
-      { n: "Maul: Shadow Lord",        t: "a", seg: [[-18, -17]] },
-      { n: "Star Wars Rebels",         t: "a", seg: [[-5,-4],[-4,-3],[-2,-1.5],[-1,0],[4,4.5]], lbl: ["S1","S2","S3","S4","Ep."], note: "S2→S3 gap (1 year); epilogue 4 ABY" },
-      { n: "Star Wars Resistance",     t: "a", seg: [[33.5, 35]] },
+      // ─ ANIMATED ─────────────────────────────────────────────────────────────
+      { n: "Young Jedi Adventures",   t:"a", seg:[[-132,-131]], lbl:["132 BBY"],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Young_Jedi_Adventures"}] },
+      { n: "Tales of the Underworld", t:"a",
+        seg:[[-52,-49],[-43,-40],[-33,-30],[-19,-16]], lbl:["Bane I","Bane II","Bane III","Ventress"],
+        note:"Cad Bane (3 arcs ~52–33 BBY) + Asajj Ventress (19–16 BBY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Tales_of_the_Underworld"}] },
+      { n: "Tales of the Jedi",       t:"a",
+        seg:[[-48,-47],[-32,-31],[-22,-21],[-19,-18.5]], lbl:["Dooku","Qui-Gon","Ahsoka CW","Ord.66"],
+        note:"Anthology: Dooku and Ahsoka arcs across multiple eras",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Tales_of_the_Jedi"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Tales_of_the_Jedi"}] },
+      { n: "The Clone Wars (film)",   t:"a", seg:[[-22,-21]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Clone_Wars_(film)"}] },
+      { n: "The Clone Wars",          t:"a", seg:[[-22,-19]],
+        note:"Non-linear anthology — episodes jump across the Clone Wars era. Season 7 ends concurrently with Revenge of the Sith.",
+        seasons:[
+          { s:"S1", y:"~22 BBY",     note:"Battle of Christophsis · Teth · Ryloth campaign" },
+          { s:"S2", y:"~22–21 BBY",  note:"Return to Geonosis · Mandalore arc · Bounty hunters" },
+          { s:"S3", y:"~21–20 BBY",  note:"Mortis Arc · The Citadel · Savage Opress introduced" },
+          { s:"S4", y:"~20–19 BBY",  note:"Mon Cala · Umbara · Maul resurrected" },
+          { s:"S5", y:"~19 BBY",     note:"Maul's Shadow Collective · Ahsoka framed · leaves the Jedi Order" },
+          { s:"S6", y:"~19 BBY",     note:"Order 66 inhibitor chips · Sifo-Dyas mystery · Yoda's Force journey" },
+          { s:"S7", y:"19 BBY",      note:"Bad Batch prologue · Ahsoka returns · Siege of Mandalore → Order 66" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Clone_Wars_(TV_series)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Clone_Wars"}] },
+      { n: "The Bad Batch",           t:"a", seg:[[-19,-17]],
+        note:"Follows Clone Force 99 navigating the rise of the Empire.",
+        seasons:[
+          { s:"S1", y:"19–18 BBY",  note:"Post-Order 66 · Empire consolidates · Omega joins the team" },
+          { s:"S2", y:"~18 BBY",    note:"Mercenary work · clone decommissioning · Cid's cantina" },
+          { s:"S3", y:"~17 BBY",    note:"Omega captured · Tantiss facility · final confrontation" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Bad_Batch"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Bad_Batch_(TV_series)"}] },
+      { n: "Tales of the Empire",     t:"a",
+        seg:[[-19,-10],[9,9.5]], lbl:["Imp. Era","NR"],
+        note:"Morgan Elsbeth (Imperial Era) + Barriss Offee → New Republic",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Tales_of_the_Empire"}] },
+      { n: "Maul: Shadow Lord",       t:"a", seg:[[-18,-17]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Maul_(comics)"}] },
+      { n: "Star Wars Rebels",        t:"a",
+        seg:[[-5,-4],[-4,-3],[-2,-1.5],[-1,0],[4,4.5]], lbl:["S1","S2","S3","S4","Ep."],
+        note:"S2→S3 gap (1 year); epilogue 4 ABY",
+        seasons:[
+          { s:"S1", y:"5 BBY",      note:"Ghost crew on Lothal · first contact with the Rebel network" },
+          { s:"S2", y:"4 BBY",      note:"Ahsoka joins · Vader revealed · Yoda vision on Dagobah" },
+          { s:"S3", y:"3 BBY",      note:"Thrawn takes command · Maul's arc ends on Tatooine" },
+          { s:"S4", y:"2–1 BBY",    note:"Liberation of Lothal · Ezra sacrifices himself; epilogue 4 ABY" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Rebels"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Rebels"}] },
+      { n: "Star Wars Resistance",    t:"a", seg:[[33.5,35]],
+        seasons:[
+          { s:"S1", y:"34 ABY",     note:"Colossus platform · Kaz Xiono spying for the Resistance" },
+          { s:"S2", y:"34–35 ABY",  note:"On the run from the First Order · concurrent with TFA / TLJ" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Resistance"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Resistance"}] },
 
-      // LIVE-ACTION
-      { n: "The Acolyte",              t: "l", seg: [[-132, -131]], lbl: ["132 BBY"] },
-      { n: "Obi-Wan Kenobi",           t: "l", seg: [[-9, -8]] },
-      { n: "Andor",                    t: "l", seg: [[-5,-4.1],[-4,-3.1],[-3,-2.1],[-2,-1.1],[-1,-0.1]], lbl: ["S1","S2·I","S2·II","S2·III","S2·IV"], note: "S2: 4 chapters each jumping +1 year" },
-      { n: "The Mandalorian",          t: "l", seg: [[9, 11]] },
-      { n: "Book of Boba Fett",        t: "l", seg: [[4,4.5],[9,10]], lbl: ["flashback","present"], note: "Flashback 4 ABY; main story 9 ABY" },
-      { n: "Ahsoka",                   t: "l", seg: [[9, 11]] },
-      { n: "Skeleton Crew",            t: "l", seg: [[9, 10]] },
+      // ─ LIVE-ACTION ──────────────────────────────────────────────────────────
+      { n: "The Acolyte",             t:"l", seg:[[-132,-131]], lbl:["132 BBY"],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Acolyte"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Acolyte_(TV_series)"}] },
+      { n: "Obi-Wan Kenobi",          t:"l", seg:[[-9,-8]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Obi-Wan_Kenobi_(series)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Obi-Wan_Kenobi_(TV_series)"}] },
+      { n: "Andor",                   t:"l",
+        seg:[[-5,-4.1],[-4,-3.1],[-3,-2.1],[-2,-1.1],[-1,-0.1]], lbl:["S1","S2·I","S2·II","S2·III","S2·IV"],
+        note:"S2: 4 chapters, each jumping +1 year forward",
+        seasons:[
+          { s:"S1",   y:"5 BBY",  note:"Ferrix · Aldhani heist · Narkina 5 · foundation of the Rebellion" },
+          { s:"S2·I", y:"4 BBY",  note:"Chapter 1 — Cassian & Luthen's network expands" },
+          { s:"S2·II",y:"3 BBY",  note:"Chapter 2 — Mon Mothma · Saw Gerrera" },
+          { s:"S2·III",y:"2 BBY", note:"Chapter 3 — tightening Imperial grip" },
+          { s:"S2·IV",y:"1 BBY",  note:"Chapter 4 — leads directly into Rogue One" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Andor"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Andor_(TV_series)"}] },
+      { n: "The Mandalorian",         t:"l", seg:[[9,11]],
+        seasons:[
+          { s:"S1", y:"9 ABY",     note:"Din Djarin finds Grogu · fights the Client · pledges to return him" },
+          { s:"S2", y:"9 ABY",     note:"Search for Jedi · Ahsoka · Boba Fett · Dark Saber" },
+          { s:"S3", y:"9–10 ABY",  note:"Mandalore reclaimed · Bo-Katan · Moff Gideon's return" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Mandalorian"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Mandalorian"}] },
+      { n: "Book of Boba Fett",       t:"l",
+        seg:[[4,4.5],[9,10]], lbl:["flashback","present"],
+        note:"Flashback 4 ABY; main story 9 ABY",
+        seasons:[
+          { s:"Flashbacks", y:"4 ABY",  note:"Boba escapes Sarlacc · joins Tusken Raiders" },
+          { s:"Present",    y:"9 ABY",  note:"Takes Jabba's throne · Din Djarin cameos · Cobb Vanth" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Book_of_Boba_Fett"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Book_of_Boba_Fett"}] },
+      { n: "Ahsoka",                  t:"l", seg:[[9,11]],
+        note:"Direct sequel to Rebels — search for Thrawn and Ezra Bridger.",
+        seasons:[
+          { s:"S1", y:"9 ABY", note:"Ahsoka hunts Morgan Elsbeth · Sabine trains · Eye of Sion · Peridea" },
+        ],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ahsoka_(series)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Ahsoka_(TV_series)"}] },
+      { n: "Skeleton Crew",           t:"l", seg:[[9,10]],
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Skeleton_Crew"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Skeleton_Crew"}] },
 
-      // COMICS
-      { n: "High Republic (comics)",   t: "c", seg: [[-382,-350],[-232,-200],[-132,-100]], lbl: ["Phase II","Phase I","Phase III"], note: "Phase II=~382 BBY, Phase I=~232 BBY, Phase III=~132 BBY" },
-      { n: "Shadow of Maul",           t: "c", seg: [[-19, -18]], note: "Prequel miniseries to Maul: Shadow Lord (2026)" },
-      { n: "Darth Vader: Dark Lord",   t: "c", seg: [[-19, -14]], note: "Vader in the early years of the Empire (Soule 2017)" },
-      { n: "Star Wars (Marvel 2015)",  t: "c", seg: [[0, 3]],     note: "Between A New Hope and Return of the Jedi" },
-      { n: "Doctor Aphra",             t: "c", seg: [[0, 4]],     note: "Rogue archaeologist in the Rebellion era" },
-      { n: "War BH / Crimson Reign",   t: "c", seg: [[3, 4]],     note: "Crossover event between ESB and ROTJ (3 ABY)" },
+      // ─ COMICS ───────────────────────────────────────────────────────────────
+      { n: "High Republic (comics)",  t:"c",
+        seg:[[-382,-350],[-232,-200],[-132,-100]], lbl:["Phase II","Phase I","Phase III"],
+        note:"Phase II=~382 BBY, Phase I=~232 BBY, Phase III=~132 BBY",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_High_Republic"}] },
+      { n: "Shadow of Maul",          t:"c", seg:[[-19,-18]],
+        note:"Prequel miniseries to Maul: Shadow Lord (2026)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Maul_(comics)"}] },
+      { n: "Darth Vader: Dark Lord",  t:"c", seg:[[-19,-14]],
+        note:"Vader in the early years of the Empire (Soule 2017)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Darth_Vader:_Dark_Lord_of_the_Sith"}] },
+      { n: "Star Wars (Marvel 2015)", t:"c", seg:[[0,3]],
+        note:"Between A New Hope and Return of the Jedi",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_(Marvel_Comics_2015)"}] },
+      { n: "Doctor Aphra",            t:"c", seg:[[0,4]],
+        note:"Rogue archaeologist in the Rebellion era",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Doctor_Aphra_(comic_series)"}] },
+      { n: "War BH / Crimson Reign",  t:"c", seg:[[3,4]],
+        note:"Crossover event between ESB and ROTJ (3 ABY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/War_of_the_Bounty_Hunters"}] },
 
-      // NOVELS
-      { n: "High Republic (novels)",   t: "v", seg: [[-382,-350],[-232,-200],[-132,-100]], lbl: ["Phase II","Phase I","Phase III"], note: "Same three chronological phases as the HR comics" },
-      { n: "Ahsoka (C. Gray 2016)",    t: "v", seg: [[-18, -17]], note: "Ahsoka after Order 66, building her new identity" },
-      { n: "Thrawn (Z. Zahn)",         t: "v", seg: [[-11, -2]],  note: "Thrawn's origins; ties into Rebels" },
-      { n: "Lost Stars (C. Gray)",     t: "v", seg: [[-11, 5]],   note: "From the protagonists' youth to the Battle of Jakku" },
-      { n: "Aftermath (C. Wendig)",    t: "v", seg: [[4, 6]],     note: "Trilogy covering the Empire's collapse after ROTJ" },
-      { n: "Alphabet Squadron",        t: "v", seg: [[4, 8]],     note: "X-wing squadron trilogy post-ROTJ" },
+      // ─ NOVELS ───────────────────────────────────────────────────────────────
+      { n: "High Republic (novels)",  t:"v",
+        seg:[[-382,-350],[-232,-200],[-132,-100]], lbl:["Phase II","Phase I","Phase III"],
+        note:"Same three chronological phases as the HR comics",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_High_Republic"}] },
+      { n: "Ahsoka (C. Gray 2016)",   t:"v", seg:[[-18,-17]],
+        note:"Ahsoka after Order 66, building her new identity",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ahsoka_(novel)"}] },
+      { n: "Thrawn (Z. Zahn)",        t:"v", seg:[[-11,-2]],
+        note:"Thrawn's origins; ties into Rebels",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Thrawn_(novel)"}] },
+      { n: "Lost Stars (C. Gray)",    t:"v", seg:[[-11,5]],
+        note:"From the protagonists' youth to the Battle of Jakku",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Lost_Stars"}] },
+      { n: "Aftermath (C. Wendig)",   t:"v", seg:[[4,6]],
+        note:"Trilogy covering the Empire's collapse after ROTJ",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Aftermath_(novel)"}] },
+      { n: "Alphabet Squadron",       t:"v", seg:[[4,8]],
+        note:"X-wing squadron trilogy post-ROTJ",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Alphabet_Squadron"}] },
 
-      // VIDEO GAMES
-      { n: "Jedi: Fallen Order",       t: "g", seg: [[-14, -13]], note: "Cal Kestis, 5 years after Order 66 (14 BBY)" },
-      { n: "Jedi: Survivor",           t: "g", seg: [[-9, -8]],   note: "5 years after Fallen Order, same year as Obi-Wan" },
-      { n: "Star Wars Outlaws",        t: "g", seg: [[3, 3.5]],   note: "Kay Vess, between ESB and ROTJ (3 ABY)" },
-      { n: "Battlefront II (story)",   t: "g", seg: [[4, 5]],     note: "Iden Versio, right after ROTJ (4–5 ABY)" },
+      // ─ VIDEO GAMES ──────────────────────────────────────────────────────────
+      { n: "Jedi: Fallen Order",      t:"g", seg:[[-14,-13]],
+        note:"Cal Kestis, 5 years after Order 66 (14 BBY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Jedi:_Fallen_Order"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Jedi:_Fallen_Order"}] },
+      { n: "Jedi: Survivor",          t:"g", seg:[[-9,-8]],
+        note:"5 years after Fallen Order, same year as Obi-Wan",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Jedi:_Survivor"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Jedi:_Survivor"}] },
+      { n: "Star Wars Outlaws",       t:"g", seg:[[3,3.5]],
+        note:"Kay Vess, between ESB and ROTJ (3 ABY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Outlaws"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Outlaws"}] },
+      { n: "Battlefront II (story)",  t:"g", seg:[[4,5]],
+        note:"Iden Versio, right after ROTJ (4–5 ABY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Battlefront_II_(2017_video_game)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Battlefront_II_(2017_video_game)"}] },
 
-      // SOFT CANON — Legends media with confirmed references in official canon
-      { n: "KOTOR: Knights of the Old Republic", t: "s", seg: [[-3956, -3950]],
-        note: "Mandalorian Wars & Malachor lore canonized in Rebels; Darksaber origin tied to this era (Dave Filoni confirmed KOTOR reference); planet Taris referenced in Clone Wars" },
-      { n: "KOTOR II: The Sith Lords",           t: "s", seg: [[-3952, -3944]],
-        note: "Malachor V directly featured in Rebels S2 'Twilight of the Apprentice'; 'Eye of Sion' ship in Ahsoka (2023) echoes Darth Sion; Meetra Surik's blade referenced in High Republic comics" },
-      { n: "The Old Republic (MMO)",             t: "s", seg: [[-3643, -3630]],
-        note: "Same era as KOTOR lore; Malachor / Moraband canonical in Clone Wars S6; Old Republic Sith mythology referenced across canon" },
-      { n: "Republic Commando",                  t: "s", seg: [[-22, -19]],
-        note: "Delta Squad (RC-1138 Boss & team) appeared in Clone Wars S3 'Witches of the Mist'; Scorch re-appeared in The Bad Batch S1 (2021), confirming partial canonicity" },
-      { n: "The Force Unleashed I + II",         t: "s", seg: [[-3, -0.5]],
-        note: "Starkiller armor Easter egg in Andor S1; Imperial Flametroopers (first in TFU) now canonical in The Mandalorian; thematic DNA absorbed into Rebels' Ezra/Kanan arc" },
-      { n: "Shadows of the Empire",              t: "s", seg: [[3, 3.5]],
-        note: "Black Sun crime syndicate fully canonical in Clone Wars S5 and Rebels; fills the ESB→ROTJ gap; Falleen species canonized in Clone Wars" },
+      // ─ SOFT CANON ───────────────────────────────────────────────────────────
+      { n: "KOTOR: Knights of the Old Republic", t:"s", seg:[[-3956,-3950]],
+        note:"Mandalorian Wars & Malachor lore canonized in Rebels; Darksaber origin tied to this era (Dave Filoni confirmed KOTOR reference); planet Taris referenced in Clone Wars",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Knights_of_the_Old_Republic_(video_game)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Knights_of_the_Old_Republic"}] },
+      { n: "KOTOR II: The Sith Lords", t:"s", seg:[[-3952,-3944]],
+        note:"Malachor V directly featured in Rebels S2 'Twilight of the Apprentice'; 'Eye of Sion' in Ahsoka (2023) echoes Darth Sion; Meetra Surik's blade referenced in High Republic comics",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Knights_of_the_Old_Republic_II:_The_Sith_Lords"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Knights_of_the_Old_Republic_II:_The_Sith_Lords"}] },
+      { n: "The Old Republic (MMO)",  t:"s", seg:[[-3643,-3630]],
+        note:"Same era as KOTOR lore; Malachor / Moraband canonical in Clone Wars S6; Old Republic Sith mythology referenced across canon",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Old_Republic"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Old_Republic"}] },
+      { n: "Republic Commando",       t:"s", seg:[[-22,-19]],
+        note:"Delta Squad (RC-1138 Boss & team) appeared in Clone Wars S3 'Witches of the Mist'; Scorch re-appeared in The Bad Batch S1 (2021)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Republic_Commando"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Republic_Commando"}] },
+      { n: "The Force Unleashed I+II",t:"s", seg:[[-3,-0.5]],
+        note:"Starkiller armor Easter egg in Andor S1; Imperial Flametroopers (first in TFU) now canonical in The Mandalorian; thematic DNA absorbed into Rebels' Ezra/Kanan arc",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Force_Unleashed"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Force_Unleashed"}] },
+      { n: "Shadows of the Empire",   t:"s", seg:[[3,3.5]],
+        note:"Black Sun crime syndicate fully canonical in Clone Wars S5 and Rebels; fills the ESB→ROTJ gap; Falleen species canonized in Clone Wars",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Shadows_of_the_Empire"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Shadows_of_the_Empire"}] },
     ];
 
     // ── Groups & colors ──────────────────────────────────────────────────────
     const GROUPS = [
-      { t: "f", label: "FILMS",                              color: "#f5c030" },
-      { t: "a", label: "ANIMATED SERIES",                   color: "#38b4f0" },
-      { t: "l", label: "LIVE-ACTION SERIES",                color: "#f07248" },
-      { t: "c", label: "COMICS  (selection)",               color: "#6dc87a" },
-      { t: "v", label: "NOVELS  (selection)",               color: "#c077d4" },
-      { t: "g", label: "VIDEO GAMES  (selection)",          color: "#e09830" },
-      { t: "s", label: "SOFT CANON  (Legends ref. in canon)", color: "#c8a060" },
+      { t:"f", label:"FILMS",                             color:"#f5c030" },
+      { t:"a", label:"ANIMATED SERIES",                  color:"#38b4f0" },
+      { t:"l", label:"LIVE-ACTION SERIES",               color:"#f07248" },
+      { t:"c", label:"COMICS  (selection)",              color:"#6dc87a" },
+      { t:"v", label:"NOVELS  (selection)",              color:"#c077d4" },
+      { t:"g", label:"VIDEO GAMES  (selection)",         color:"#e09830" },
+      { t:"s", label:"SOFT CANON  (Legends ref. in canon)", color:"#c8a060" },
     ];
     const TC = {
-      f: { bar: "#f5c030", dim: "#b08820" },
-      a: { bar: "#38b4f0", dim: "#2888b8" },
-      l: { bar: "#f07248", dim: "#b05030" },
-      c: { bar: "#6dc87a", dim: "#408850" },
-      v: { bar: "#c077d4", dim: "#8040a0" },
-      g: { bar: "#e09830", dim: "#a06820" },
-      s: { bar: "#c8a060", dim: "#806030" },
+      f:{bar:"#f5c030",dim:"#b08820"}, a:{bar:"#38b4f0",dim:"#2888b8"},
+      l:{bar:"#f07248",dim:"#b05030"}, c:{bar:"#6dc87a",dim:"#408850"},
+      v:{bar:"#c077d4",dim:"#8040a0"}, g:{bar:"#e09830",dim:"#a06820"},
+      s:{bar:"#c8a060",dim:"#806030"},
     };
 
     const ROWS = GROUPS.flatMap(g => [
-      { kind: "H", t: g.t, label: g.label, C: g.color },
-      ...DATA.filter(d => d.t === g.t).map(d => ({ kind: "E", ...d })),
+      { kind:"H", t:g.t, label:g.label, C:g.color },
+      ...DATA.filter(d => d.t===g.t).map(d => ({ kind:"E", ...d })),
     ]);
 
-    // ── Layout ───────────────────────────────────────────────────────────────
-    const LW = 222;
-    const RH = 28;
-    const AH = 58;
-    const CH = AH + ROWS.length * RH;
+    const LW=222, RH=28, AH=58, CH=AH+ROWS.length*RH;
 
     const TICKS = [
-      { y: -3956, lo: false },
-      { y: -3640, lo: true  },
-      { y: -382,  lo: false }, { y: -232, lo: true  },
-      { y: -132,  lo: false }, { y:  -32, lo: true  },
-      { y:  -22,  lo: false }, { y:  -19, lo: true  },
-      { y:   -9,  lo: false }, { y:   -5, lo: true  },
-      { y:    0,  lo: false },
-      { y:    4,  lo: false }, { y:    9, lo: true  },
-      { y:   34,  lo: false }, { y:   35, lo: true  },
+      {y:-3956,lo:false},{y:-3640,lo:true},
+      {y:-382,lo:false},{y:-232,lo:true},
+      {y:-132,lo:false},{y:-32,lo:true},
+      {y:-22,lo:false},{y:-19,lo:true},
+      {y:-9,lo:false},{y:-5,lo:true},
+      {y:0,lo:false},
+      {y:4,lo:false},{y:9,lo:true},
+      {y:34,lo:false},{y:35,lo:true},
     ];
 
-    const yl      = y => y < 0 ? `${-y} BBY` : y === 0 ? "0 (Yavin)" : `${y} ABY`;
-    const sfmt    = ([a, b]) => { const f = v => v < 0 ? `${Math.abs(v)} BBY` : `${v} ABY`; return `${f(a)} → ${f(b)}`; };
-    const getEra  = seg => { const m = (seg[0][0] + seg[seg.length-1][1])/2; return ERAS.find(e => m >= e.s && m < e.e) || ERAS[0]; };
-    const activeAt= year => DATA.filter(d => d.seg.some(([a,b]) => year >= a && year <= b));
-    const yearLbl = y => { if (y == null) return ""; const r = Math.round(y*10)/10; return r < 0 ? `${Math.abs(r).toFixed(1)} BBY` : r === 0 ? "0 (Yavin)" : `${r.toFixed(1)} ABY`; };
+    const yl     = y => y<0?`${-y} BBY`:y===0?"0 (Yavin)":`${y} ABY`;
+    const sfmt   = ([a,b]) => { const f=v=>v<0?`${Math.abs(v)} BBY`:`${v} ABY`; return `${f(a)} → ${f(b)}`; };
+    const getEra = seg => { const m=(seg[0][0]+seg[seg.length-1][1])/2; return ERAS.find(e=>m>=e.s&&m<e.e)||ERAS[0]; };
+    const activeAt = year => DATA.filter(d => d.seg.some(([a,b])=>year>=a&&year<=b));
+    const yearLbl  = y => { if(y==null)return""; const r=Math.round(y*10)/10; return r<0?`${Math.abs(r).toFixed(1)} BBY`:r===0?"0 (Yavin)":`${r.toFixed(1)} ABY`; };
 
     // ── App ──────────────────────────────────────────────────────────────────
     function App() {
-      const [hov,         setHov]         = useState(null);
-      const [pinned,      setPinned]      = useState(null);
-      const [zoom,        setZoom]        = useState(1);
-      const [scrubX,      setScrubX]      = useState(null);
-      const [scrubYear,   setScrubYear]   = useState(null);
-      const [scrubLocked, setScrubLocked] = useState(false);
-      const [lockedYear,  setLockedYear]  = useState(null);
-
-      // drag state
-      const [isDragging,  setIsDragging]  = useState(false);
-      const dragStart   = useRef(null); // { clientX, scrollLeft }
-      const dragMoved   = useRef(false);
-
-      const chartRef = useRef(null);
-      const svgRef   = useRef(null);
+      const [hov,setHov]                 = useState(null);
+      const [pinned,setPinned]           = useState(null);
+      const [zoom,setZoom]               = useState(1);
+      const [scrubX,setScrubX]           = useState(null);
+      const [scrubYear,setScrubYear]     = useState(null);
+      const [scrubLocked,setScrubLocked] = useState(false);
+      const [lockedYear,setLockedYear]   = useState(null);
+      const [isDragging,setIsDragging]   = useState(false);
+      const dragStart = useRef(null);
+      const dragMoved = useRef(false);
+      const chartRef  = useRef(null);
+      const svgRef    = useRef(null);
 
       const px    = makePx(zoom);
       const invPx = makeInvPx(zoom);
       const CW    = Math.ceil(px(YMAX));
 
-      // scrubber X recalculated from year so zoom doesn't break it
       const displayScrubX = scrubLocked ? px(lockedYear) : scrubX;
       const displayYear   = scrubLocked ? lockedYear : scrubYear;
 
-      // ── Wheel → zoom ───────────────────────────────────────────────────
       useEffect(() => {
-        const el = chartRef.current;
-        if (!el) return;
-        const handler = e => {
-          e.preventDefault();
-          setZoom(z => Math.min(6, Math.max(0.3, +(z - e.deltaY * 0.002).toFixed(3))));
-        };
-        el.addEventListener("wheel", handler, { passive: false });
-        return () => el.removeEventListener("wheel", handler);
-      }, []);
+        const el = chartRef.current; if(!el) return;
+        const h = e => { if(!e.ctrlKey) return; e.preventDefault(); setZoom(z=>Math.min(6,Math.max(0.3,+(z-e.deltaY*0.002).toFixed(3)))); };
+        el.addEventListener("wheel",h,{passive:false});
+        return ()=>el.removeEventListener("wheel",h);
+      },[]);
 
-      // ── Global mouseup (end drag even if outside chart) ────────────────
-      useEffect(() => {
-        const up = () => setIsDragging(false);
-        window.addEventListener("mouseup", up);
-        return () => window.removeEventListener("mouseup", up);
-      }, []);
+      useEffect(()=>{ const up=()=>setIsDragging(false); window.addEventListener("mouseup",up); return()=>window.removeEventListener("mouseup",up); },[]);
 
-      // ── Drag handlers ──────────────────────────────────────────────────
       const onChartMouseDown = e => {
-        if (e.button !== 0) return;
-        dragMoved.current = false;
-        setIsDragging(true);
-        dragStart.current = { clientX: e.clientX, scrollLeft: chartRef.current.scrollLeft };
+        if(e.button!==0)return;
+        dragMoved.current=false; setIsDragging(true);
+        dragStart.current={clientX:e.clientX,scrollLeft:chartRef.current.scrollLeft};
       };
       const onChartMouseMove = e => {
-        if (isDragging && dragStart.current) {
-          const dx = e.clientX - dragStart.current.clientX;
-          if (Math.abs(dx) > 3) dragMoved.current = true;
-          chartRef.current.scrollLeft = dragStart.current.scrollLeft - dx;
+        if(isDragging&&dragStart.current){
+          const dx=e.clientX-dragStart.current.clientX;
+          if(Math.abs(dx)>3)dragMoved.current=true;
+          chartRef.current.scrollLeft=dragStart.current.scrollLeft-dx;
         }
       };
-
-      // ── Scrubber handlers ──────────────────────────────────────────────
       const onSvgMouseMove = e => {
-        if (isDragging) return;
-        const rect = svgRef.current.getBoundingClientRect();
-        const x    = e.clientX - rect.left;
-        if (!scrubLocked) { setScrubX(x); setScrubYear(invPx(x)); }
+        if(isDragging)return;
+        const r=svgRef.current.getBoundingClientRect(), x=e.clientX-r.left;
+        if(!scrubLocked){setScrubX(x);setScrubYear(invPx(x));}
       };
-      const onSvgMouseLeave = () => { if (!scrubLocked) { setScrubX(null); setScrubYear(null); } };
+      const onSvgMouseLeave = ()=>{ if(!scrubLocked){setScrubX(null);setScrubYear(null);} };
       const onSvgClick = e => {
-        if (dragMoved.current) return;
-        const rect  = svgRef.current.getBoundingClientRect();
-        const x     = e.clientX - rect.left;
-        const y     = invPx(x);
-        if (scrubLocked && Math.abs(x - px(lockedYear)) < 8) {
-          setScrubLocked(false); setLockedYear(null);
-        } else {
-          setScrubLocked(true); setLockedYear(y); setScrubX(x); setScrubYear(y);
-        }
+        if(dragMoved.current)return;
+        const r=svgRef.current.getBoundingClientRect(), x=e.clientX-r.left, y=invPx(x);
+        if(scrubLocked&&Math.abs(x-px(lockedYear))<8){setScrubLocked(false);setLockedYear(null);}
+        else{setScrubLocked(true);setLockedYear(y);setScrubX(x);setScrubYear(y);}
       };
+      const togglePin = name => setPinned(p=>p===name?null:name);
 
-      const togglePin = name => setPinned(p => p === name ? null : name);
-
-      // ── Panel ──────────────────────────────────────────────────────────
-      const rowDetail  = pinned ? DATA.find(d => d.n === pinned) : null;
-      const panelMode  = rowDetail ? "row" : (scrubLocked ? "scrub" : null);
-      const panelEra   = rowDetail ? getEra(rowDetail.seg) : null;
-      const scrubItems = panelMode === "scrub" ? activeAt(lockedYear) : [];
-
-      const cursorStyle = isDragging ? "grabbing" : "grab";
+      const rowDetail  = pinned?DATA.find(d=>d.n===pinned):null;
+      const panelMode  = rowDetail?"row":scrubLocked?"scrub":null;
+      const panelEra   = rowDetail?getEra(rowDetail.seg):null;
+      const scrubItems = panelMode==="scrub"?activeAt(lockedYear):[];
 
       return (
-        <div style={{ minHeight: "100vh", background: "#06060f",
-          fontFamily: "'DM Mono','Fira Mono','Courier New',monospace",
-          color: "#d0c8c0", userSelect: "none" }}>
-          <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');`}</style>
+        <div style={{minHeight:"100vh",background:"#06060f",fontFamily:"'DM Mono','Fira Mono','Courier New',monospace",color:"#d0c8c0",userSelect:"none"}}>
+          <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap'); a{transition:color .15s;}`}</style>
 
           {/* ── Header ── */}
-          <div style={{ padding: "20px 24px 10px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", borderBottom: "1px solid #1a1a30" }}>
+          <div style={{padding:"20px 24px 10px",display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:16,flexWrap:"wrap",borderBottom:"1px solid #1a1a30"}}>
             <div>
-              <div style={{ fontSize: 9, letterSpacing: ".32em", color: "#f5c030", marginBottom: 7, fontWeight: 500 }}>
-                A LONG TIME AGO IN A GALAXY FAR, FAR AWAY…
-              </div>
-              <h1 style={{ margin: 0, fontSize: 22, fontWeight: 300, letterSpacing: ".07em", color: "#ffffff" }}>
-                Star Wars — Complete Canon Timeline
-              </h1>
-              <p style={{ margin: "6px 0 0", fontSize: 11, color: "#8888aa", lineHeight: 1.7 }}>
-                Films · Animated · Live-action · Comics · Novels · Video games · Soft canon
-                &nbsp;·&nbsp; drag to pan &nbsp;·&nbsp; scroll to zoom
+              <div style={{fontSize:9,letterSpacing:".32em",color:"#f5c030",marginBottom:7,fontWeight:500}}>A LONG TIME AGO IN A GALAXY FAR, FAR AWAY…</div>
+              <h1 style={{margin:0,fontSize:22,fontWeight:300,letterSpacing:".07em",color:"#ffffff"}}>Star Wars — Complete Canon Timeline</h1>
+              <p style={{margin:"6px 0 0",fontSize:11,color:"#8888aa",lineHeight:1.7}}>
+                drag to pan &nbsp;·&nbsp; Ctrl+scroll to zoom &nbsp;·&nbsp; click chart to lock scrubber &nbsp;·&nbsp; click row to pin details
               </p>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingTop: 6 }}>
-              <span style={{ fontSize: 9, letterSpacing: ".14em", color: "#7070a0" }}>ZOOM</span>
-              {[["−", z => Math.max(0.3,+(z-0.25).toFixed(2))], ["reset", ()=>1], ["+", z => Math.min(6,+(z+0.25).toFixed(2))]].map(([l,fn]) => (
-                <button key={l} onClick={() => setZoom(fn)}
-                  style={{ background:"#111128", border:"1px solid #303050", color:"#a0a0cc", fontSize:12, padding:"4px 12px", cursor:"pointer", borderRadius:4, fontFamily:"inherit" }}
+            <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0,paddingTop:6}}>
+              <span style={{fontSize:9,letterSpacing:".14em",color:"#7070a0"}}>ZOOM</span>
+              {[["−",z=>Math.max(0.3,+(z-0.25).toFixed(2))],["reset",()=>1],["+",z=>Math.min(6,+(z+0.25).toFixed(2))]].map(([l,fn])=>(
+                <button key={l} onClick={()=>setZoom(fn)}
+                  style={{background:"#111128",border:"1px solid #303050",color:"#a0a0cc",fontSize:12,padding:"4px 12px",cursor:"pointer",borderRadius:4,fontFamily:"inherit"}}
                   onMouseEnter={e=>e.currentTarget.style.background="#1e1e3c"}
                   onMouseLeave={e=>e.currentTarget.style.background="#111128"}
                 >{l}</button>
               ))}
-              <span style={{ fontSize: 11, color: "#8888bb", minWidth: 42 }}>{Math.round(zoom*100)}%</span>
+              <span style={{fontSize:11,color:"#8888bb",minWidth:42}}>{Math.round(zoom*100)}%</span>
             </div>
           </div>
 
           {/* ── Legend ── */}
-          <div style={{ display: "flex", gap: 16, padding: "10px 24px", flexWrap: "wrap", alignItems: "center", borderBottom: "1px solid #12121e" }}>
-            {GROUPS.map(g => (
-              <span key={g.t} style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 10.5, color: "#c0c0c0" }}>
-                <span style={{ width: g.t==="s"?16:14, height: g.t==="s"?6:5, background: g.color, display:"inline-block", borderRadius:2,
-                  border: g.t==="s" ? "1px dashed "+g.color : "none", opacity: g.t==="s" ? 0.85 : 1 }} />
+          <div style={{display:"flex",gap:16,padding:"10px 24px",flexWrap:"wrap",alignItems:"center",borderBottom:"1px solid #12121e"}}>
+            {GROUPS.map(g=>(
+              <span key={g.t} style={{display:"flex",alignItems:"center",gap:7,fontSize:10.5,color:"#c0c0c0"}}>
+                <span style={{width:14,height:5,background:g.color,display:"inline-block",borderRadius:2,
+                  border:g.t==="s"?"1px dashed "+g.color:"none",opacity:g.t==="s"?0.8:1}} />
                 {g.label.split("(")[0].trim()}
               </span>
             ))}
-            <span style={{ fontSize: 9, color: "#404060", marginLeft: "auto" }}>
-              ╌╌ time gap &nbsp;│&nbsp;
-              ⚡ ×{(S_MAIN/S_EARLY).toFixed(0)}× after 30 BBY &nbsp;│&nbsp;
-              ⚡⚡ ×{(S_EARLY/S_ULTRA).toFixed(0)}× after 392 BBY &nbsp;│&nbsp;
-              <span style={{ color:"#f5c03070" }}>click chart</span> to lock scrubber · <span style={{ color:"#9090c070" }}>click row</span> to pin
+            <span style={{fontSize:9,color:"#404060",marginLeft:"auto"}}>
+              ⚡ ×{(S_MAIN/S_EARLY).toFixed(0)}× after 30 BBY &nbsp;│&nbsp; ⚡⚡ ×{(S_EARLY/S_ULTRA).toFixed(0)}× after 392 BBY
             </span>
           </div>
 
           {/* ── Chart + Panel ── */}
-          <div style={{ display: "flex" }}>
+          <div style={{display:"flex"}}>
+            <div ref={chartRef} style={{flex:1,minWidth:0,display:"flex",overflowX:"auto",cursor:isDragging?"grabbing":"grab"}}
+              onMouseDown={onChartMouseDown} onMouseMove={onChartMouseMove}>
 
-            {/* Scrollable chart */}
-            <div ref={chartRef}
-              style={{ flex: 1, minWidth: 0, display: "flex", overflowX: "auto", cursor: cursorStyle }}
-              onMouseDown={onChartMouseDown}
-              onMouseMove={onChartMouseMove}
-            >
-              {/* Sticky label column */}
-              <div style={{ width: LW, flexShrink: 0, position: "sticky", left: 0, zIndex: 10, background: "#06060f", borderRight: "1px solid #1e1e38" }}>
-                <div style={{ height: AH, background: "#0c0c1e", borderBottom: "1px solid #1e1e38", display: "flex", alignItems: "flex-end", paddingBottom: 8, paddingLeft: 12 }}>
-                  <span style={{ fontSize: 8, color: "#505070", letterSpacing: ".2em" }}>TITLE</span>
+              {/* Sticky labels */}
+              <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:"#06060f",borderRight:"1px solid #1e1e38"}}>
+                <div style={{height:AH,background:"#0c0c1e",borderBottom:"1px solid #1e1e38",display:"flex",alignItems:"flex-end",paddingBottom:8,paddingLeft:12}}>
+                  <span style={{fontSize:8,color:"#505070",letterSpacing:".2em"}}>TITLE</span>
                 </div>
-                {ROWS.map((row, i) => (
+                {ROWS.map((row,i)=>(
                   <div key={i}
-                    onClick={e => { if (!dragMoved.current && row.kind === "E") togglePin(row.n); }}
-                    style={{
-                      height: RH, display: "flex", alignItems: "center",
-                      paddingLeft: row.kind==="H" ? 8 : 14, paddingRight: 6,
-                      background:
-                        row.kind==="H"     ? "#0e0e22"
-                        : pinned===row.n   ? "#181838"
-                        : hov===row.n      ? "#131330"
-                        : "transparent",
-                      borderBottom: "1px solid #10101e",
-                      borderLeft: pinned===row.n ? "3px solid "+(TC[row.t]?.bar??"#fff") : "3px solid transparent",
-                      color:
-                        row.kind==="H"                          ? row.C
-                        : (pinned===row.n||hov===row.n)        ? "#ffffff"
-                        : row.t==="s"                          ? "#c8a060cc"
-                        : "#c8c8c8",
-                      fontSize: row.kind==="H" ? 8 : 11,
-                      fontWeight: row.kind==="H" ? 500 : 300,
-                      fontStyle: row.t==="s" && row.kind==="E" ? "italic" : "normal",
-                      letterSpacing: row.kind==="H" ? ".16em" : ".02em",
-                      whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-                      transition: "color .1s, background .1s",
-                      cursor: row.kind==="E" ? "pointer" : "default",
-                    }}
-                  >{row.kind==="H" ? row.label : row.n}</div>
+                    onClick={e=>{if(!dragMoved.current&&row.kind==="E")togglePin(row.n);}}
+                    style={{height:RH,display:"flex",alignItems:"center",
+                      paddingLeft:row.kind==="H"?8:14,paddingRight:6,
+                      background:row.kind==="H"?"#0e0e22":pinned===row.n?"#181838":hov===row.n?"#131330":"transparent",
+                      borderBottom:"1px solid #10101e",
+                      borderLeft:pinned===row.n?"3px solid "+(TC[row.t]?.bar??"#fff"):"3px solid transparent",
+                      color:row.kind==="H"?row.C:(pinned===row.n||hov===row.n)?"#ffffff":row.t==="s"?"#c8a060bb":"#c8c8c8",
+                      fontSize:row.kind==="H"?8:11,fontWeight:row.kind==="H"?500:300,
+                      fontStyle:row.t==="s"&&row.kind==="E"?"italic":"normal",
+                      letterSpacing:row.kind==="H"?".16em":".02em",
+                      whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",
+                      transition:"color .1s, background .1s",cursor:row.kind==="E"?"pointer":"default"}}
+                  >{row.kind==="H"?row.label:row.n}</div>
                 ))}
               </div>
 
               {/* SVG */}
               <svg ref={svgRef} width={CW} height={CH}
-                style={{ display: "block", flexShrink: 0, cursor: isDragging ? "grabbing" : "crosshair" }}
-                onMouseMove={onSvgMouseMove}
-                onMouseLeave={onSvgMouseLeave}
-                onClick={onSvgClick}
+                style={{display:"block",flexShrink:0,cursor:isDragging?"grabbing":"crosshair"}}
+                onMouseMove={onSvgMouseMove} onMouseLeave={onSvgMouseLeave} onClick={onSvgClick}
               >
-                {/* Era backgrounds */}
-                {ERAS.map((e,i) => <rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg} />)}
-
-                {/* Era borders */}
-                {ERAS.slice(1).map((e,i) => <line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke="#2a2a50" strokeWidth={1} />)}
-
-                {/* Scale-break zigzags at both BREAK2 and BREAK */}
-                {[BREAK2, BREAK].map((brk, bi) => {
-                  const bx = px(brk); const pts = [];
-                  for (let y = 0; y < CH; y += 5) pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
-                  return <polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none" />;
+                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg}/>)}
+                {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke="#2a2a50" strokeWidth={1}/>)}
+                {[BREAK2,BREAK].map((brk,bi)=>{
+                  const bx=px(brk),pts=[];
+                  for(let y=0;y<CH;y+=5)pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
+                  return<polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none"/>;
                 })}
-
-                {/* Era name labels */}
-                {ERAS.map((e,i) => (
-                  <text key={i} x={(px(e.s)+px(e.e))/2} y={16}
-                    textAnchor="middle" fill={e.color} fillOpacity={0.6}
-                    fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
+                {ERAS.map((e,i)=>(
+                  <text key={i} x={(px(e.s)+px(e.e))/2} y={16} textAnchor="middle"
+                    fill={e.color} fillOpacity={0.6} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
                   >{e.name}</text>
                 ))}
-
-                {/* Scale-break labels */}
-                {[[BREAK2, "×"+(S_EARLY/S_ULTRA).toFixed(0)+"× COMPRESSED ⚡"], [BREAK, "×"+(S_MAIN/S_EARLY).toFixed(0)+"× EXPANDED ⚡"]].map(([brk, lbl], bi) => (
-                  <text key={bi} x={px(brk)-5} y={AH/2+4}
-                    textAnchor="end" fill="#505090" fontSize={6}
-                    fontFamily="DM Mono,monospace"
-                    transform={`rotate(-90,${px(brk)-5},${AH/2+4})`}
+                {[[BREAK2,"×"+(S_EARLY/S_ULTRA).toFixed(0)+"× COMPRESSED"],[BREAK,"×"+(S_MAIN/S_EARLY).toFixed(0)+"× EXPANDED"]].map(([brk,lbl],bi)=>(
+                  <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill="#505090" fontSize={6}
+                    fontFamily="DM Mono,monospace" transform={`rotate(-90,${px(brk)-5},${AH/2+4})`}
                   >{lbl}</text>
                 ))}
-
-                {/* Axis */}
-                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke="#303050" />
-
-                {/* Ticks + labels + vertical grid */}
-                {TICKS.map(({ y, lo }) => {
-                  const x  = px(y);
-                  const ty = lo ? AH-11 : AH-24;
-                  return (
-                    <g key={y}>
-                      <line x1={x} y1={AH-9} x2={x} y2={AH} stroke="#6060a0" strokeWidth={1.5} />
-                      <text x={x} y={ty} textAnchor="middle"
-                        fill={y===0 ? "#f0d030" : "#9898d0"}
-                        fontSize={y===0?9:8} fontWeight={y===0?"500":"300"}
-                        fontFamily="DM Mono,monospace"
-                      >{yl(y)}</text>
-                      <line x1={x} y1={AH} x2={x} y2={CH}
-                        stroke={y===0 ? "#585820" : "#1e1e38"}
-                        strokeWidth={y===0?1.5:1} />
-                    </g>
-                  );
+                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke="#303050"/>
+                {TICKS.map(({y,lo})=>{
+                  const x=px(y),ty=lo?AH-11:AH-24;
+                  return(<g key={y}>
+                    <line x1={x} y1={AH-9} x2={x} y2={AH} stroke="#6060a0" strokeWidth={1.5}/>
+                    <text x={x} y={ty} textAnchor="middle" fill={y===0?"#f0d030":"#9898d0"}
+                      fontSize={y===0?9:8} fontWeight={y===0?"500":"300"} fontFamily="DM Mono,monospace"
+                    >{yl(y)}</text>
+                    <line x1={x} y1={AH} x2={x} y2={CH} stroke={y===0?"#585820":"#1e1e38"} strokeWidth={y===0?1.5:1}/>
+                  </g>);
                 })}
-
-                {/* Yavin dashed line */}
-                <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7" />
-
-                {/* Rows */}
-                {ROWS.map((row, i) => {
-                  const ry = AH + i * RH;
-                  if (row.kind==="H") return <rect key={i} x={0} y={ry} width={CW} height={RH} fill="#0e0e24" />;
-                  const c        = TC[row.t];
-                  const isActive = (pinned??hov)===row.n;
-                  const isScrub  = displayYear!=null && row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
-                  return (
-                    <g key={i}
-                      onMouseEnter={() => setHov(row.n)}
-                      onMouseLeave={() => setHov(null)}
-                      onClick={e => { e.stopPropagation(); if (!dragMoved.current) togglePin(row.n); }}
-                      style={{ cursor:"pointer" }}
-                    >
-                      <rect x={0} y={ry} width={CW} height={RH}
-                        fill={isActive?"#161640":isScrub?"#121228":(i%2===0?"#0c0c1c":"#06060f")} />
-                      {row.seg.slice(1).map((s,si) => (
-                        <line key={si}
-                          x1={px(row.seg[si][1])} y1={ry+RH/2}
-                          x2={px(s[0])} y2={ry+RH/2}
-                          stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4" />
+                <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
+                {ROWS.map((row,i)=>{
+                  const ry=AH+i*RH;
+                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill="#0e0e24"/>;
+                  const c=TC[row.t],isActive=(pinned??hov)===row.n,isScrub=displayYear!=null&&row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
+                  return(
+                    <g key={i} onMouseEnter={()=>setHov(row.n)} onMouseLeave={()=>setHov(null)}
+                      onClick={e=>{e.stopPropagation();if(!dragMoved.current)togglePin(row.n);}} style={{cursor:"pointer"}}>
+                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?"#161640":isScrub?"#121228":i%2===0?"#0c0c1c":"#06060f"}/>
+                      {row.seg.slice(1).map((s,si)=>(
+                        <line key={si} x1={px(row.seg[si][1])} y1={ry+RH/2} x2={px(s[0])} y2={ry+RH/2}
+                          stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4"/>
                       ))}
-                      {row.seg.map((s,si) => {
-                        const bx  = px(s[0]);
-                        const bw  = Math.max(5, px(s[1])-px(s[0]));
-                        const bh  = RH-10;
-                        const by  = ry+5;
-                        const lbl = row.lbl?.[si];
-                        return (
-                          <g key={si}>
-                            <rect x={bx+1} y={by+2} width={bw} height={bh} rx={3} fill="#000" opacity={.4} />
-                            <rect x={bx} y={by} width={bw} height={bh} rx={3}
-                              fill={c.bar}
-                              opacity={isActive?0.98:isScrub?0.95:row.t==="s"?0.70:0.85}
-                              strokeDasharray={row.t==="s"?"none":"none"}
-                            />
-                            {/* Soft canon: dashed outline */}
-                            {row.t==="s" && <rect x={bx} y={by} width={bw} height={bh} rx={3} fill="none" stroke={c.bar} strokeWidth={1} strokeDasharray="4,3" opacity={0.6} />}
-                            <rect x={bx} y={by} width={bw} height={Math.min(5,bh*.3)} rx={3} fill="rgba(255,255,255,.25)" style={{pointerEvents:"none"}} />
-                            {lbl && bw>24 && (
-                              <text x={bx+bw/2} y={by+bh/2+3.5}
-                                textAnchor="middle" fill="rgba(0,0,0,.85)"
-                                fontSize={6.5} fontFamily="DM Mono,monospace" fontWeight="500"
-                                style={{pointerEvents:"none"}}
-                              >{lbl}</text>
-                            )}
-                          </g>
-                        );
+                      {row.seg.map((s,si)=>{
+                        const bx=px(s[0]),bw=Math.max(5,px(s[1])-px(s[0])),bh=RH-10,by=ry+5,lbl=row.lbl?.[si];
+                        return(<g key={si}>
+                          <rect x={bx+1} y={by+2} width={bw} height={bh} rx={3} fill="#000" opacity={.4}/>
+                          <rect x={bx} y={by} width={bw} height={bh} rx={3} fill={c.bar} opacity={isActive?0.98:isScrub?0.95:row.t==="s"?0.70:0.85}/>
+                          {row.t==="s"&&<rect x={bx} y={by} width={bw} height={bh} rx={3} fill="none" stroke={c.bar} strokeWidth={1} strokeDasharray="4,3" opacity={0.6}/>}
+                          <rect x={bx} y={by} width={bw} height={Math.min(5,bh*.3)} rx={3} fill="rgba(255,255,255,.25)" style={{pointerEvents:"none"}}/>
+                          {lbl&&bw>24&&<text x={bx+bw/2} y={by+bh/2+3.5} textAnchor="middle" fill="rgba(0,0,0,.85)" fontSize={6.5} fontFamily="DM Mono,monospace" fontWeight="500" style={{pointerEvents:"none"}}>{lbl}</text>}
+                        </g>);
                       })}
                     </g>
                   );
                 })}
-
-                <line x1={0} y1={CH-1} x2={CW} y2={CH-1} stroke="#1e1e34" />
-
-                {/* ── Scrubber ── */}
-                {displayScrubX!=null && (
+                <line x1={0} y1={CH-1} x2={CW} y2={CH-1} stroke="#1e1e34"/>
+                {displayScrubX!=null&&(
                   <g style={{pointerEvents:"none"}}>
-                    <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH}
-                      stroke={scrubLocked?"#f5c030":"#ffffff"} strokeWidth={scrubLocked?8:6} strokeOpacity={0.06} />
-                    <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH}
-                      stroke={scrubLocked?"#f5c030":"#aaaadd"}
-                      strokeWidth={scrubLocked?1.5:1}
-                      strokeDasharray={scrubLocked?"none":"4,3"}
-                      strokeOpacity={scrubLocked?0.9:0.7} />
-                    {(() => {
-                      const lbl = yearLbl(displayYear);
-                      const tw  = lbl.length * 6.2 + 14;
-                      const lxC = Math.min(Math.max(displayScrubX-tw/2, 2), CW-tw-2);
-                      return (
-                        <>
-                          <rect x={lxC} y={AH-27} width={tw} height={18} rx={4}
-                            fill={scrubLocked?"#302000":"#101020"}
-                            stroke={scrubLocked?"#f5c030":"#6060a0"} strokeWidth={1} opacity={0.95} />
-                          <text x={lxC+tw/2} y={AH-14} textAnchor="middle"
-                            fill={scrubLocked?"#f5d050":"#c0c0f0"}
-                            fontSize={8.5} fontFamily="DM Mono,monospace"
-                          >{lbl}</text>
-                        </>
-                      );
+                    <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH} stroke={scrubLocked?"#f5c030":"#ffffff"} strokeWidth={scrubLocked?8:6} strokeOpacity={0.06}/>
+                    <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH} stroke={scrubLocked?"#f5c030":"#aaaadd"} strokeWidth={scrubLocked?1.5:1} strokeDasharray={scrubLocked?"none":"4,3"} strokeOpacity={scrubLocked?0.9:0.7}/>
+                    {(()=>{
+                      const lbl=yearLbl(displayYear),tw=lbl.length*6.2+14,lxC=Math.min(Math.max(displayScrubX-tw/2,2),CW-tw-2);
+                      return(<>
+                        <rect x={lxC} y={AH-27} width={tw} height={18} rx={4} fill={scrubLocked?"#302000":"#101020"} stroke={scrubLocked?"#f5c030":"#6060a0"} strokeWidth={1} opacity={0.95}/>
+                        <text x={lxC+tw/2} y={AH-14} textAnchor="middle" fill={scrubLocked?"#f5d050":"#c0c0f0"} fontSize={8.5} fontFamily="DM Mono,monospace">{lbl}</text>
+                      </>);
                     })()}
-                    {scrubLocked && <circle cx={displayScrubX} cy={AH+6} r={4} fill="#f5c030" opacity={0.9} />}
+                    {scrubLocked&&<circle cx={displayScrubX} cy={AH+6} r={4} fill="#f5c030" opacity={0.9}/>}
                   </g>
                 )}
               </svg>
             </div>
 
             {/* ── Side panel ── */}
-            <div style={{
-              width: panelMode?290:0, minWidth: panelMode?290:0,
-              overflow:"hidden", transition:"width .2s ease, min-width .2s ease",
-              background:"#0a0a1c", borderLeft: panelMode?"1px solid #202040":"none",
-              flexShrink:0, position:"sticky", top:0,
-              alignSelf:"flex-start", maxHeight:"100vh", overflowY:"auto",
-            }}>
+            <div style={{width:panelMode?300:0,minWidth:panelMode?300:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:"#0a0a1c",borderLeft:panelMode?"1px solid #202040":"none",flexShrink:0,position:"sticky",top:0,alignSelf:"flex-start",maxHeight:"100vh",overflowY:"auto"}}>
+
               {/* Row detail */}
-              {panelMode==="row" && rowDetail && (() => {
-                const d=rowDetail, era=panelEra;
-                return (
-                  <div style={{padding:"20px 18px", minWidth:290}}>
-                    <div style={{ display:"inline-flex", alignItems:"center", gap:7,
-                      background:TYPE_INFO[d.t].color+"18", border:"1px solid "+TYPE_INFO[d.t].color+"55",
-                      color:TYPE_INFO[d.t].color, fontSize:8, letterSpacing:".18em", fontWeight:500,
-                      padding:"3px 10px", borderRadius:3, marginBottom:14 }}>
-                      <span style={{width:6,height:6,borderRadius:"50%",background:TYPE_INFO[d.t].color}} />
-                      {TYPE_INFO[d.t].label.toUpperCase()}
-                      {d.t==="s" && <span style={{marginLeft:4,opacity:.7}}>· LEGENDS REFERENCED</span>}
+              {panelMode==="row"&&rowDetail&&(()=>{
+                const d=rowDetail,era=panelEra,ti=TYPE_INFO[d.t];
+                return(
+                  <div style={{padding:"20px 18px",minWidth:300}}>
+                    {/* Badge */}
+                    <div style={{display:"inline-flex",alignItems:"center",gap:7,background:ti.color+"18",border:"1px solid "+ti.color+"55",color:ti.color,fontSize:8,letterSpacing:".18em",fontWeight:500,padding:"3px 10px",borderRadius:3,marginBottom:14}}>
+                      <span style={{width:6,height:6,borderRadius:"50%",background:ti.color}}/>
+                      {ti.label.toUpperCase()}{d.t==="s"&&<span style={{marginLeft:4,opacity:.6}}>· LEGENDS REF.</span>}
                     </div>
+                    {/* Title */}
                     <div style={{fontSize:16,fontWeight:400,color:"#ffffff",lineHeight:1.4,marginBottom:16,fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
-                    {era && (
-                      <div style={{marginBottom:14}}>
-                        <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:5}}>ERA</div>
-                        <span style={{fontSize:9.5,color:era.color,letterSpacing:".1em",background:era.color+"15",border:"1px solid "+era.color+"35",padding:"2px 9px",borderRadius:3}}>{era.name}</span>
-                      </div>
-                    )}
-                    <div style={{marginBottom:16}}>
+                    {/* Era */}
+                    {era&&<div style={{marginBottom:14}}>
+                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:5}}>ERA</div>
+                      <span style={{fontSize:9.5,color:era.color,letterSpacing:".1em",background:era.color+"15",border:"1px solid "+era.color+"35",padding:"2px 9px",borderRadius:3}}>{era.name}</span>
+                    </div>}
+                    {/* Timeline segments */}
+                    <div style={{marginBottom:d.seasons?16:0}}>
                       <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>TIMELINE</div>
-                      {d.seg.map((s,i) => (
+                      {d.seg.map((s,i)=>(
                         <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
-                          <div style={{width:3,height:18,borderRadius:2,flexShrink:0,marginTop:1,background:TYPE_INFO[d.t].color,opacity:.8}} />
+                          <div style={{width:3,height:18,borderRadius:2,flexShrink:0,marginTop:1,background:ti.color,opacity:.8}}/>
                           <div>
                             <div style={{fontSize:12,color:"#d0d0f0"}}>{sfmt(s)}</div>
-                            {d.lbl?.[i] && <div style={{fontSize:9.5,color:"#707090",marginTop:2}}>{d.lbl[i]}</div>}
+                            {d.lbl?.[i]&&<div style={{fontSize:9.5,color:"#707090",marginTop:2}}>{d.lbl[i]}</div>}
                           </div>
                         </div>
                       ))}
-                      {d.seg.length>1 && <div style={{fontSize:9,color:"#505068",fontStyle:"italic",marginTop:2}}>{d.seg.length} segments with time gaps</div>}
+                      {d.seg.length>1&&<div style={{fontSize:9,color:"#505068",fontStyle:"italic",marginTop:2}}>{d.seg.length} segments with time gaps</div>}
                     </div>
-                    {d.note && (
-                      <div style={{borderTop:"1px solid #1c1c38",paddingTop:14}}>
-                        <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>
-                          {d.t==="s" ? "CANONICAL REFERENCES" : "NOTES"}
+                    {/* Seasons */}
+                    {d.seasons&&<div style={{borderTop:"1px solid #1c1c38",paddingTop:14,marginBottom:16}}>
+                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:10}}>SEASONS / ARCS</div>
+                      {d.seasons.map((s,i)=>(
+                        <div key={i} style={{display:"flex",gap:10,marginBottom:7,alignItems:"flex-start"}}>
+                          <span style={{minWidth:32,fontSize:8.5,color:ti.color,fontWeight:500,flexShrink:0,paddingTop:1}}>{s.s}</span>
+                          <div>
+                            <div style={{fontSize:10,color:"#b0b0d8",letterSpacing:".02em"}}>{s.y}</div>
+                            {s.note&&<div style={{fontSize:9,color:"#606080",marginTop:2,lineHeight:1.5}}>{s.note}</div>}
+                          </div>
                         </div>
-                        <div style={{fontSize:11,color:d.t==="s"?"#c8a06099":"#a0a0c8",lineHeight:1.7,fontStyle:"italic"}}>{d.note}</div>
-                      </div>
-                    )}
-                    <button onClick={()=>setPinned(null)} style={{marginTop:20,width:"100%",background:"#111122",border:"1px solid #2a2a44",color:"#7070a0",fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
+                      ))}
+                    </div>}
+                    {/* Notes */}
+                    {d.note&&<div style={{borderTop:"1px solid #1c1c38",paddingTop:14,marginBottom:16}}>
+                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>{d.t==="s"?"CANONICAL REFERENCES":"NOTES"}</div>
+                      <div style={{fontSize:11,color:d.t==="s"?"#c8a06099":"#a0a0c8",lineHeight:1.7,fontStyle:"italic"}}>{d.note}</div>
+                    </div>}
+                    {/* Links */}
+                    {d.links&&<div style={{borderTop:"1px solid #1c1c38",paddingTop:14,marginBottom:16}}>
+                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>SOURCES</div>
+                      {d.links.map((lk,i)=>(
+                        <a key={i} href={lk.u} target="_blank" rel="noopener noreferrer"
+                          style={{display:"flex",alignItems:"center",gap:6,fontSize:10.5,color:"#4a72aa",marginBottom:6,textDecoration:"none"}}
+                          onMouseEnter={e=>e.currentTarget.style.color="#7799dd"}
+                          onMouseLeave={e=>e.currentTarget.style.color="#4a72aa"}
+                        >
+                          <span style={{fontSize:9}}>↗</span>{lk.l}
+                        </a>
+                      ))}
+                    </div>}
+                    {/* Close */}
+                    <button onClick={()=>setPinned(null)} style={{width:"100%",background:"#111122",border:"1px solid #2a2a44",color:"#7070a0",fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
                       onMouseEnter={e=>e.currentTarget.style.background="#1a1a30"}
                       onMouseLeave={e=>e.currentTarget.style.background="#111122"}
                     >CLOSE ✕</button>
@@ -582,33 +579,31 @@
               })()}
 
               {/* Scrubber panel */}
-              {panelMode==="scrub" && (
-                <div style={{padding:"20px 18px",minWidth:290}}>
+              {panelMode==="scrub"&&(
+                <div style={{padding:"20px 18px",minWidth:300}}>
                   <div style={{fontSize:7.5,color:"#505070",letterSpacing:".16em",marginBottom:6}}>📍 LOCKED AT</div>
                   <div style={{fontSize:18,fontWeight:400,color:"#f5d050",marginBottom:16,letterSpacing:".05em"}}>{yearLbl(lockedYear)}</div>
                   {scrubItems.length===0
-                    ? <div style={{fontSize:10,color:"#404060",fontStyle:"italic"}}>No media at this point</div>
-                    : <>
-                        <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:10}}>
-                          ACTIVE NOW · {scrubItems.length} title{scrubItems.length!==1?"s":""}
-                        </div>
-                        {scrubItems.map(d => (
-                          <div key={d.n} onClick={()=>{setPinned(d.n);}}
-                            style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",marginBottom:4,borderRadius:4,background:"#101022",border:"1px solid #1e1e38",cursor:"pointer"}}
-                            onMouseEnter={e=>e.currentTarget.style.background="#181832"}
-                            onMouseLeave={e=>e.currentTarget.style.background="#101022"}
-                          >
-                            <span style={{width:8,height:8,borderRadius:2,flexShrink:0,background:TYPE_INFO[d.t].color}} />
-                            <div>
-                              <div style={{fontSize:10.5,color:"#e0e0f0",fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
-                              <div style={{fontSize:8.5,color:TYPE_INFO[d.t].color,opacity:.7,marginTop:1}}>
-                                {TYPE_INFO[d.t].label}{d.t==="s"?" · soft canon":""}
-                              </div>
-                            </div>
+                    ?<div style={{fontSize:10,color:"#404060",fontStyle:"italic"}}>No media at this point</div>
+                    :<>
+                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:10}}>
+                        ACTIVE NOW · {scrubItems.length} title{scrubItems.length!==1?"s":""}
+                      </div>
+                      {scrubItems.map(d=>(
+                        <div key={d.n} onClick={()=>setPinned(d.n)}
+                          style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",marginBottom:4,borderRadius:4,background:"#101022",border:"1px solid #1e1e38",cursor:"pointer"}}
+                          onMouseEnter={e=>e.currentTarget.style.background="#181832"}
+                          onMouseLeave={e=>e.currentTarget.style.background="#101022"}
+                        >
+                          <span style={{width:8,height:8,borderRadius:2,flexShrink:0,background:TYPE_INFO[d.t].color}}/>
+                          <div>
+                            <div style={{fontSize:10.5,color:"#e0e0f0",fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
+                            <div style={{fontSize:8.5,color:TYPE_INFO[d.t].color,opacity:.7,marginTop:1}}>{TYPE_INFO[d.t].label}{d.t==="s"?" · soft canon":""}</div>
                           </div>
-                        ))}
-                        <div style={{fontSize:8.5,color:"#404060",marginTop:10,fontStyle:"italic"}}>click a title to pin its details</div>
-                      </>
+                        </div>
+                      ))}
+                      <div style={{fontSize:8.5,color:"#404060",marginTop:10,fontStyle:"italic"}}>click a title to pin its details</div>
+                    </>
                   }
                   <button onClick={()=>{setScrubLocked(false);setLockedYear(null);}} style={{marginTop:16,width:"100%",background:"#111122",border:"1px solid #2a2a44",color:"#7070a0",fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
                     onMouseEnter={e=>e.currentTarget.style.background="#1a1a30"}
@@ -621,13 +616,10 @@
 
           {/* ── Footnote ── */}
           <div style={{padding:"10px 24px 24px",fontSize:9,color:"#404060",lineHeight:1.8,borderTop:"1px solid #12121e"}}>
-            High Republic: 3 phases — Phase II (~382 BBY), Phase I (~232 BBY), Phase III (~132 BBY, ties into <i>The Acolyte</i>). &nbsp;
-            Comics: selection of main canonical Marvel series. Novels: most notable canon titles. &nbsp;
-            Video games: only titles with an officially canonical single-player campaign. &nbsp;
-            <i>Maul: Shadow Lord</i> (2026) confirmed between <i>The Bad Batch</i> and <i>Solo</i> (~18 BBY). &nbsp;
-            Soft Canon: Legends media with confirmed Easter eggs or references in official Disney canon — not fully canonical but not ignored. &nbsp;
+            High Republic: 3 phases — Phase II (~382 BBY), Phase I (~232 BBY), Phase III (~132 BBY). &nbsp;
+            Soft Canon: Legends media with confirmed references in Disney canon — not fully canonical but not ignored. &nbsp;
             <a href="https://github.com/Simmonsstummer/starwars-gantt" target="_blank" rel="noopener"
-              style={{color:"#4444aa", textDecoration:"none"}}
+              style={{color:"#4444aa",textDecoration:"none"}}
               onMouseEnter={e=>e.currentTarget.style.color="#7777dd"}
               onMouseLeave={e=>e.currentTarget.style.color="#4444aa"}
             >github.com/Simmonsstummer/starwars-gantt</a>
@@ -636,7 +628,7 @@
       );
     }
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   </script>
 </body>
 </html>
