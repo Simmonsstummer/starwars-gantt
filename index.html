@@ -445,9 +445,9 @@
       const T = {
         bg:          isDark ? '#06060f' : '#f5f5fa',
         bgSurface:   isDark ? '#0c0c1e' : '#eaeaf5',
-        bgRowH:      isDark ? '#0e0e22' : '#d4d4e8',
-        bgRowEven:   isDark ? '#0c0c1c' : '#ececf5',
-        bgRowBase:   isDark ? '#06060f' : '#f5f5fa',
+        bgRowH:      isDark ? '#0e0e22' : '#e2e2f0',
+        bgRowEven:   isDark ? '#0c0c1c' : '#f2f2f8',
+        bgRowBase:   isDark ? '#06060f' : '#f8f8fc',
         bgPanel:     isDark ? '#0a0a1c' : '#ffffff',
         bgBtn:       isDark ? '#111128' : '#dcdcef',
         bgBtnHov:    isDark ? '#1e1e3c' : '#c8c8e2',
@@ -582,8 +582,9 @@
             const y1 = AH + si*RH + RH/2;
             const x2 = px(target.seg[0][0]);
             const y2 = AH + di*RH + RH/2;
-            const midX = (x1+x2)/2;
-            connectionLines.push({x1,y1,x2,y2,midX,key:`${d.n}->${name}`});
+            // Route arc to the RIGHT of both endpoints so it's always visible
+            const bulge = Math.max(x1, x2) + Math.max(40, Math.abs(y2-y1)*0.25);
+            connectionLines.push({x1,y1,x2,y2,bulge,key:`${d.n}->${name}`});
           });
         });
       }
@@ -758,11 +759,11 @@
                 <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
 
                 {/* Connection lines (below bars) */}
-                {connectionLines.map(({x1,y1,x2,y2,midX,key})=>(
+                {connectionLines.map(({x1,y1,x2,y2,bulge,key})=>(
                   <g key={key} style={{pointerEvents:"none"}}>
-                    <path d={`M ${x1},${y1} C ${midX},${y1} ${midX},${y2} ${x2},${y2}`}
-                      stroke="rgba(255,220,80,0.45)" strokeWidth={1.5} strokeDasharray="5,4" fill="none"/>
-                    <circle cx={x2} cy={y2} r={3} fill="rgba(255,220,80,0.5)"/>
+                    <path d={`M ${x1},${y1} C ${bulge},${y1} ${bulge},${y2} ${x2},${y2}`}
+                      stroke={isDark?"rgba(255,220,80,0.7)":"rgba(180,120,0,0.75)"} strokeWidth={2} strokeDasharray="5,4" fill="none"/>
+                    <circle cx={x2} cy={y2} r={3.5} fill={isDark?"rgba(255,220,80,0.85)":"rgba(180,120,0,0.85)"}/>
                   </g>
                 ))}
 
