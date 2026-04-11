@@ -272,12 +272,7 @@
       s:{bar:"#c8a060",dim:"#806030"},
     };
 
-    const ROWS = GROUPS.flatMap(g => [
-      { kind:"H", t:g.t, label:g.label, C:g.color },
-      ...DATA.filter(d => d.t===g.t).map(d => ({ kind:"E", ...d })),
-    ]);
-
-    const LW=222, RH=28, AH=58, CH=AH+ROWS.length*RH;
+    const LW=222, RH=28, AH=58;
 
     const TICKS = [
       {y:-3956,lo:false},{y:-3640,lo:true},
@@ -306,10 +301,19 @@
       const [scrubLocked,setScrubLocked] = useState(false);
       const [lockedYear,setLockedYear]   = useState(null);
       const [isDragging,setIsDragging]   = useState(false);
+      const [collapsed,setCollapsed]     = useState(new Set());
       const dragStart = useRef(null);
       const dragMoved = useRef(false);
       const chartRef  = useRef(null);
       const svgRef    = useRef(null);
+
+      const toggleCollapse = t => setCollapsed(s=>{ const n=new Set(s); n.has(t)?n.delete(t):n.add(t); return n; });
+
+      const ROWS = GROUPS.flatMap(g => [
+        { kind:"H", t:g.t, label:g.label, C:g.color },
+        ...(collapsed.has(g.t) ? [] : DATA.filter(d=>d.t===g.t).map(d=>({ kind:"E", ...d }))),
+      ]);
+      const CH = AH+ROWS.length*RH;
 
       const px    = makePx(zoom);
       const invPx = makeInvPx(zoom);
@@ -368,7 +372,7 @@
               <div style={{fontSize:9,letterSpacing:".32em",color:"#f5c030",marginBottom:7,fontWeight:500}}>A LONG TIME AGO IN A GALAXY FAR, FAR AWAY…</div>
               <h1 style={{margin:0,fontSize:22,fontWeight:300,letterSpacing:".07em",color:"#ffffff"}}>Star Wars — Complete Canon Timeline</h1>
               <p style={{margin:"6px 0 0",fontSize:11,color:"#8888aa",lineHeight:1.7}}>
-                drag to pan &nbsp;·&nbsp; Ctrl+scroll to zoom &nbsp;·&nbsp; click chart to lock scrubber &nbsp;·&nbsp; click row to pin details
+                drag to pan &nbsp;·&nbsp; Ctrl+scroll to zoom &nbsp;·&nbsp; click chart to lock scrubber &nbsp;·&nbsp; click row to pin details &nbsp;·&nbsp; click category header to collapse
               </p>
             </div>
             <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0,paddingTop:6}}>
@@ -410,19 +414,25 @@
                 </div>
                 {ROWS.map((row,i)=>(
                   <div key={i}
-                    onClick={e=>{if(!dragMoved.current&&row.kind==="E")togglePin(row.n);}}
-                    style={{height:RH,display:"flex",alignItems:"center",
+                    onClick={e=>{ if(dragMoved.current)return; row.kind==="H"?toggleCollapse(row.t):togglePin(row.n); }}
+                    style={{height:RH,display:"flex",alignItems:"center",gap:5,
                       paddingLeft:row.kind==="H"?8:14,paddingRight:6,
                       background:row.kind==="H"?"#0e0e22":pinned===row.n?"#181838":hov===row.n?"#131330":"transparent",
                       borderBottom:"1px solid #10101e",
-                      borderLeft:pinned===row.n?"3px solid "+(TC[row.t]?.bar??"#fff"):"3px solid transparent",
+                      borderLeft:pinned===row.n?"3px solid "+(TC[row.t]?.bar??"#fff"):row.kind==="H"?"3px solid "+row.C:"3px solid transparent",
                       color:row.kind==="H"?row.C:(pinned===row.n||hov===row.n)?"#ffffff":row.t==="s"?"#c8a060bb":"#c8c8c8",
-                      fontSize:row.kind==="H"?8:11,fontWeight:row.kind==="H"?500:300,
+                      fontSize:row.kind==="H"?9.5:11,fontWeight:row.kind==="H"?700:300,
                       fontStyle:row.t==="s"&&row.kind==="E"?"italic":"normal",
-                      letterSpacing:row.kind==="H"?".16em":".02em",
+                      letterSpacing:row.kind==="H"?".12em":".02em",
                       whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",
-                      transition:"color .1s, background .1s",cursor:row.kind==="E"?"pointer":"default"}}
-                  >{row.kind==="H"?row.label:row.n}</div>
+                      transition:"color .1s, background .1s",cursor:"pointer"}}
+                  >
+                    {row.kind==="H"&&(
+                      <span style={{fontSize:8,opacity:0.7,flexShrink:0,transition:"transform .15s",
+                        display:"inline-block",transform:collapsed.has(row.t)?"rotate(-90deg)":"rotate(0deg)"}}>▾</span>
+                    )}
+                    <span style={{overflow:"hidden",textOverflow:"ellipsis"}}>{row.kind==="H"?row.label:row.n}</span>
+                  </div>
                 ))}
               </div>
 
