@@ -18,10 +18,14 @@ An interactive Gantt chart visualizing the complete Star Wars canon timeline (BB
 - **7 media categories** — films, animated series, live-action, comics, novels, video games, and soft canon (Legends references in Disney canon)
 - **Collapsible categories** — click any category header to collapse/expand its rows; expand-all / collapse-all buttons in the label header
 - **Era backgrounds** — color-coded bands for High Republic, Fall of the Republic, Imperial Era, Rebellion, New Republic, Rise of the First Order
-- **Side panel** — click any row to pin a detail panel showing: spoiler-free description, era, timeline segments, seasons/arcs, canonical notes, and source links
+- **Side panel** — click any row to pin a detail panel showing: spoiler-free description, release date, era, timeline segments, seasons/arcs, canonical notes, source links, watch order (before/after), personal completion checkbox, and 5-star rating
 - **Scrubber line** — move the mouse over the chart to see what media is active at any point in time; click to lock the scrubber and get a list of active titles at that exact year
+- **Connection lines** — toggleable SVG bezier arcs linking related/sequential media across the chart (Links on/off button)
+- **Personal tracking** — completion status and star rating saved per-title in localStorage; watched counter in header
+- **Light/dark mode** — toggle between dark (default) and light themes; preference persisted in localStorage
+- **PNG export** — export the full timeline as a high-resolution PNG image
 - **Drag to pan** — click and drag to scroll the timeline horizontally
-- **Ctrl+scroll to zoom** — zoom in/out with Ctrl+mouse wheel; plain scroll moves the page normally
+- **Ctrl+scroll to zoom** — zoom in/out with Ctrl+mouse wheel anchored at the cursor position; plain scroll moves the page normally
 - **Zoom buttons** — −/reset/+ buttons in the header for keyboard-free zoom control
 
 ---
@@ -64,7 +68,7 @@ The project is a **single self-contained `index.html`** file — no build step r
 
 This makes it trivially deployable on GitHub Pages by just serving the file.
 
-The JSX source component (`starwars-gantt.jsx`) is also included in the repo for reference, but the `index.html` is the canonical version served by GitHub Pages.
+The `index.html` is the canonical version served by GitHub Pages.
 
 ---
 
