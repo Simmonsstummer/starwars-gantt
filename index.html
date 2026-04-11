@@ -217,10 +217,11 @@
       const displayScrubX= scrubLocked ? lockedX     : scrubX;
 
       // Side panel content
-      const rowDetail = pinned ? DATA.find(d => d.n === pinned) : hov ? DATA.find(d => d.n === hov) : null;
-      const panelMode = rowDetail ? "row" : (displayYear != null ? "scrub" : null);
-      const panelEra  = rowDetail ? getEra(rowDetail.seg) : null;
-      const scrubActive = panelMode === "scrub" ? activeAt(displayYear) : [];
+      // Panel opens only on click (pinned row or locked scrubber), never on hover
+      const rowDetail   = pinned ? DATA.find(d => d.n === pinned) : null;
+      const panelMode   = rowDetail ? "row" : (scrubLocked ? "scrub" : null);
+      const panelEra    = rowDetail ? getEra(rowDetail.seg) : null;
+      const scrubActive = panelMode === "scrub" ? activeAt(lockedYear) : [];
 
       const togglePin = name => setPinned(p => p === name ? null : name);
 
@@ -600,7 +601,7 @@
                     {scrubLocked ? "📍 LOCKED AT" : "SCRUBBER"}
                   </div>
                   <div style={{ fontSize: 18, fontWeight: 400, color: scrubLocked ? "#f5d050" : "#c0c0f0", marginBottom: 16, letterSpacing: ".05em" }}>
-                    {yearLabel(displayYear)}
+                    {yearLabel(lockedYear)}
                   </div>
 
                   {scrubActive.length === 0 ? (
