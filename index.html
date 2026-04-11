@@ -352,12 +352,56 @@
       const [lockedYear,setLockedYear]   = useState(null);
       const [isDragging,setIsDragging]   = useState(false);
       const [collapsed,setCollapsed]     = useState(new Set());
+      const [exporting,setExporting]     = useState(false);
       const dragStart = useRef(null);
       const dragMoved = useRef(false);
       const chartRef  = useRef(null);
       const svgRef    = useRef(null);
 
       const toggleCollapse = t => setCollapsed(s=>{ const n=new Set(s); n.has(t)?n.delete(t):n.add(t); return n; });
+
+      const exportPNG = () => {
+        if(exporting) return;
+        setExporting(true);
+        const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        const totalW = LW + CW, dpr = 2;
+        let lbl = `
+          <rect x="0" y="0" width="${LW}" height="${CH}" fill="#06060f"/>
+          <rect x="0" y="0" width="${LW}" height="${AH}" fill="#0c0c1e"/>
+          <line x1="0" y1="${AH-1}" x2="${LW}" y2="${AH-1}" stroke="#1e1e38" stroke-width="1"/>
+          <text x="12" y="${AH-10}" fill="#505070" font-size="8" font-family="'Courier New',monospace" letter-spacing="3">TITLE</text>
+          <line x1="${LW-1}" y1="0" x2="${LW-1}" y2="${CH}" stroke="#1e1e38" stroke-width="1"/>`;
+        ROWS.forEach((row,i)=>{
+          const ry=AH+i*RH, bg=row.kind==="H"?"#0e0e22":i%2===0?"#0c0c1c":"#06060f";
+          const color=row.kind==="H"?row.C:row.t==="s"?"#c8a060":"#c8c8c8";
+          const fw=row.kind==="H"?"700":"300", fs=row.kind==="H"?"9.5":"11";
+          const tx=row.kind==="H"?16:20, text=esc(row.kind==="H"?row.label:row.n);
+          lbl+=`<rect x="0" y="${ry}" width="${LW}" height="${RH}" fill="${bg}"/>`;
+          lbl+=`<line x1="0" y1="${ry+RH}" x2="${LW}" y2="${ry+RH}" stroke="#10101e" stroke-width="1"/>`;
+          lbl+=`<text x="${tx}" y="${ry+RH/2+4}" fill="${color}" font-size="${fs}" font-weight="${fw}" font-family="'Courier New',monospace">${text}</text>`;
+        });
+        const full=`<svg xmlns="http://www.w3.org/2000/svg" width="${totalW}" height="${CH}">
+          <rect width="${totalW}" height="${CH}" fill="#06060f"/>
+          ${lbl}
+          <g transform="translate(${LW},0)">${svgRef.current.innerHTML}</g>
+        </svg>`;
+        const url=URL.createObjectURL(new Blob([full],{type:"image/svg+xml;charset=utf-8"}));
+        const img=new Image();
+        img.onload=()=>{
+          const c=document.createElement("canvas");
+          c.width=totalW*dpr; c.height=CH*dpr;
+          const ctx=c.getContext("2d"); ctx.scale(dpr,dpr);
+          ctx.drawImage(img,0,0);
+          URL.revokeObjectURL(url);
+          c.toBlob(b=>{
+            const a=document.createElement("a");
+            a.href=URL.createObjectURL(b); a.download="starwars-timeline.png"; a.click();
+            setExporting(false);
+          },"image/png");
+        };
+        img.onerror=()=>{ URL.revokeObjectURL(url); setExporting(false); };
+        img.src=url;
+      };
 
       const ROWS = GROUPS.flatMap(g => [
         { kind:"H", t:g.t, label:g.label, C:g.color },
@@ -435,6 +479,17 @@
                 >{l}</button>
               ))}
               <span style={{fontSize:11,color:"#8888bb",minWidth:42}}>{Math.round(zoom*100)}%</span>
+              <div style={{width:1,height:20,background:"#1e1e38",margin:"0 4px"}}/>
+              <button onClick={exportPNG} disabled={exporting}
+                style={{background:"#111128",border:"1px solid #303050",color:exporting?"#505070":"#a0a0cc",fontSize:11,padding:"4px 12px",cursor:exporting?"wait":"pointer",borderRadius:4,fontFamily:"inherit",display:"flex",alignItems:"center",gap:6,opacity:exporting?0.6:1}}
+                onMouseEnter={e=>{if(!exporting)e.currentTarget.style.background="#1e1e3c";}}
+                onMouseLeave={e=>e.currentTarget.style.background="#111128"}
+              >
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style={{flexShrink:0}}>
+                  <path d="M5.5 1v6M2.5 5l3 3 3-3M1 9h9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                </svg>
+                {exporting?"exporting…":"export PNG"}
+              </button>
             </div>
           </div>
 
