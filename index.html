@@ -443,20 +443,20 @@
       const isDark = theme === 'dark';
 
       const T = {
-        bg:          isDark ? '#06060f' : '#f0f0f8',
-        bgSurface:   isDark ? '#0c0c1e' : '#e8e8f4',
-        bgRowH:      isDark ? '#0e0e22' : '#dcdcee',
-        bgRowEven:   isDark ? '#0c0c1c' : '#e8e8f4',
-        bgRowBase:   isDark ? '#06060f' : '#f0f0f8',
-        bgPanel:     isDark ? '#0a0a1c' : '#f4f4ff',
-        bgBtn:       isDark ? '#111128' : '#e4e4f4',
-        bgBtnHov:    isDark ? '#1e1e3c' : '#d4d4ea',
-        text:        isDark ? '#d0c8c0' : '#1a1a2e',
-        textDim:     isDark ? '#8888aa' : '#555575',
-        textFaint:   isDark ? '#505070' : '#9090b0',
-        border:      isDark ? '#1e1e38' : '#c0c0dc',
-        borderFaint: isDark ? '#12121e' : '#d8d8ee',
-        borderPanel: isDark ? '#202040' : '#c8c8e4',
+        bg:          isDark ? '#06060f' : '#f5f5fa',
+        bgSurface:   isDark ? '#0c0c1e' : '#eaeaf5',
+        bgRowH:      isDark ? '#0e0e22' : '#d4d4e8',
+        bgRowEven:   isDark ? '#0c0c1c' : '#ececf5',
+        bgRowBase:   isDark ? '#06060f' : '#f5f5fa',
+        bgPanel:     isDark ? '#0a0a1c' : '#ffffff',
+        bgBtn:       isDark ? '#111128' : '#dcdcef',
+        bgBtnHov:    isDark ? '#1e1e3c' : '#c8c8e2',
+        text:        isDark ? '#d0c8c0' : '#16162a',
+        textDim:     isDark ? '#8888aa' : '#3a3a5c',
+        textFaint:   isDark ? '#505070' : '#5a5a80',
+        border:      isDark ? '#1e1e38' : '#a8a8cc',
+        borderFaint: isDark ? '#12121e' : '#c8c8e0',
+        borderPanel: isDark ? '#202040' : '#a0a0c8',
       };
 
       useEffect(() => { localStorage.setItem('sw-theme', theme); }, [theme]);
@@ -727,32 +727,32 @@
                 style={{display:"block",flexShrink:0,cursor:isDragging?"grabbing":"crosshair"}}
                 onMouseMove={onSvgMouseMove} onMouseLeave={onSvgMouseLeave} onClick={onSvgClick}
               >
-                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg} opacity={isDark?1:0.4}/>)}
-                {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke="#2a2a50" strokeWidth={1}/>)}
+                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg} opacity={isDark?1:0.35}/>)}
+                {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke={isDark?"#2a2a50":"#9090b8"} strokeWidth={1}/>)}
                 {[BREAK2,BREAK].map((brk,bi)=>{
                   const bx=px(brk),pts=[];
                   for(let y=0;y<CH;y+=5)pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
-                  return<polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none"/>;
+                  return<polyline key={bi} points={pts.join(" ")} stroke={isDark?"#383878":"#8888cc"} strokeWidth={2} fill="none"/>;
                 })}
                 {ERAS.map((e,i)=>(
                   <text key={i} x={(px(e.s)+px(e.e))/2} y={16} textAnchor="middle"
-                    fill={e.color} fillOpacity={0.6} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
+                    fill={e.color} fillOpacity={isDark?0.6:0.85} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
                   >{e.name}</text>
                 ))}
                 {[[BREAK2,"×"+(S_EARLY/S_ULTRA).toFixed(0)+"× COMPRESSED"],[BREAK,"×"+(S_MAIN/S_EARLY).toFixed(0)+"× EXPANDED"]].map(([brk,lbl],bi)=>(
-                  <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill="#505090" fontSize={6}
+                  <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill={isDark?"#505090":"#6060aa"} fontSize={6}
                     fontFamily="DM Mono,monospace" transform={`rotate(-90,${px(brk)-5},${AH/2+4})`}
                   >{lbl}</text>
                 ))}
-                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke="#303050"/>
+                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke={isDark?"#303050":"#9090b8"}/>
                 {TICKS.map(({y,lo})=>{
                   const x=px(y),ty=lo?AH-11:AH-24;
                   return(<g key={y}>
-                    <line x1={x} y1={AH-9} x2={x} y2={AH} stroke="#6060a0" strokeWidth={1.5}/>
-                    <text x={x} y={ty} textAnchor="middle" fill={y===0?"#f0d030":"#9898d0"}
-                      fontSize={y===0?9:8} fontWeight={y===0?"500":"300"} fontFamily="DM Mono,monospace"
+                    <line x1={x} y1={AH-9} x2={x} y2={AH} stroke={isDark?"#6060a0":"#7070aa"} strokeWidth={1.5}/>
+                    <text x={x} y={ty} textAnchor="middle" fill={y===0?"#c8a000":isDark?"#9898d0":"#4444aa"}
+                      fontSize={y===0?9:8} fontWeight={y===0?"600":"400"} fontFamily="DM Mono,monospace"
                     >{yl(y)}</text>
-                    <line x1={x} y1={AH} x2={x} y2={CH} stroke={y===0?"#585820":"#1e1e38"} strokeWidth={y===0?1.5:1}/>
+                    <line x1={x} y1={AH} x2={x} y2={CH} stroke={y===0?(isDark?"#585820":"#b89000"):isDark?"#1e1e38":"#d0d0e8"} strokeWidth={y===0?1.5:1}/>
                   </g>);
                 })}
                 <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
@@ -846,10 +846,10 @@
                       <div style={{display:"flex",alignItems:"center",gap:6}}>
                         {[0,1,2,3,4].map(i=>(
                           <span key={i}
-                            style={{fontSize:18,cursor:"pointer",color:i<rating?"#f5c030":"#303050",transition:"color .1s"}}
+                            style={{fontSize:18,cursor:"pointer",color:i<rating?"#f5c030":isDark?"#303050":"#aaaacc",transition:"color .1s"}}
                             onClick={()=>setRating(d.n, rating===i+1 ? 0 : i+1)}
                             onMouseEnter={e=>e.currentTarget.style.color="#f5c030"}
-                            onMouseLeave={e=>e.currentTarget.style.color=i<rating?"#f5c030":"#303050"}
+                            onMouseLeave={e=>e.currentTarget.style.color=i<rating?"#f5c030":isDark?"#303050":"#aaaacc"}
                           >★</span>
                         ))}
                         {rating>0&&<span style={{fontSize:10,color:T.textDim,marginLeft:2}}>{rating}/5</span>}
