@@ -728,32 +728,32 @@
                 style={{display:"block",flexShrink:0,cursor:isDragging?"grabbing":"crosshair"}}
                 onMouseMove={onSvgMouseMove} onMouseLeave={onSvgMouseLeave} onClick={onSvgClick}
               >
-                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg} opacity={isDark?1:0.35}/>)}
-                {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke={isDark?"#2a2a50":"#9090b8"} strokeWidth={1}/>)}
+                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg}/>)}
+                {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke="#2a2a50" strokeWidth={1}/>)}
                 {[BREAK2,BREAK].map((brk,bi)=>{
                   const bx=px(brk),pts=[];
                   for(let y=0;y<CH;y+=5)pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
-                  return<polyline key={bi} points={pts.join(" ")} stroke={isDark?"#383878":"#8888cc"} strokeWidth={2} fill="none"/>;
+                  return<polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none"/>;
                 })}
                 {ERAS.map((e,i)=>(
                   <text key={i} x={(px(e.s)+px(e.e))/2} y={16} textAnchor="middle"
-                    fill={e.color} fillOpacity={isDark?0.6:0.85} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
+                    fill={e.color} fillOpacity={0.6} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
                   >{e.name}</text>
                 ))}
                 {[[BREAK2,"×"+(S_EARLY/S_ULTRA).toFixed(0)+"× COMPRESSED"],[BREAK,"×"+(S_MAIN/S_EARLY).toFixed(0)+"× EXPANDED"]].map(([brk,lbl],bi)=>(
-                  <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill={isDark?"#505090":"#6060aa"} fontSize={6}
+                  <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill="#505090" fontSize={6}
                     fontFamily="DM Mono,monospace" transform={`rotate(-90,${px(brk)-5},${AH/2+4})`}
                   >{lbl}</text>
                 ))}
-                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke={isDark?"#303050":"#9090b8"}/>
+                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke="#303050"/>
                 {TICKS.map(({y,lo})=>{
                   const x=px(y),ty=lo?AH-11:AH-24;
                   return(<g key={y}>
-                    <line x1={x} y1={AH-9} x2={x} y2={AH} stroke={isDark?"#6060a0":"#7070aa"} strokeWidth={1.5}/>
-                    <text x={x} y={ty} textAnchor="middle" fill={y===0?"#c8a000":isDark?"#9898d0":"#4444aa"}
-                      fontSize={y===0?9:8} fontWeight={y===0?"600":"400"} fontFamily="DM Mono,monospace"
+                    <line x1={x} y1={AH-9} x2={x} y2={AH} stroke="#6060a0" strokeWidth={1.5}/>
+                    <text x={x} y={ty} textAnchor="middle" fill={y===0?"#f0d030":"#9898d0"}
+                      fontSize={y===0?9:8} fontWeight={y===0?"500":"300"} fontFamily="DM Mono,monospace"
                     >{yl(y)}</text>
-                    <line x1={x} y1={AH} x2={x} y2={CH} stroke={y===0?(isDark?"#585820":"#b89000"):isDark?"#1e1e38":"#d0d0e8"} strokeWidth={y===0?1.5:1}/>
+                    <line x1={x} y1={AH} x2={x} y2={CH} stroke={y===0?"#585820":"#1e1e38"} strokeWidth={y===0?1.5:1}/>
                   </g>);
                 })}
                 <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
@@ -769,12 +769,12 @@
 
                 {ROWS.map((row,i)=>{
                   const ry=AH+i*RH;
-                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill={isDark?"#0e0e24":"#dcdcee"}/>;
+                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill="#0e0e24"/>;
                   const c=TC[row.t],isActive=(pinned??hov)===row.n,isScrub=displayYear!=null&&row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
                   return(
                     <g key={i} onMouseEnter={()=>setHov(row.n)} onMouseLeave={()=>setHov(null)}
                       onClick={e=>{e.stopPropagation();if(!dragMoved.current)togglePin(row.n);}} style={{cursor:"pointer"}}>
-                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?(isDark?"#161640":"#d0d0f0"):isScrub?(isDark?"#121228":"#dcdcf4"):i%2===0?T.bgRowEven:T.bgRowBase}/>
+                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?"#161640":isScrub?"#121228":i%2===0?"#0c0c1c":"#06060f"}/>
                       {row.seg.slice(1).map((s,si)=>(
                         <line key={si} x1={px(row.seg[si][1])} y1={ry+RH/2} x2={px(s[0])} y2={ry+RH/2}
                           stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4"/>
