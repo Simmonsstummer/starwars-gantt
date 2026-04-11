@@ -435,10 +435,11 @@
       const [showLinks,setShowLinks]     = useState(false);
       const [userdata,setUserdata]       = useState(() => { try { return JSON.parse(localStorage.getItem('sw-userdata')||'{}'); } catch(e){ return {}; } });
       const [theme,setTheme]             = useState(() => localStorage.getItem('sw-theme')||'dark');
-      const dragStart = useRef(null);
-      const dragMoved = useRef(false);
-      const chartRef  = useRef(null);
-      const svgRef    = useRef(null);
+      const dragStart     = useRef(null);
+      const dragMoved     = useRef(false);
+      const chartRef      = useRef(null);
+      const svgRef        = useRef(null);
+      const pendingScroll = useRef(null);
 
       const isDark = theme === 'dark';
 
@@ -528,10 +529,29 @@
 
       useEffect(() => {
         const el = chartRef.current; if(!el) return;
-        const h = e => { if(!e.ctrlKey) return; e.preventDefault(); setZoom(z=>Math.min(6,Math.max(0.3,+(z-e.deltaY*0.002).toFixed(3)))); };
+        const h = e => {
+          if(!e.ctrlKey) return;
+          e.preventDefault();
+          const rect = el.getBoundingClientRect();
+          const cursorViewportX = e.clientX - rect.left;
+          const oldScrollLeft = el.scrollLeft;
+          setZoom(z => {
+            const newZ = Math.min(6, Math.max(0.3, +(z - e.deltaY*0.002).toFixed(3)));
+            const ratio = newZ / z;
+            pendingScroll.current = oldScrollLeft * ratio + cursorViewportX * (ratio - 1);
+            return newZ;
+          });
+        };
         el.addEventListener("wheel",h,{passive:false});
         return ()=>el.removeEventListener("wheel",h);
       },[]);
+
+      useEffect(() => {
+        if(pendingScroll.current !== null && chartRef.current) {
+          chartRef.current.scrollLeft = pendingScroll.current;
+          pendingScroll.current = null;
+        }
+      }, [zoom]);
 
       useEffect(()=>{ const up=()=>setIsDragging(false); window.addEventListener("mouseup",up); return()=>window.removeEventListener("mouseup",up); },[]);
 
@@ -758,23 +778,14 @@
                 })}
                 <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
 
-                {/* Connection lines (below bars) */}
-                {connectionLines.map(({x1,y1,x2,y2,bulge,key})=>(
-                  <g key={key} style={{pointerEvents:"none"}}>
-                    <path d={`M ${x1},${y1} C ${bulge},${y1} ${bulge},${y2} ${x2},${y2}`}
-                      stroke={isDark?"rgba(255,220,80,0.7)":"rgba(180,120,0,0.75)"} strokeWidth={2} strokeDasharray="5,4" fill="none"/>
-                    <circle cx={x2} cy={y2} r={3.5} fill={isDark?"rgba(255,220,80,0.85)":"rgba(180,120,0,0.85)"}/>
-                  </g>
-                ))}
-
                 {ROWS.map((row,i)=>{
                   const ry=AH+i*RH;
-                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill="#0e0e24"/>;
+                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill={T.bgRowH}/>;
                   const c=TC[row.t],isActive=(pinned??hov)===row.n,isScrub=displayYear!=null&&row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
                   return(
                     <g key={i} onMouseEnter={()=>setHov(row.n)} onMouseLeave={()=>setHov(null)}
                       onClick={e=>{e.stopPropagation();if(!dragMoved.current)togglePin(row.n);}} style={{cursor:"pointer"}}>
-                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?"#161640":isScrub?"#121228":i%2===0?"#0c0c1c":"#06060f"}/>
+                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?(isDark?"#161640":"#c8c8f0"):isScrub?(isDark?"#121228":"#d0d0f0"):i%2===0?T.bgRowEven:T.bgRowBase}/>
                       {row.seg.slice(1).map((s,si)=>(
                         <line key={si} x1={px(row.seg[si][1])} y1={ry+RH/2} x2={px(s[0])} y2={ry+RH/2}
                           stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4"/>
@@ -793,6 +804,16 @@
                   );
                 })}
                 <line x1={0} y1={CH-1} x2={CW} y2={CH-1} stroke={T.border}/>
+
+                {/* Connection lines (above row backgrounds, below scrubber) */}
+                {connectionLines.map(({x1,y1,x2,y2,bulge,key})=>(
+                  <g key={key} style={{pointerEvents:"none"}}>
+                    <path d={`M ${x1},${y1} C ${bulge},${y1} ${bulge},${y2} ${x2},${y2}`}
+                      stroke="rgba(255,220,80,0.75)" strokeWidth={2} strokeDasharray="5,4" fill="none"/>
+                    <circle cx={x2} cy={y2} r={3.5} fill="rgba(255,220,80,0.9)"/>
+                  </g>
+                ))}
+
                 {displayScrubX!=null&&(
                   <g style={{pointerEvents:"none"}}>
                     <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH} stroke={scrubLocked?"#f5c030":"#ffffff"} strokeWidth={scrubLocked?8:6} strokeOpacity={0.06}/>
@@ -988,6 +1009,11 @@
 
           {/* ── Disclaimer ── */}
           <div style={{padding:"10px 24px 24px",fontSize:8.5,color:T.textFaint,lineHeight:1.9,borderTop:`1px solid ${T.borderFaint}`}}>
+            <div style={{marginBottom:8,color:T.textFaint}}>
+              <span style={{color:T.textDim,fontWeight:500,letterSpacing:".1em"}}>SHORTCUTS</span>
+              &nbsp;—&nbsp;
+              <span style={{fontFamily:"inherit"}}><kbd style={{background:T.bgBtn,border:`1px solid ${T.border}`,borderRadius:3,padding:"1px 5px",fontSize:8,color:T.textDim}}>Ctrl</kbd> + scroll wheel to zoom &nbsp;·&nbsp; drag to pan &nbsp;·&nbsp; click chart to lock scrubber &nbsp;·&nbsp; click row to pin details</span>
+            </div>
             <span style={{color:T.textDim,fontWeight:500,letterSpacing:".1em"}}>DISCLAIMER</span>
             &nbsp;—&nbsp;
             This is an unofficial fan project created for informational and entertainment purposes only. It is not affiliated with, endorsed by, or connected to Lucasfilm Ltd., The Walt Disney Company, or any of their subsidiaries or affiliates.
