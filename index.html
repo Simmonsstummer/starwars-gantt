@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Star Wars — Timeline Canonica</title>
+  <title>Star Wars — Complete Canon Timeline</title>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -17,7 +17,6 @@
   <script type="text/babel">
     const { useState } = React;
 
-    // ── Piecewise scale ──────────────────────────────────────────────────────────
     const BREAK   = -30;
     const S_EARLY = 1.6;
     const S_MAIN  = 12;
@@ -31,14 +30,13 @@
 
     const CW = Math.ceil(px(YMAX));
 
-    // ── Eras ─────────────────────────────────────────────────────────────────────
     const ERAS = [
-      { name: "ALTA REPUBBLICA",   s: -392, e:  -33, bg: "#0b0b28" },
-      { name: "CADUTA DEI JEDI",   s:  -33, e:  -19, bg: "#180b26" },
-      { name: "ERA IMPERIALE",     s:  -19, e:    0, bg: "#240808" },
-      { name: "RIBELLIONE",        s:    0, e:    5, bg: "#141200" },
-      { name: "NUOVA REPUBBLICA",  s:    5, e:   34, bg: "#081108" },
-      { name: "PRIMO ORDINE",      s:   34, e:   38, bg: "#08081e" },
+      { name: "HIGH REPUBLIC",    s: -392, e:  -33, bg: "#0b0b28" },
+      { name: "FALL OF THE JEDI", s:  -33, e:  -19, bg: "#180b26" },
+      { name: "IMPERIAL ERA",     s:  -19, e:    0, bg: "#240808" },
+      { name: "REBELLION",        s:    0, e:    5, bg: "#141200" },
+      { name: "NEW REPUBLIC",     s:    5, e:   34, bg: "#081108" },
+      { name: "FIRST ORDER",      s:   34, e:   38, bg: "#08081e" },
     ];
 
     const DATA = [
@@ -55,51 +53,51 @@
       { n: "The Rise of Skywalker",    t: "f", seg: [[35, 35.5]] },
 
       { n: "Young Jedi Adventures",    t: "a", seg: [[-132, -131]], lbl: ["132 BBY"] },
-      { n: "Tales of the Underworld",  t: "a", seg: [[-52, -49], [-43, -40], [-33, -30], [-19, -16]], lbl: ["Bane I", "Bane II", "Bane III", "Ventress"], note: "Cad Bane (3 fasi: ~52–33 BBY) + Asajj Ventress (19–16 BBY)" },
-      { n: "Tales of the Jedi",        t: "a", seg: [[-48, -47], [-32, -31], [-22, -21], [-19, -18.5]], lbl: ["Dooku", "Qui-Gon", "Ahsoka CW", "Ord.66"], note: "Antologia: archi di Dooku e Ahsoka su più epoche" },
+      { n: "Tales of the Underworld",  t: "a", seg: [[-52, -49], [-43, -40], [-33, -30], [-19, -16]], lbl: ["Bane I", "Bane II", "Bane III", "Ventress"], note: "Cad Bane (3 arcs: ~52–33 BBY) + Asajj Ventress (19–16 BBY)" },
+      { n: "Tales of the Jedi",        t: "a", seg: [[-48, -47], [-32, -31], [-22, -21], [-19, -18.5]], lbl: ["Dooku", "Qui-Gon", "Ahsoka CW", "Ord.66"], note: "Anthology: Dooku and Ahsoka arcs across multiple eras" },
       { n: "The Clone Wars (film)",    t: "a", seg: [[-22, -21]] },
       { n: "The Clone Wars",           t: "a", seg: [[-22, -19]] },
       { n: "The Bad Batch",            t: "a", seg: [[-19, -17]] },
-      { n: "Tales of the Empire",      t: "a", seg: [[-19, -10], [9, 9.5]], lbl: ["Era Imp.", "NR"], note: "Morgan Elsbeth (Era Imperiale) + Barriss Offee → NR" },
+      { n: "Tales of the Empire",      t: "a", seg: [[-19, -10], [9, 9.5]], lbl: ["Imp. Era", "NR"], note: "Morgan Elsbeth (Imperial Era) + Barriss Offee → New Republic" },
       { n: "Maul: Shadow Lord",        t: "a", seg: [[-18, -17]] },
-      { n: "Star Wars Rebels",         t: "a", seg: [[-5, -4], [-4, -3], [-2, -1.5], [-1, 0], [4, 4.5]], lbl: ["S1", "S2", "S3", "S4", "Ep."], note: "Salto S2→S3 (1 anno); epilogo 4 ABY" },
+      { n: "Star Wars Rebels",         t: "a", seg: [[-5, -4], [-4, -3], [-2, -1.5], [-1, 0], [4, 4.5]], lbl: ["S1", "S2", "S3", "S4", "Ep."], note: "S2→S3 gap (1 year); epilogue 4 ABY" },
       { n: "Star Wars Resistance",     t: "a", seg: [[33.5, 35]] },
 
       { n: "The Acolyte",              t: "l", seg: [[-132, -131]], lbl: ["132 BBY"] },
       { n: "Obi-Wan Kenobi",           t: "l", seg: [[-9, -8]] },
-      { n: "Andor",                    t: "l", seg: [[-5, -4.1], [-4, -3.1], [-3, -2.1], [-2, -1.1], [-1, -0.1]], lbl: ["S1", "S2·I", "S2·II", "S2·III", "S2·IV"], note: "S2: 4 capitoli con salto di +1 anno ciascuno" },
+      { n: "Andor",                    t: "l", seg: [[-5, -4.1], [-4, -3.1], [-3, -2.1], [-2, -1.1], [-1, -0.1]], lbl: ["S1", "S2·I", "S2·II", "S2·III", "S2·IV"], note: "S2: 4 chapters each jumping +1 year" },
       { n: "The Mandalorian",          t: "l", seg: [[9, 11]] },
-      { n: "Book of Boba Fett",        t: "l", seg: [[4, 4.5], [9, 10]], lbl: ["flashback", "presente"], note: "Flashback 4 ABY; storia principale 9 ABY" },
+      { n: "Book of Boba Fett",        t: "l", seg: [[4, 4.5], [9, 10]], lbl: ["flashback", "present"], note: "Flashback 4 ABY; main story 9 ABY" },
       { n: "Ahsoka",                   t: "l", seg: [[9, 11]] },
       { n: "Skeleton Crew",            t: "l", seg: [[9, 10]] },
 
-      { n: "High Republic (fumetti)",  t: "c", seg: [[-382, -350], [-232, -200], [-132, -100]], lbl: ["Fase II", "Fase I", "Fase III"], note: "Fase II=~382 BBY, Fase I=~232 BBY, Fase III=~132 BBY" },
-      { n: "Shadow of Maul",           t: "c", seg: [[-19, -18]], note: "Miniserie prequel a Maul: Shadow Lord (2026)" },
-      { n: "Darth Vader: Dark Lord",   t: "c", seg: [[-19, -14]], note: "Vader nei primi anni dell'Impero (Soule 2017)" },
-      { n: "Star Wars (Marvel 2015)",  t: "c", seg: [[0, 3]],     note: "Tra A New Hope e Return of the Jedi" },
-      { n: "Doctor Aphra",             t: "c", seg: [[0, 4]],     note: "Archeologa canaglia nell'era della Ribellione" },
-      { n: "War BH / Crimson Reign",   t: "c", seg: [[3, 4]],     note: "Crossover eventi tra ESB e ROTJ (3 ABY)" },
+      { n: "High Republic (comics)",   t: "c", seg: [[-382, -350], [-232, -200], [-132, -100]], lbl: ["Phase II", "Phase I", "Phase III"], note: "Phase II=~382 BBY, Phase I=~232 BBY, Phase III=~132 BBY" },
+      { n: "Shadow of Maul",           t: "c", seg: [[-19, -18]], note: "Prequel miniseries to Maul: Shadow Lord (2026)" },
+      { n: "Darth Vader: Dark Lord",   t: "c", seg: [[-19, -14]], note: "Vader in the early years of the Empire (Soule 2017)" },
+      { n: "Star Wars (Marvel 2015)",  t: "c", seg: [[0, 3]],     note: "Between A New Hope and Return of the Jedi" },
+      { n: "Doctor Aphra",             t: "c", seg: [[0, 4]],     note: "Rogue archaeologist in the Rebellion era" },
+      { n: "War BH / Crimson Reign",   t: "c", seg: [[3, 4]],     note: "Crossover event between ESB and ROTJ (3 ABY)" },
 
-      { n: "High Republic (romanzi)",  t: "v", seg: [[-382, -350], [-232, -200], [-132, -100]], lbl: ["Fase II", "Fase I", "Fase III"], note: "Stesse tre fasi cronologiche dei fumetti HR" },
-      { n: "Ahsoka (C. Gray 2016)",    t: "v", seg: [[-18, -17]], note: "Ahsoka dopo Order 66, costruisce la sua identità" },
-      { n: "Thrawn (Z. Zahn)",         t: "v", seg: [[-11, -2]],  note: "Origini di Thrawn; si collega a Rebels" },
-      { n: "Lost Stars (C. Gray)",     t: "v", seg: [[-11, 5]],   note: "Dalla giovinezza dei protagonisti a Jakku" },
-      { n: "Aftermath (C. Wendig)",    t: "v", seg: [[4, 6]],     note: "Trilogia del collasso dell'Impero dopo ROTJ" },
-      { n: "Alphabet Squadron",        t: "v", seg: [[4, 8]],     note: "Trilogia squadriglia X-wing post-ROTJ" },
+      { n: "High Republic (novels)",   t: "v", seg: [[-382, -350], [-232, -200], [-132, -100]], lbl: ["Phase II", "Phase I", "Phase III"], note: "Same three chronological phases as the HR comics" },
+      { n: "Ahsoka (C. Gray 2016)",    t: "v", seg: [[-18, -17]], note: "Ahsoka after Order 66, building her new identity" },
+      { n: "Thrawn (Z. Zahn)",         t: "v", seg: [[-11, -2]],  note: "Thrawn's origins; ties into Rebels" },
+      { n: "Lost Stars (C. Gray)",     t: "v", seg: [[-11, 5]],   note: "From the protagonists' youth to the Battle of Jakku" },
+      { n: "Aftermath (C. Wendig)",    t: "v", seg: [[4, 6]],     note: "Trilogy covering the Empire's collapse after ROTJ" },
+      { n: "Alphabet Squadron",        t: "v", seg: [[4, 8]],     note: "X-wing squadron trilogy post-ROTJ" },
 
-      { n: "Jedi: Fallen Order",       t: "g", seg: [[-14, -13]], note: "Cal Kestis, 5 anni dopo Ordine 66 (14 BBY)" },
-      { n: "Jedi: Survivor",           t: "g", seg: [[-9, -8]],   note: "5 anni dopo Fallen Order, stesso anno di Obi-Wan" },
-      { n: "Star Wars Outlaws",        t: "g", seg: [[3, 3.5]],   note: "Kay Vess, tra ESB e ROTJ (3 ABY)" },
-      { n: "Battlefront II (storia)",  t: "g", seg: [[4, 5]],     note: "Iden Versio, subito dopo ROTJ (4–5 ABY)" },
+      { n: "Jedi: Fallen Order",       t: "g", seg: [[-14, -13]], note: "Cal Kestis, 5 years after Order 66 (14 BBY)" },
+      { n: "Jedi: Survivor",           t: "g", seg: [[-9, -8]],   note: "5 years after Fallen Order, same year as Obi-Wan" },
+      { n: "Star Wars Outlaws",        t: "g", seg: [[3, 3.5]],   note: "Kay Vess, between ESB and ROTJ (3 ABY)" },
+      { n: "Battlefront II (story)",   t: "g", seg: [[4, 5]],     note: "Iden Versio, right after ROTJ (4–5 ABY)" },
     ];
 
     const GROUPS = [
-      { t: "f", label: "FILM",                     color: "#f5c030" },
-      { t: "a", label: "SERIE ANIMATE",            color: "#38b4f0" },
-      { t: "l", label: "SERIE LIVE-ACTION",        color: "#f07248" },
-      { t: "c", label: "FUMETTI  (selezione)",     color: "#6dc87a" },
-      { t: "v", label: "ROMANZI  (selezione)",     color: "#c077d4" },
-      { t: "g", label: "VIDEOGIOCHI  (selezione)", color: "#e09830" },
+      { t: "f", label: "FILMS",                    color: "#f5c030" },
+      { t: "a", label: "ANIMATED SERIES",          color: "#38b4f0" },
+      { t: "l", label: "LIVE-ACTION SERIES",       color: "#f07248" },
+      { t: "c", label: "COMICS  (selection)",      color: "#6dc87a" },
+      { t: "v", label: "NOVELS  (selection)",      color: "#c077d4" },
+      { t: "g", label: "VIDEO GAMES  (selection)", color: "#e09830" },
     ];
     const TC = {
       f: { bar: "#f5c030", dim: "#7a5f1a" },
@@ -158,13 +156,13 @@
               A LONG TIME AGO IN A GALAXY FAR, FAR AWAY…
             </div>
             <h1 style={{ margin: 0, fontSize: 20, fontWeight: 300, letterSpacing: ".07em", color: "#ede5dc" }}>
-              Star Wars — Timeline Canonica Completa
+              Star Wars — Complete Canon Timeline
             </h1>
             <p style={{ margin: "5px 0 0", fontSize: 10, color: "#484848", lineHeight: 1.6 }}>
-              Film · Serie animate (incl. Maul: Shadow Lord 2026) · Live-action ·
-              Fumetti · Romanzi · Videogiochi &nbsp;·&nbsp;
-              scala compressa prima di 30 BBY &nbsp;·&nbsp;
-              barre spezzate = salto temporale nella stessa serie
+              Films · Animated series (incl. Maul: Shadow Lord 2026) · Live-action ·
+              Comics · Novels · Video games &nbsp;·&nbsp;
+              compressed scale before 30 BBY &nbsp;·&nbsp;
+              split bars = time jump within the same series
             </p>
           </div>
 
@@ -176,7 +174,7 @@
               </span>
             ))}
             <span style={{ fontSize: 9.5, color: "#2a2a48", marginLeft: "auto" }}>
-              ╌╌ salto temporale &nbsp;│&nbsp; ⚡ scala ×{(S_MAIN / S_EARLY).toFixed(0)}× dopo 30 BBY
+              ╌╌ time jump &nbsp;│&nbsp; ⚡ scale ×{(S_MAIN / S_EARLY).toFixed(0)}× after 30 BBY
             </span>
           </div>
 
@@ -193,7 +191,7 @@
                 display: "flex", alignItems: "flex-end",
                 paddingBottom: 7, paddingLeft: 10,
               }}>
-                <span style={{ fontSize: 7, color: "#252535", letterSpacing: ".18em" }}>TITOLO</span>
+                <span style={{ fontSize: 7, color: "#252535", letterSpacing: ".18em" }}>TITLE</span>
               </div>
 
               {ROWS.map((row, i) => (
@@ -250,7 +248,7 @@
                 textAnchor="end" fill="#1c1c38" fontSize={6}
                 fontFamily="DM Mono,monospace"
                 transform={`rotate(-90,${px(BREAK) - 4},${AH / 2 + 4})`}
-              >SCALA COMPRESSA ⚡</text>
+              >COMPRESSED SCALE ⚡</text>
               <line x1={0} y1={AH - 1} x2={CW} y2={AH - 1} stroke="#1c1c2e" />
               {TICKS.map(({ y, lo }) => {
                 const x  = px(y);
@@ -356,15 +354,15 @@
                 )}
               </>
             ) : (
-              <span>Passa il cursore su una riga per i dettagli della timeline</span>
+              <span>Hover over a row for timeline details</span>
             )}
           </div>
 
           <div style={{ padding: "8px 24px 20px", fontSize: 9, color: "#222232", lineHeight: 1.7 }}>
-            Alta Repubblica: 3 fasi — Fase II (~382 BBY), Fase I (~232 BBY), Fase III (~132 BBY, collega a <i>The Acolyte</i>).&nbsp;
-            Fumetti: selezione serie Marvel canoniche principali. Romanzi: titoli più noti del canone.&nbsp;
-            Videogiochi: solo titoli con campagna single-player ufficialmente canonica.&nbsp;
-            <i>Maul: Shadow Lord</i> (2026) è confermato tra <i>The Bad Batch</i> e <i>Solo</i> (~18 BBY).
+            High Republic: 3 phases — Phase II (~382 BBY), Phase I (~232 BBY), Phase III (~132 BBY, ties into <i>The Acolyte</i>).&nbsp;
+            Comics: selection of main canonical Marvel series. Novels: most notable canon titles.&nbsp;
+            Video games: only titles with an officially canonical single-player campaign.&nbsp;
+            <i>Maul: Shadow Lord</i> (2026) is confirmed between <i>The Bad Batch</i> and <i>Solo</i> (~18 BBY).
           </div>
         </div>
       );
