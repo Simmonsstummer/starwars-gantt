@@ -61,57 +61,87 @@
     const DATA = [
       // ─ FILMS ────────────────────────────────────────────────────────────────
       { n: "The Phantom Menace",      t:"f", seg:[[-32,-31]],
+        release:"May 1999",
+        after:["Attack of the Clones"],
         desc:"A young boy discovered on Tatooine shows extraordinary Force potential, while a Jedi Master and his apprentice investigate a trade dispute threatening the peaceful planet of Naboo.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_I_The_Phantom_Menace"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Phantom_Menace"}] },
       { n: "Attack of the Clones",    t:"f", seg:[[-22,-21]],
+        release:"May 2002",
+        before:["The Phantom Menace"], after:["The Clone Wars (film)","The Clone Wars","Revenge of the Sith"],
         desc:"Ten years later, a Senator survives an assassination attempt as a separatist movement threatens the Republic. A young Jedi is assigned her protection — and grows closer to her than the Jedi Code allows.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_II_Attack_of_the_Clones"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Attack_of_the_Clones"}] },
       { n: "Revenge of the Sith",     t:"f", seg:[[-19,-18.5]],
+        release:"May 2005",
+        before:["Attack of the Clones","The Clone Wars"], after:["Obi-Wan Kenobi","The Bad Batch","Jedi: Fallen Order"],
         desc:"The Clone Wars reach their devastating conclusion. The Republic crumbles from within, the Jedi Order faces its darkest hour, and a friendship is torn apart forever.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_III_Revenge_of_the_Sith"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Revenge_of_the_Sith"}] },
       { n: "Solo: A Star Wars Story", t:"f", seg:[[-13,-10]],
+        release:"May 2018",
+        after:["Andor"],
         desc:"A young Han Solo navigates the criminal underworld, assembles a ragtag crew, and pulls off a daring heist that will shape who he becomes.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Solo:_A_Star_Wars_Story"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Solo:_A_Star_Wars_Story"}] },
       { n: "Rogue One",               t:"f", seg:[[-0.5,0]],
+        release:"Dec 2016",
+        before:["Andor"], after:["A New Hope (Ep. IV)"], connects:["A New Hope (Ep. IV)"],
         desc:"A band of Rebel fighters launches a desperate mission to steal the plans of the Empire's planet-killing superweapon. A war story with no guarantees of survival.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Rogue_One:_A_Star_Wars_Story"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Rogue_One"}] },
       { n: "A New Hope (Ep. IV)",     t:"f", seg:[[0,0.5]],
+        release:"May 1977",
+        before:["Rogue One"], after:["The Empire Strikes Back"], connects:["The Empire Strikes Back"],
         desc:"A farm boy from Tatooine joins the Rebellion and takes his first steps into a larger world, hoping to destroy the Empire's planet-killing superweapon.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_IV_A_New_Hope"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_(film)"}] },
       { n: "The Empire Strikes Back", t:"f", seg:[[3,3.5]],
+        release:"May 1980",
+        before:["A New Hope (Ep. IV)"], after:["Return of the Jedi"], connects:["Return of the Jedi"],
         desc:"The Rebel Alliance is driven from its base. Luke seeks out a legendary Jedi Master to continue his training, while his friends are hunted across the galaxy.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_V_The_Empire_Strikes_Back"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Empire_Strikes_Back"}] },
       { n: "Return of the Jedi",      t:"f", seg:[[4,4.5]],
+        release:"May 1983",
+        before:["The Empire Strikes Back"], after:["The Mandalorian","Battlefront II (story)"],
         desc:"The Rebellion mounts a final assault on the Empire's new Death Star, while Luke Skywalker faces his ultimate confrontation with the dark side.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Episode_VI_Return_of_the_Jedi"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Return_of_the_Jedi"}] },
       { n: "The Force Awakens",       t:"f", seg:[[34,34.5]],
+        release:"Dec 2015",
+        before:["Return of the Jedi"], after:["The Last Jedi"], connects:["The Last Jedi"],
         desc:"Thirty years after the fall of the Empire, a new threat rises. A scavenger, a defecting stormtrooper, and a veteran pilot are drawn together by a droid carrying a vital map.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Force_Awakens"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Force_Awakens"}] },
       { n: "The Last Jedi",           t:"f", seg:[[34.5,35]],
+        release:"Dec 2017",
+        before:["The Force Awakens"], after:["The Rise of Skywalker"], connects:["The Rise of Skywalker"],
         desc:"With the Resistance on the run from the First Order, a reluctant Jedi legend holds the key to the galaxy's future — and must reckon with its past.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Last_Jedi"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Last_Jedi"}] },
       { n: "The Rise of Skywalker",   t:"f", seg:[[35,35.5]],
+        release:"Dec 2019",
+        before:["The Last Jedi"],
         desc:"The Resistance faces a final, desperate confrontation as a long-dead enemy resurfaces and the heroes race to end the war for good.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Rise_of_Skywalker"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Rise_of_Skywalker"}] },
 
       // ─ ANIMATED ─────────────────────────────────────────────────────────────
       { n: "Young Jedi Adventures",   t:"a", seg:[[-132,-131]], lbl:["132 BBY"],
+        release:"May 2023",
         desc:"A young Jedi Padawan and her friends go on adventures during the High Republic era, learning the ways of the Force and what it means to be a Jedi.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Young_Jedi_Adventures"}] },
       { n: "Tales of the Underworld", t:"a",
         seg:[[-52,-49],[-43,-40],[-33,-30],[-19,-16]], lbl:["Bane I","Bane II","Bane III","Ventress"],
+        release:"2025",
         desc:"An animated anthology exploring the galaxy's criminal underworld: Cad Bane's rise as the most feared bounty hunter of his era, and Asajj Ventress's life after the Clone Wars.",
         note:"Cad Bane (3 arcs ~52–33 BBY) + Asajj Ventress (19–16 BBY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Tales_of_the_Underworld"}] },
       { n: "Tales of the Jedi",       t:"a",
         seg:[[-48,-47],[-32,-31],[-22,-21],[-19,-18.5]], lbl:["Dooku","Qui-Gon","Ahsoka CW","Ord.66"],
+        release:"Oct 2022",
+        before:["Attack of the Clones"], after:["The Clone Wars"],
         desc:"A short-form anthology tracing pivotal moments in the lives of Count Dooku and Ahsoka Tano — from youthful idealism to the choices that define them.",
         note:"Anthology: Dooku and Ahsoka arcs across multiple eras",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Tales_of_the_Jedi_(television_series)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Tales_of_the_Jedi"}] },
       { n: "The Clone Wars (film)",   t:"a", seg:[[-22,-21]],
+        release:"Aug 2008",
+        before:["Attack of the Clones"], after:["The Clone Wars"], connects:["The Clone Wars"],
         desc:"The theatrical introduction to the animated series: Anakin Skywalker and his new Padawan Ahsoka Tano are sent on a dangerous mission to rescue Jabba the Hutt's kidnapped son.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Clone_Wars_(film)"}] },
       { n: "The Clone Wars",          t:"a", seg:[[-22,-19]],
+        release:"2008–2020",
+        before:["The Clone Wars (film)","Attack of the Clones"], after:["Revenge of the Sith","The Bad Batch"], connects:["The Bad Batch"],
         desc:"An epic anthology series covering the galaxy-wide conflict between the Republic and the Separatist Alliance — following Anakin, Obi-Wan, Ahsoka, and dozens of characters across hundreds of stories.",
         note:"Non-linear anthology — episodes jump across the Clone Wars era. Season 7 ends concurrently with Revenge of the Sith.",
         seasons:[
@@ -125,6 +155,8 @@
         ],
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Clone_Wars_(TV_series)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Clone_Wars"}] },
       { n: "The Bad Batch",           t:"a", seg:[[-19,-17]],
+        release:"2021–2024",
+        before:["The Clone Wars"], after:["Star Wars Rebels","Jedi: Fallen Order"],
         desc:"Clone Force 99 — a squad of genetically enhanced clone troopers — tries to find their place in a galaxy transformed by the sudden rise of the Empire.",
         note:"Follows Clone Force 99 navigating the rise of the Empire.",
         seasons:[
@@ -135,14 +167,20 @@
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Bad_Batch"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Bad_Batch_(TV_series)"}] },
       { n: "Tales of the Empire",     t:"a",
         seg:[[-19,-10],[9,9.5]], lbl:["Imp. Era","NR"],
+        release:"May 2024",
+        before:["The Clone Wars","The Bad Batch"],
         desc:"A short-form anthology following two women shaped by the Empire — Morgan Elsbeth's ruthless rise to power, and Barriss Offee's fate in the shadow of the new order.",
         note:"Morgan Elsbeth (Imperial Era) + Barriss Offee → New Republic",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Tales_of_the_Empire"}] },
       { n: "Maul: Shadow Lord",       t:"a", seg:[[-18,-17]],
+        release:"2025",
+        before:["The Clone Wars"], after:["Star Wars Rebels"],
         desc:"Animated short following Darth Maul's consolidation of power over Mandalore and his criminal empire, bridging his arcs in The Clone Wars and Rebels.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Maul_-_Shadow_Lord"}] },
       { n: "Star Wars Rebels",        t:"a",
         seg:[[-5,-4],[-4,-3],[-2,-1.5],[-1,0],[4,4.5]], lbl:["S1","S2","S3","S4","Ep."],
+        release:"2014–2018",
+        before:["The Bad Batch"], after:["Ahsoka","Rogue One"], connects:["Ahsoka"],
         desc:"A small crew aboard the starship Ghost becomes one of the first sparks of the Rebellion, operating in the Outer Rim under the constant threat of the Empire's Inquisitors.",
         note:"S2→S3 gap (1 year); epilogue 4 ABY",
         seasons:[
@@ -153,6 +191,8 @@
         ],
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Rebels"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Rebels"}] },
       { n: "Star Wars Resistance",    t:"a", seg:[[33.5,35]],
+        release:"2018–2020",
+        before:["The Force Awakens"], after:["The Last Jedi"],
         desc:"A young pilot recruited by the Resistance discovers that a remote fueling platform is at the center of a much larger — and more dangerous — conflict with the First Order.",
         seasons:[
           { s:"S1", y:"34 ABY",     note:"Colossus platform · Kaz Xiono spying for the Resistance" },
@@ -162,13 +202,19 @@
 
       // ─ LIVE-ACTION ──────────────────────────────────────────────────────────
       { n: "The Acolyte",             t:"l", seg:[[-132,-131]], lbl:["132 BBY"],
+        release:"Jun 2024",
+        after:["Young Jedi Adventures"],
         desc:"At the height of the High Republic, a former Padawan investigates a series of murders targeting Jedi Masters, uncovering a hidden side of the Force the Order refuses to acknowledge.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Acolyte"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Acolyte_(TV_series)"}] },
       { n: "Obi-Wan Kenobi",          t:"l", seg:[[-9,-8]],
+        release:"May 2022",
+        before:["Revenge of the Sith","Jedi: Survivor"], after:["A New Hope (Ep. IV)"],
         desc:"Ten years after the fall of the Republic, a broken Obi-Wan Kenobi lives in hiding on Tatooine — until a threat from his past forces him back into the wider galaxy.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Obi-Wan_Kenobi"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Obi-Wan_Kenobi_(TV_series)"}] },
       { n: "Andor",                   t:"l",
         seg:[[-5,-4.1],[-4,-3.1],[-3,-2.1],[-2,-1.1],[-1,-0.1]], lbl:["S1","S2·I","S2·II","S2·III","S2·IV"],
+        release:"2022–2025",
+        before:["Solo: A Star Wars Story"], after:["Rogue One"], connects:["Rogue One"],
         desc:"The gritty origin of Cassian Andor — from reluctant survivor to committed Rebel spy — told across five years of tightening Imperial oppression and growing resistance.",
         note:"S2: 4 chapters, each jumping +1 year forward",
         seasons:[
@@ -180,6 +226,8 @@
         ],
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Andor"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Andor_(TV_series)"}] },
       { n: "The Mandalorian",         t:"l", seg:[[9,11]],
+        release:"2019–2023",
+        before:["Return of the Jedi"], after:["Book of Boba Fett","Ahsoka"], connects:["Book of Boba Fett"],
         desc:"A lone bounty hunter operating on the edges of the galaxy discovers a mysterious child and finds himself on the run from the remnants of the fallen Empire.",
         seasons:[
           { s:"S1", y:"9 ABY",     note:"Din Djarin finds Grogu · fights the Client · pledges to return him" },
@@ -189,6 +237,8 @@
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Mandalorian"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Mandalorian"}] },
       { n: "Book of Boba Fett",       t:"l",
         seg:[[4,4.5],[9,10]], lbl:["flashback","present"],
+        release:"Dec 2021",
+        before:["The Mandalorian"], after:["Ahsoka"], connects:["Ahsoka"],
         desc:"The legendary bounty hunter Boba Fett, presumed dead for years, returns to Tatooine to claim the criminal empire once ruled by Jabba the Hutt — while flashbacks reveal his survival.",
         note:"Flashback 4 ABY; main story 9 ABY",
         seasons:[
@@ -197,6 +247,8 @@
         ],
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Book_of_Boba_Fett"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Book_of_Boba_Fett"}] },
       { n: "Ahsoka",                  t:"l", seg:[[9,11]],
+        release:"Aug 2023",
+        before:["Star Wars Rebels","The Mandalorian"],
         desc:"Former Jedi Ahsoka Tano investigates a new threat that could bring a dangerous enemy back to the galaxy, while searching for a friend lost at the end of the Rebellion.",
         note:"Direct sequel to Rebels — search for Thrawn and Ezra Bridger.",
         seasons:[
@@ -204,31 +256,39 @@
         ],
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Ahsoka"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Ahsoka_(TV_series)"}] },
       { n: "Skeleton Crew",           t:"l", seg:[[9,10]],
+        release:"Dec 2024",
+        before:["The Mandalorian"],
         desc:"Four children from a sheltered Outer Rim planet accidentally find themselves lost in the wider galaxy, and must navigate its wonders and dangers to find their way home.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Skeleton_Crew"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Skeleton_Crew"}] },
 
       // ─ COMICS ───────────────────────────────────────────────────────────────
       { n: "High Republic (comics)",  t:"c",
         seg:[[-382,-350],[-232,-200],[-132,-100]], lbl:["Phase II","Phase I","Phase III"],
+        release:"2021–present",
         desc:"Graphic novels set during the golden age of the Jedi Order, spanning three chronological phases — from the Republic's expansion into the frontier to the rise of the Nihil marauders.",
         note:"Phase II=~382 BBY, Phase I=~232 BBY, Phase III=~132 BBY",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_High_Republic"}] },
       { n: "Shadow of Maul",          t:"c", seg:[[-19,-18]],
+        release:"2026",
         desc:"A comic prequel to the Maul: Shadow Lord animated series, following Darth Maul's violent rise through the criminal underworld during the final years of the Clone Wars.",
         note:"Prequel miniseries to Maul: Shadow Lord (2026)" },
       { n: "Darth Vader: Dark Lord",  t:"c", seg:[[-19,-14]],
+        release:"2017–2018",
         desc:"Darth Vader in the immediate aftermath of Revenge of the Sith, building his identity as the Empire's most feared enforcer and hunting down the last surviving Jedi.",
         note:"Vader in the early years of the Empire (Soule 2017)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Darth_Vader:_Dark_Lord_of_the_Sith"}] },
       { n: "Star Wars (Marvel 2015)", t:"c", seg:[[0,3]],
+        release:"2015–2019",
         desc:"The main ongoing Marvel comic series following Luke, Leia, Han, and the Rebellion between A New Hope and Return of the Jedi, with new threats and personal revelations.",
         note:"Between A New Hope and Return of the Jedi",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_(Marvel_Comics_2015)"}] },
       { n: "Doctor Aphra",            t:"c", seg:[[0,4]],
+        release:"2016–present",
         desc:"Rogue archaeologist Chelli Aphra and her morally questionable crew chase artifacts and trouble across the galaxy during the Galactic Civil War — usually in that order.",
         note:"Rogue archaeologist in the Rebellion era",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Doctor_Aphra_(comic_series)"}] },
       { n: "War BH / Crimson Reign",  t:"c", seg:[[3,4]],
+        release:"2021–2022",
         desc:"A crossover comic event between The Empire Strikes Back and Return of the Jedi, centered on the galaxy-wide hunt for Han Solo and a power struggle in the criminal underworld.",
         note:"Crossover event between ESB and ROTJ (3 ABY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/War_of_the_Bounty_Hunters"}] },
@@ -236,70 +296,89 @@
       // ─ NOVELS ───────────────────────────────────────────────────────────────
       { n: "High Republic (novels)",  t:"v",
         seg:[[-382,-350],[-232,-200],[-132,-100]], lbl:["Phase II","Phase I","Phase III"],
+        release:"2021–present",
         desc:"The core narrative of the High Republic initiative: Jedi Knights and Republic pioneers protect the frontier from threats both ancient and new, across three distinct chronological phases.",
         note:"Same three chronological phases as the HR comics",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_High_Republic"}] },
       { n: "Ahsoka (C. Gray 2016)",   t:"v", seg:[[-18,-17]],
+        release:"Oct 2016",
         desc:"A year after Order 66, Ahsoka Tano tries to disappear into the Outer Rim — but a world under threat pulls her out of hiding and forces her to decide who she really is.",
         note:"Ahsoka after Order 66, building her new identity",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ahsoka_(novel)"}] },
       { n: "Thrawn (Z. Zahn)",        t:"v", seg:[[-11,-2]],
+        release:"Apr 2017",
         desc:"The canonical origin of Grand Admiral Thrawn — from his first mysterious encounter with the Empire to his rise through its ranks, revealing the brilliant tactical mind behind the legend.",
         note:"Thrawn's origins; ties into Rebels",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Thrawn_(novel)"}] },
       { n: "Lost Stars (C. Gray)",    t:"v", seg:[[-11,5]],
+        release:"Sep 2015",
         desc:"Two childhood friends grow up on opposite sides of the Galactic Civil War — one joining the Empire, the other the Rebellion — spanning from the early Imperial era to the Battle of Jakku.",
         note:"From the protagonists' youth to the Battle of Jakku",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Lost_Stars"}] },
       { n: "Aftermath (C. Wendig)",   t:"v", seg:[[4,6]],
+        release:"Sep 2015",
         desc:"Immediately after the Battle of Endor, a New Republic pilot returns home and stumbles into a secret Imperial gathering. A trilogy charting the Empire's chaotic collapse.",
         note:"Trilogy covering the Empire's collapse after ROTJ",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Aftermath_(novel)"}] },
       { n: "Alphabet Squadron",       t:"v", seg:[[4,8]],
+        release:"Jun 2019",
         desc:"A New Republic X-wing squadron, assembled from pilots with troubled pasts, is tasked with hunting down the last remnants of a feared Imperial starfighter unit.",
         note:"X-wing squadron trilogy post-ROTJ",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Alphabet_Squadron"}] },
 
       // ─ VIDEO GAMES ──────────────────────────────────────────────────────────
       { n: "Jedi: Fallen Order",      t:"g", seg:[[-14,-13]],
+        release:"Nov 2019",
+        before:["Revenge of the Sith"], after:["Jedi: Survivor"], connects:["Jedi: Survivor"],
         desc:"Cal Kestis — a young Padawan hiding as a scrapper after Order 66 — is forced to reveal himself and must evade the Empire's Inquisitors while reconnecting with the Force.",
         note:"Cal Kestis, 5 years after Order 66 (14 BBY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Jedi:_Fallen_Order"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Jedi:_Fallen_Order"}] },
       { n: "Jedi: Survivor",          t:"g", seg:[[-9,-8]],
+        release:"Apr 2023",
+        before:["Jedi: Fallen Order"], after:["Obi-Wan Kenobi"], connects:["Obi-Wan Kenobi"],
         desc:"Five years after Fallen Order, Cal Kestis is now a Rebel operative on the run, searching for a hidden planet that could offer sanctuary for Force-sensitive survivors.",
         note:"5 years after Fallen Order, same year as Obi-Wan",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Jedi:_Survivor"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Jedi:_Survivor"}] },
       { n: "Star Wars Outlaws",       t:"g", seg:[[3,3.5]],
+        release:"Aug 2024",
         desc:"Kay Vess, a small-time scoundrel, attempts the biggest heist in the Outer Rim — a job that means crossing the galaxy's most powerful criminal syndicates.",
         note:"Kay Vess, between ESB and ROTJ (3 ABY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Outlaws"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Outlaws"}] },
       { n: "Battlefront II (story)",  t:"g", seg:[[4,5]],
+        release:"Nov 2017",
+        before:["Return of the Jedi"],
         desc:"Imperial commander Iden Versio witnesses the fall of the Empire firsthand and must decide where her true loyalty lies — to the Empire she served, or to something more.",
         note:"Iden Versio, right after ROTJ (4–5 ABY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Battlefront_II_(2017_video_game)"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Battlefront_II_(2017_video_game)"}] },
 
       // ─ SOFT CANON ───────────────────────────────────────────────────────────
       { n: "KOTOR: Knights of the Old Republic", t:"s", seg:[[-3956,-3950]],
+        release:"Jul 2003",
         desc:"A Republic soldier with a mysterious past joins Jedi Knights to stop an ancient Sith Lord from conquering the galaxy. A landmark RPG set 4,000 years before the films. (Legends; elements canonized in Rebels.)",
         note:"Mandalorian Wars & Malachor lore canonized in Rebels; Darksaber origin tied to this era (Dave Filoni confirmed KOTOR reference); planet Taris referenced in Clone Wars",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Knights_of_the_Old_Republic"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Knights_of_the_Old_Republic"}] },
       { n: "KOTOR II: The Sith Lords", t:"s", seg:[[-3952,-3944]],
+        release:"Dec 2004",
         desc:"Five years after KOTOR, a broken exile wanders the galaxy's edge as Sith assassins hunt the last Jedi — and the Force itself seems to be fading. (Legends; Malachor V canonized in Rebels.)",
         note:"Malachor V directly featured in Rebels S2 'Twilight of the Apprentice'; 'Eye of Sion' in Ahsoka (2023) echoes Darth Sion; Meetra Surik's blade referenced in High Republic comics",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Knights_of_the_Old_Republic_II:_The_Sith_Lords"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Knights_of_the_Old_Republic_II:_The_Sith_Lords"}] },
       { n: "The Old Republic (MMO)",  t:"s", seg:[[-3643,-3630]],
+        release:"Dec 2011",
         desc:"An MMORPG set 300 years after KOTOR, following Republic and Imperial players through a renewed war between the Galactic Republic and the resurgent Sith Empire. (Legends; era referenced in canon.)",
         note:"Same era as KOTOR lore; Malachor / Moraband canonical in Clone Wars S6; Old Republic Sith mythology referenced across canon",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Old_Republic"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Old_Republic"}] },
       { n: "Republic Commando",       t:"s", seg:[[-22,-19]],
+        release:"Mar 2005",
         desc:"Elite clone commando squad Delta Squad fights through the Clone Wars on key battlefronts with tactics and brotherhood where ordinary soldiers would fail. (Legends; Delta Squad and Scorch appeared in canon.)",
         note:"Delta Squad (RC-1138 Boss & team) appeared in Clone Wars S3 'Witches of the Mist'; Scorch re-appeared in The Bad Batch S1 (2021)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Republic_Commando"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Republic_Commando"}] },
       { n: "The Force Unleashed I+II",t:"s", seg:[[-3,-0.5]],
+        release:"2008 / 2010",
         desc:"Darth Vader's secret apprentice is trained from birth as the ultimate Jedi hunter — until a spark of rebellion begins to stir inside him. (Legends; elements referenced in Rebels and Andor.)",
         note:"Starkiller armor Easter egg in Andor S1; Imperial Flametroopers (first in TFU) now canonical in The Mandalorian; thematic DNA absorbed into Rebels' Ezra/Kanan arc",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Force_Unleashed"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Force_Unleashed"}] },
       { n: "Shadows of the Empire",   t:"s", seg:[[3,3.5]],
+        release:"1996",
         desc:"Set between The Empire Strikes Back and Return of the Jedi: a ruthless crime lord moves to fill the power vacuum in the criminal underworld while the galaxy teeters on the edge of war. (Legends; Black Sun canonized in Clone Wars/Rebels.)",
         note:"Black Sun crime syndicate fully canonical in Clone Wars S5 and Rebels; fills the ESB→ROTJ gap; Falleen species canonized in Clone Wars",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Shadows_of_the_Empire"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Shadows_of_the_Empire"}] },
@@ -353,10 +432,41 @@
       const [isDragging,setIsDragging]   = useState(false);
       const [collapsed,setCollapsed]     = useState(new Set());
       const [exporting,setExporting]     = useState(false);
+      const [showLinks,setShowLinks]     = useState(false);
+      const [userdata,setUserdata]       = useState(() => { try { return JSON.parse(localStorage.getItem('sw-userdata')||'{}'); } catch(e){ return {}; } });
+      const [theme,setTheme]             = useState(() => localStorage.getItem('sw-theme')||'dark');
       const dragStart = useRef(null);
       const dragMoved = useRef(false);
       const chartRef  = useRef(null);
       const svgRef    = useRef(null);
+
+      const isDark = theme === 'dark';
+
+      const T = {
+        bg:          isDark ? '#06060f' : '#f0f0f8',
+        bgSurface:   isDark ? '#0c0c1e' : '#e8e8f4',
+        bgRowH:      isDark ? '#0e0e22' : '#dcdcee',
+        bgRowEven:   isDark ? '#0c0c1c' : '#e8e8f4',
+        bgRowBase:   isDark ? '#06060f' : '#f0f0f8',
+        bgPanel:     isDark ? '#0a0a1c' : '#f4f4ff',
+        bgBtn:       isDark ? '#111128' : '#e4e4f4',
+        bgBtnHov:    isDark ? '#1e1e3c' : '#d4d4ea',
+        text:        isDark ? '#d0c8c0' : '#1a1a2e',
+        textDim:     isDark ? '#8888aa' : '#555575',
+        textFaint:   isDark ? '#505070' : '#9090b0',
+        border:      isDark ? '#1e1e38' : '#c0c0dc',
+        borderFaint: isDark ? '#12121e' : '#d8d8ee',
+        borderPanel: isDark ? '#202040' : '#c8c8e4',
+      };
+
+      useEffect(() => { localStorage.setItem('sw-theme', theme); }, [theme]);
+      useEffect(() => { document.body.style.background = T.bg; }, [theme]);
+      useEffect(() => { try { localStorage.setItem('sw-userdata', JSON.stringify(userdata)); } catch(e){} }, [userdata]);
+
+      const setDone   = (name, val) => setUserdata(u => ({...u, [name]: {...(u[name]||{}), done: val}}));
+      const setRating = (name, val) => setUserdata(u => ({...u, [name]: {...(u[name]||{}), rating: val}}));
+
+      const watchedCount = DATA.filter(d => userdata[d.n]?.done).length;
 
       const toggleCollapse = t => setCollapsed(s=>{ const n=new Set(s); n.has(t)?n.delete(t):n.add(t); return n; });
 
@@ -366,22 +476,22 @@
         const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
         const totalW = LW + CW, dpr = 2;
         let lbl = `
-          <rect x="0" y="0" width="${LW}" height="${CH}" fill="#06060f"/>
-          <rect x="0" y="0" width="${LW}" height="${AH}" fill="#0c0c1e"/>
-          <line x1="0" y1="${AH-1}" x2="${LW}" y2="${AH-1}" stroke="#1e1e38" stroke-width="1"/>
-          <text x="12" y="${AH-10}" fill="#505070" font-size="8" font-family="'Courier New',monospace" letter-spacing="3">TITLE</text>
-          <line x1="${LW-1}" y1="0" x2="${LW-1}" y2="${CH}" stroke="#1e1e38" stroke-width="1"/>`;
+          <rect x="0" y="0" width="${LW}" height="${CH}" fill="${T.bg}"/>
+          <rect x="0" y="0" width="${LW}" height="${AH}" fill="${T.bgSurface}"/>
+          <line x1="0" y1="${AH-1}" x2="${LW}" y2="${AH-1}" stroke="${T.border}" stroke-width="1"/>
+          <text x="12" y="${AH-10}" fill="${T.textFaint}" font-size="8" font-family="'Courier New',monospace" letter-spacing="3">TITLE</text>
+          <line x1="${LW-1}" y1="0" x2="${LW-1}" y2="${CH}" stroke="${T.border}" stroke-width="1"/>`;
         ROWS.forEach((row,i)=>{
-          const ry=AH+i*RH, bg=row.kind==="H"?"#0e0e22":i%2===0?"#0c0c1c":"#06060f";
+          const ry=AH+i*RH, bg=row.kind==="H"?T.bgRowH:i%2===0?T.bgRowEven:T.bgRowBase;
           const color=row.kind==="H"?row.C:row.t==="s"?"#c8a060":"#c8c8c8";
           const fw=row.kind==="H"?"700":"300", fs=row.kind==="H"?"9.5":"11";
           const tx=row.kind==="H"?16:20, text=esc(row.kind==="H"?row.label:row.n);
           lbl+=`<rect x="0" y="${ry}" width="${LW}" height="${RH}" fill="${bg}"/>`;
-          lbl+=`<line x1="0" y1="${ry+RH}" x2="${LW}" y2="${ry+RH}" stroke="#10101e" stroke-width="1"/>`;
+          lbl+=`<line x1="0" y1="${ry+RH}" x2="${LW}" y2="${ry+RH}" stroke="${T.borderFaint}" stroke-width="1"/>`;
           lbl+=`<text x="${tx}" y="${ry+RH/2+4}" fill="${color}" font-size="${fs}" font-weight="${fw}" font-family="'Courier New',monospace">${text}</text>`;
         });
         const full=`<svg xmlns="http://www.w3.org/2000/svg" width="${totalW}" height="${CH}">
-          <rect width="${totalW}" height="${CH}" fill="#06060f"/>
+          <rect width="${totalW}" height="${CH}" fill="${T.bg}"/>
           ${lbl}
           <g transform="translate(${LW},0)">${svgRef.current.innerHTML}</g>
         </svg>`;
@@ -456,34 +566,82 @@
       const panelEra   = rowDetail?getEra(rowDetail.seg):null;
       const scrubItems = panelMode==="scrub"?activeAt(lockedYear):[];
 
+      // Build connection lines
+      const connectionLines = [];
+      if(showLinks){
+        DATA.forEach(d => {
+          if(!d.connects) return;
+          const si = ROWS.findIndex(r => r.kind==="E" && r.n===d.n);
+          if(si===-1) return;
+          d.connects.forEach(name => {
+            const target = DATA.find(dd=>dd.n===name);
+            if(!target) return;
+            const di = ROWS.findIndex(r => r.kind==="E" && r.n===name);
+            if(di===-1) return;
+            const x1 = px(d.seg[d.seg.length-1][1]);
+            const y1 = AH + si*RH + RH/2;
+            const x2 = px(target.seg[0][0]);
+            const y2 = AH + di*RH + RH/2;
+            const midX = (x1+x2)/2;
+            connectionLines.push({x1,y1,x2,y2,midX,key:`${d.n}->${name}`});
+          });
+        });
+      }
+
+      const btnStyle = (active) => ({
+        background: active ? T.bgBtnHov : T.bgBtn,
+        border: `1px solid ${active ? '#f5c03066' : T.border}`,
+        color: active ? '#f5c030' : T.textDim,
+        fontSize:11, padding:"4px 12px", cursor:"pointer", borderRadius:4,
+        fontFamily:"inherit"
+      });
+
       return (
-        <div style={{minHeight:"100vh",background:"#06060f",fontFamily:"'DM Mono','Fira Mono','Courier New',monospace",color:"#d0c8c0",userSelect:"none"}}>
+        <div style={{minHeight:"100vh",background:T.bg,fontFamily:"'DM Mono','Fira Mono','Courier New',monospace",color:T.text,userSelect:"none"}}>
           <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap'); a{transition:color .15s;}`}</style>
 
           {/* ── Header ── */}
-          <div style={{padding:"20px 24px 10px",display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:16,flexWrap:"wrap",borderBottom:"1px solid #1a1a30"}}>
+          <div style={{padding:"20px 24px 10px",display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:16,flexWrap:"wrap",borderBottom:`1px solid ${T.border}`}}>
             <div>
               <div style={{fontSize:9,letterSpacing:".32em",color:"#f5c030",marginBottom:7,fontWeight:500}}>A LONG TIME AGO IN A GALAXY FAR, FAR AWAY…</div>
-              <h1 style={{margin:0,fontSize:22,fontWeight:300,letterSpacing:".07em",color:"#ffffff"}}>Star Wars — Complete Canon Timeline</h1>
-              <p style={{margin:"6px 0 0",fontSize:11,color:"#8888aa",lineHeight:1.7}}>
+              <h1 style={{margin:0,fontSize:22,fontWeight:300,letterSpacing:".07em",color:isDark?"#ffffff":"#0a0a1e"}}>Star Wars — Complete Canon Timeline</h1>
+              <p style={{margin:"6px 0 0",fontSize:11,color:T.textDim,lineHeight:1.7}}>
                 drag to pan &nbsp;·&nbsp; Ctrl+scroll to zoom &nbsp;·&nbsp; click chart to lock scrubber &nbsp;·&nbsp; click row to pin details &nbsp;·&nbsp; click category header to collapse
               </p>
             </div>
-            <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0,paddingTop:6}}>
-              <span style={{fontSize:9,letterSpacing:".14em",color:"#7070a0"}}>ZOOM</span>
+            <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0,paddingTop:6,flexWrap:"wrap"}}>
+              {/* Watched counter */}
+              <span style={{fontSize:9.5,color:T.textDim,letterSpacing:".05em",marginRight:4}}>{watchedCount} / {DATA.length} watched</span>
+              <div style={{width:1,height:20,background:T.border,margin:"0 2px"}}/>
+              {/* Theme toggle */}
+              <button onClick={()=>setTheme(isDark?'light':'dark')}
+                style={{...btnStyle(false),fontSize:14,padding:"3px 10px"}}
+                onMouseEnter={e=>e.currentTarget.style.background=T.bgBtnHov}
+                onMouseLeave={e=>e.currentTarget.style.background=T.bgBtn}
+                title={isDark?"Switch to light mode":"Switch to dark mode"}
+              >{isDark?"☀":"☾"}</button>
+              <div style={{width:1,height:20,background:T.border,margin:"0 2px"}}/>
+              {/* Connections toggle */}
+              <button onClick={()=>setShowLinks(s=>!s)}
+                style={btnStyle(showLinks)}
+                onMouseEnter={e=>{ e.currentTarget.style.background=T.bgBtnHov; }}
+                onMouseLeave={e=>{ e.currentTarget.style.background=showLinks?T.bgBtnHov:T.bgBtn; }}
+              >{showLinks?"links on":"links off"}</button>
+              <div style={{width:1,height:20,background:T.border,margin:"0 2px"}}/>
+              <span style={{fontSize:9,letterSpacing:".14em",color:T.textFaint}}>ZOOM</span>
               {[["−",z=>Math.max(0.3,+(z-0.25).toFixed(2))],["reset",()=>1],["+",z=>Math.min(6,+(z+0.25).toFixed(2))]].map(([l,fn])=>(
                 <button key={l} onClick={()=>setZoom(fn)}
-                  style={{background:"#111128",border:"1px solid #303050",color:"#a0a0cc",fontSize:12,padding:"4px 12px",cursor:"pointer",borderRadius:4,fontFamily:"inherit"}}
-                  onMouseEnter={e=>e.currentTarget.style.background="#1e1e3c"}
-                  onMouseLeave={e=>e.currentTarget.style.background="#111128"}
+                  style={{background:T.bgBtn,border:`1px solid ${T.border}`,color:T.textDim,fontSize:12,padding:"4px 12px",cursor:"pointer",borderRadius:4,fontFamily:"inherit"}}
+                  onMouseEnter={e=>e.currentTarget.style.background=T.bgBtnHov}
+                  onMouseLeave={e=>e.currentTarget.style.background=T.bgBtn}
                 >{l}</button>
               ))}
-              <span style={{fontSize:11,color:"#8888bb",minWidth:42}}>{Math.round(zoom*100)}%</span>
-              <div style={{width:1,height:20,background:"#1e1e38",margin:"0 4px"}}/>
+              <span style={{fontSize:11,color:T.textDim,minWidth:42}}>{Math.round(zoom*100)}%</span>
+              <div style={{width:1,height:20,background:T.border,margin:"0 4px"}}/>
               <button onClick={exportPNG} disabled={exporting}
-                style={{background:"#111128",border:"1px solid #303050",color:exporting?"#505070":"#a0a0cc",fontSize:11,padding:"4px 12px",cursor:exporting?"wait":"pointer",borderRadius:4,fontFamily:"inherit",display:"flex",alignItems:"center",gap:6,opacity:exporting?0.6:1}}
-                onMouseEnter={e=>{if(!exporting)e.currentTarget.style.background="#1e1e3c";}}
-                onMouseLeave={e=>e.currentTarget.style.background="#111128"}
+                style={{background:T.bgBtn,border:`1px solid ${T.border}`,color:exporting?T.textFaint:T.textDim,fontSize:11,padding:"4px 12px",cursor:exporting?"wait":"pointer",borderRadius:4,fontFamily:"inherit",display:"flex",alignItems:"center",gap:6,opacity:exporting?0.6:1}}
+                onMouseEnter={e=>{if(!exporting)e.currentTarget.style.background=T.bgBtnHov;}}
+                onMouseLeave={e=>e.currentTarget.style.background=T.bgBtn}
               >
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style={{flexShrink:0}}>
                   <path d="M5.5 1v6M2.5 5l3 3 3-3M1 9h9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
@@ -494,22 +652,22 @@
           </div>
 
           {/* ── Legend ── */}
-          <div style={{display:"flex",gap:16,padding:"10px 24px",flexWrap:"wrap",alignItems:"center",borderBottom:"1px solid #12121e"}}>
+          <div style={{display:"flex",gap:16,padding:"10px 24px",flexWrap:"wrap",alignItems:"center",borderBottom:`1px solid ${T.borderFaint}`}}>
             {GROUPS.map(g=>(
-              <span key={g.t} style={{display:"flex",alignItems:"center",gap:7,fontSize:10.5,color:"#c0c0c0"}}>
+              <span key={g.t} style={{display:"flex",alignItems:"center",gap:7,fontSize:10.5,color:T.text}}>
                 <span style={{width:14,height:5,background:g.color,display:"inline-block",borderRadius:2,
                   border:g.t==="s"?"1px dashed "+g.color:"none",opacity:g.t==="s"?0.8:1}} />
                 {g.label.split("(")[0].trim()}
               </span>
             ))}
             <span style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
-              <span style={{display:"flex",alignItems:"center",gap:6,fontSize:9.5,color:"#6060a0"}}>
+              <span style={{display:"flex",alignItems:"center",gap:6,fontSize:9.5,color:T.textFaint}}>
                 <svg width={18} height={12} style={{flexShrink:0}}>
                   {[0,3,6,9,12,15].map((x,i)=><line key={i} x1={x} y1={i%2===0?0:12} x2={x+3} y2={i%2===0?12:0} stroke="#4040a0" strokeWidth={1.5}/>)}
                 </svg>
                 <span>scale break — left of zig-zag is <span style={{color:"#8080c0"}}>×{(S_EARLY/S_ULTRA).toFixed(0)} compressed</span> (High Republic era)</span>
               </span>
-              <span style={{display:"flex",alignItems:"center",gap:6,fontSize:9.5,color:"#6060a0"}}>
+              <span style={{display:"flex",alignItems:"center",gap:6,fontSize:9.5,color:T.textFaint}}>
                 <svg width={18} height={12} style={{flexShrink:0}}>
                   {[0,3,6,9,12,15].map((x,i)=><line key={i} x1={x} y1={i%2===0?0:12} x2={x+3} y2={i%2===0?12:0} stroke="#4040a0" strokeWidth={1.5}/>)}
                 </svg>
@@ -524,15 +682,15 @@
               onMouseDown={onChartMouseDown} onMouseMove={onChartMouseMove}>
 
               {/* Sticky labels */}
-              <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:"#06060f",borderRight:"1px solid #1e1e38"}}>
-                <div style={{height:AH,background:"#0c0c1e",borderBottom:"1px solid #1e1e38",display:"flex",alignItems:"flex-end",justifyContent:"space-between",paddingBottom:8,paddingLeft:12,paddingRight:8}}>
-                  <span style={{fontSize:8,color:"#505070",letterSpacing:".2em"}}>TITLE</span>
+              <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:T.bg,borderRight:`1px solid ${T.border}`}}>
+                <div style={{height:AH,background:T.bgSurface,borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"flex-end",justifyContent:"space-between",paddingBottom:8,paddingLeft:12,paddingRight:8}}>
+                  <span style={{fontSize:8,color:T.textFaint,letterSpacing:".2em"}}>TITLE</span>
                   <div style={{display:"flex",gap:4}}>
                     {[["▾","expand all",()=>setCollapsed(new Set())],["▸","collapse all",()=>setCollapsed(new Set(GROUPS.map(g=>g.t)))]].map(([icon,title,fn])=>(
                       <button key={title} title={title} onClick={fn}
-                        style={{background:"#111128",border:"1px solid #252545",color:"#6060a0",fontSize:9,padding:"2px 6px",cursor:"pointer",borderRadius:3,fontFamily:"inherit",lineHeight:1}}
-                        onMouseEnter={e=>{e.currentTarget.style.background="#1a1a38";e.currentTarget.style.color="#a0a0cc";}}
-                        onMouseLeave={e=>{e.currentTarget.style.background="#111128";e.currentTarget.style.color="#6060a0";}}
+                        style={{background:T.bgBtn,border:`1px solid ${T.borderFaint}`,color:T.textFaint,fontSize:9,padding:"2px 6px",cursor:"pointer",borderRadius:3,fontFamily:"inherit",lineHeight:1}}
+                        onMouseEnter={e=>{e.currentTarget.style.background=T.bgBtnHov;e.currentTarget.style.color=T.textDim;}}
+                        onMouseLeave={e=>{e.currentTarget.style.background=T.bgBtn;e.currentTarget.style.color=T.textFaint;}}
                       >{icon}</button>
                     ))}
                   </div>
@@ -542,10 +700,10 @@
                     onClick={e=>{ if(dragMoved.current)return; row.kind==="H"?toggleCollapse(row.t):togglePin(row.n); }}
                     style={{height:RH,display:"flex",alignItems:"center",gap:5,
                       paddingLeft:row.kind==="H"?8:14,paddingRight:6,
-                      background:row.kind==="H"?"#0e0e22":pinned===row.n?"#181838":hov===row.n?"#131330":"transparent",
-                      borderBottom:"1px solid #10101e",
+                      background:row.kind==="H"?T.bgRowH:pinned===row.n?(isDark?"#181838":"#d8d8f8"):hov===row.n?(isDark?"#131330":"#e0e0f4"):"transparent",
+                      borderBottom:`1px solid ${T.borderFaint}`,
                       borderLeft:pinned===row.n?"3px solid "+(TC[row.t]?.bar??"#fff"):row.kind==="H"?"3px solid "+row.C:"3px solid transparent",
-                      color:row.kind==="H"?row.C:(pinned===row.n||hov===row.n)?"#ffffff":row.t==="s"?"#c8a060bb":"#c8c8c8",
+                      color:row.kind==="H"?row.C:(pinned===row.n||hov===row.n)?(isDark?"#ffffff":"#0a0a2e"):row.t==="s"?"#c8a060bb":T.text,
                       fontSize:row.kind==="H"?9.5:11,fontWeight:row.kind==="H"?700:300,
                       fontStyle:row.t==="s"&&row.kind==="E"?"italic":"normal",
                       letterSpacing:row.kind==="H"?".12em":".02em",
@@ -556,7 +714,10 @@
                       <span style={{fontSize:8,opacity:0.7,flexShrink:0,transition:"transform .15s",
                         display:"inline-block",transform:collapsed.has(row.t)?"rotate(-90deg)":"rotate(0deg)"}}>▾</span>
                     )}
-                    <span style={{overflow:"hidden",textOverflow:"ellipsis"}}>{row.kind==="H"?row.label:row.n}</span>
+                    <span style={{overflow:"hidden",textOverflow:"ellipsis",flex:1}}>{row.kind==="H"?row.label:row.n}</span>
+                    {row.kind==="E"&&userdata[row.n]?.done&&(
+                      <span style={{fontSize:9,color:"#6dc87a",flexShrink:0,marginLeft:2}}>✓</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -566,7 +727,7 @@
                 style={{display:"block",flexShrink:0,cursor:isDragging?"grabbing":"crosshair"}}
                 onMouseMove={onSvgMouseMove} onMouseLeave={onSvgMouseLeave} onClick={onSvgClick}
               >
-                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg}/>)}
+                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg} opacity={isDark?1:0.4}/>)}
                 {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke="#2a2a50" strokeWidth={1}/>)}
                 {[BREAK2,BREAK].map((brk,bi)=>{
                   const bx=px(brk),pts=[];
@@ -595,14 +756,24 @@
                   </g>);
                 })}
                 <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
+
+                {/* Connection lines (below bars) */}
+                {connectionLines.map(({x1,y1,x2,y2,midX,key})=>(
+                  <g key={key} style={{pointerEvents:"none"}}>
+                    <path d={`M ${x1},${y1} C ${midX},${y1} ${midX},${y2} ${x2},${y2}`}
+                      stroke="rgba(255,220,80,0.45)" strokeWidth={1.5} strokeDasharray="5,4" fill="none"/>
+                    <circle cx={x2} cy={y2} r={3} fill="rgba(255,220,80,0.5)"/>
+                  </g>
+                ))}
+
                 {ROWS.map((row,i)=>{
                   const ry=AH+i*RH;
-                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill="#0e0e24"/>;
+                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill={isDark?"#0e0e24":"#dcdcee"}/>;
                   const c=TC[row.t],isActive=(pinned??hov)===row.n,isScrub=displayYear!=null&&row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
                   return(
                     <g key={i} onMouseEnter={()=>setHov(row.n)} onMouseLeave={()=>setHov(null)}
                       onClick={e=>{e.stopPropagation();if(!dragMoved.current)togglePin(row.n);}} style={{cursor:"pointer"}}>
-                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?"#161640":isScrub?"#121228":i%2===0?"#0c0c1c":"#06060f"}/>
+                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?(isDark?"#161640":"#d0d0f0"):isScrub?(isDark?"#121228":"#dcdcf4"):i%2===0?T.bgRowEven:T.bgRowBase}/>
                       {row.seg.slice(1).map((s,si)=>(
                         <line key={si} x1={px(row.seg[si][1])} y1={ry+RH/2} x2={px(s[0])} y2={ry+RH/2}
                           stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4"/>
@@ -620,7 +791,7 @@
                     </g>
                   );
                 })}
-                <line x1={0} y1={CH-1} x2={CW} y2={CH-1} stroke="#1e1e34"/>
+                <line x1={0} y1={CH-1} x2={CW} y2={CH-1} stroke={T.border}/>
                 {displayScrubX!=null&&(
                   <g style={{pointerEvents:"none"}}>
                     <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH} stroke={scrubLocked?"#f5c030":"#ffffff"} strokeWidth={scrubLocked?8:6} strokeOpacity={0.06}/>
@@ -639,11 +810,13 @@
             </div>
 
             {/* ── Side panel ── */}
-            <div style={{width:panelMode?300:0,minWidth:panelMode?300:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:"#0a0a1c",borderLeft:panelMode?"1px solid #202040":"none",flexShrink:0,position:"sticky",top:0,alignSelf:"flex-start",maxHeight:"100vh",overflowY:"auto"}}>
+            <div style={{width:panelMode?320:0,minWidth:panelMode?320:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:T.bgPanel,borderLeft:panelMode?`1px solid ${T.borderPanel}`:"none",flexShrink:0,position:"sticky",top:0,alignSelf:"flex-start",maxHeight:"100vh",overflowY:"auto"}}>
 
               {/* Row detail */}
               {panelMode==="row"&&rowDetail&&(()=>{
                 const d=rowDetail,era=panelEra,ti=TYPE_INFO[d.t];
+                const ud = userdata[d.n]||{};
+                const rating = ud.rating||0;
                 return(
                   <div style={{padding:"20px 18px",minWidth:300}}>
                     {/* Badge */}
@@ -652,49 +825,100 @@
                       {ti.label.toUpperCase()}{d.t==="s"&&<span style={{marginLeft:4,opacity:.6}}>· LEGENDS REF.</span>}
                     </div>
                     {/* Title */}
-                    <div style={{fontSize:16,fontWeight:400,color:"#ffffff",lineHeight:1.4,marginBottom:d.desc?10:16,fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
+                    <div style={{fontSize:16,fontWeight:400,color:isDark?"#ffffff":"#0a0a1e",lineHeight:1.4,marginBottom:4,fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
+                    {/* Release date */}
+                    {d.release&&<div style={{fontSize:9.5,color:T.textDim,marginBottom:d.desc?10:16,letterSpacing:".05em"}}>Released: {d.release}</div>}
                     {/* Description */}
-                    {d.desc&&<div style={{fontSize:11.5,color:"#a0a8c0",lineHeight:1.7,marginBottom:16,fontStyle:"normal"}}>{d.desc}</div>}
+                    {d.desc&&<div style={{fontSize:11.5,color:isDark?"#a0a8c0":"#3a3a60",lineHeight:1.7,marginBottom:16,fontStyle:"normal"}}>{d.desc}</div>}
+
+                    {/* Watched + Rating */}
+                    <div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:14}}>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:10}}>MY STATUS</div>
+                      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+                        <label style={{display:"flex",alignItems:"center",gap:7,cursor:"pointer",fontSize:11,color:ud.done?"#6dc87a":T.textDim,userSelect:"none"}}
+                          onClick={()=>setDone(d.n,!ud.done)}>
+                          <span style={{width:16,height:16,borderRadius:3,border:`1.5px solid ${ud.done?"#6dc87a":T.border}`,background:ud.done?"#6dc87a22":"transparent",display:"inline-flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:10,color:"#6dc87a"}}>
+                            {ud.done?"✓":""}
+                          </span>
+                          watched
+                        </label>
+                      </div>
+                      <div style={{display:"flex",alignItems:"center",gap:6}}>
+                        {[0,1,2,3,4].map(i=>(
+                          <span key={i}
+                            style={{fontSize:18,cursor:"pointer",color:i<rating?"#f5c030":"#303050",transition:"color .1s"}}
+                            onClick={()=>setRating(d.n, rating===i+1 ? 0 : i+1)}
+                            onMouseEnter={e=>e.currentTarget.style.color="#f5c030"}
+                            onMouseLeave={e=>e.currentTarget.style.color=i<rating?"#f5c030":"#303050"}
+                          >★</span>
+                        ))}
+                        {rating>0&&<span style={{fontSize:10,color:T.textDim,marginLeft:2}}>{rating}/5</span>}
+                      </div>
+                    </div>
+
+                    {/* Before / After */}
+                    {(d.before||d.after)&&<div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:14}}>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>WATCH ORDER</div>
+                      {d.before&&<div style={{marginBottom:6}}>
+                        <div style={{fontSize:8.5,color:T.textFaint,marginBottom:4}}>Watch first:</div>
+                        {d.before.map(n=>(
+                          <div key={n} onClick={()=>setPinned(n)} style={{fontSize:10,color:isDark?"#7799cc":"#445588",cursor:"pointer",marginBottom:3,paddingLeft:8,borderLeft:`2px solid ${T.borderPanel}`}}
+                            onMouseEnter={e=>e.currentTarget.style.color=isDark?"#aabbee":"#2233aa"}
+                            onMouseLeave={e=>e.currentTarget.style.color=isDark?"#7799cc":"#445588"}
+                          >↑ {n}</div>
+                        ))}
+                      </div>}
+                      {d.after&&<div>
+                        <div style={{fontSize:8.5,color:T.textFaint,marginBottom:4}}>Watch next:</div>
+                        {d.after.map(n=>(
+                          <div key={n} onClick={()=>setPinned(n)} style={{fontSize:10,color:isDark?"#7799cc":"#445588",cursor:"pointer",marginBottom:3,paddingLeft:8,borderLeft:`2px solid ${T.borderPanel}`}}
+                            onMouseEnter={e=>e.currentTarget.style.color=isDark?"#aabbee":"#2233aa"}
+                            onMouseLeave={e=>e.currentTarget.style.color=isDark?"#7799cc":"#445588"}
+                          >↓ {n}</div>
+                        ))}
+                      </div>}
+                    </div>}
+
                     {/* Era */}
                     {era&&<div style={{marginBottom:14}}>
-                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:5}}>ERA</div>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:5}}>ERA</div>
                       <span style={{fontSize:9.5,color:era.color,letterSpacing:".1em",background:era.color+"15",border:"1px solid "+era.color+"35",padding:"2px 9px",borderRadius:3}}>{era.name}</span>
                     </div>}
                     {/* Timeline segments */}
                     <div style={{marginBottom:d.seasons?16:0}}>
-                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>TIMELINE</div>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>TIMELINE</div>
                       {d.seg.map((s,i)=>(
                         <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
                           <div style={{width:3,height:18,borderRadius:2,flexShrink:0,marginTop:1,background:ti.color,opacity:.8}}/>
                           <div>
-                            <div style={{fontSize:12,color:"#d0d0f0"}}>{sfmt(s)}</div>
-                            {d.lbl?.[i]&&<div style={{fontSize:9.5,color:"#707090",marginTop:2}}>{d.lbl[i]}</div>}
+                            <div style={{fontSize:12,color:isDark?"#d0d0f0":"#1a1a3e"}}>{sfmt(s)}</div>
+                            {d.lbl?.[i]&&<div style={{fontSize:9.5,color:T.textFaint,marginTop:2}}>{d.lbl[i]}</div>}
                           </div>
                         </div>
                       ))}
-                      {d.seg.length>1&&<div style={{fontSize:9,color:"#505068",fontStyle:"italic",marginTop:2}}>{d.seg.length} segments with time gaps</div>}
+                      {d.seg.length>1&&<div style={{fontSize:9,color:T.textFaint,fontStyle:"italic",marginTop:2}}>{d.seg.length} segments with time gaps</div>}
                     </div>
                     {/* Seasons */}
-                    {d.seasons&&<div style={{borderTop:"1px solid #1c1c38",paddingTop:14,marginBottom:16}}>
-                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:10}}>SEASONS / ARCS</div>
+                    {d.seasons&&<div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:16}}>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:10}}>SEASONS / ARCS</div>
                       {d.seasons.map((s,i)=>(
                         <div key={i} style={{display:"flex",gap:10,marginBottom:7,alignItems:"flex-start"}}>
                           <span style={{minWidth:32,fontSize:8.5,color:ti.color,fontWeight:500,flexShrink:0,paddingTop:1}}>{s.s}</span>
                           <div>
-                            <div style={{fontSize:10,color:"#b0b0d8",letterSpacing:".02em"}}>{s.y}</div>
-                            {s.note&&<div style={{fontSize:9,color:"#606080",marginTop:2,lineHeight:1.5}}>{s.note}</div>}
+                            <div style={{fontSize:10,color:isDark?"#b0b0d8":"#3a3a5a",letterSpacing:".02em"}}>{s.y}</div>
+                            {s.note&&<div style={{fontSize:9,color:T.textFaint,marginTop:2,lineHeight:1.5}}>{s.note}</div>}
                           </div>
                         </div>
                       ))}
                     </div>}
                     {/* Notes */}
-                    {d.note&&<div style={{borderTop:"1px solid #1c1c38",paddingTop:14,marginBottom:16}}>
-                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>{d.t==="s"?"CANONICAL REFERENCES":"NOTES"}</div>
-                      <div style={{fontSize:11,color:d.t==="s"?"#c8a06099":"#a0a0c8",lineHeight:1.7,fontStyle:"italic"}}>{d.note}</div>
+                    {d.note&&<div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:16}}>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>{d.t==="s"?"CANONICAL REFERENCES":"NOTES"}</div>
+                      <div style={{fontSize:11,color:d.t==="s"?"#c8a06099":isDark?"#a0a0c8":"#4a4a78",lineHeight:1.7,fontStyle:"italic"}}>{d.note}</div>
                     </div>}
                     {/* Links */}
-                    {d.links&&<div style={{borderTop:"1px solid #1c1c38",paddingTop:14,marginBottom:16}}>
-                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:8}}>SOURCES</div>
+                    {d.links&&<div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:16}}>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>SOURCES</div>
                       {d.links.map((lk,i)=>(
                         <a key={i} href={lk.u} target="_blank" rel="noopener noreferrer"
                           style={{display:"flex",alignItems:"center",gap:6,fontSize:10.5,color:"#4a72aa",marginBottom:6,textDecoration:"none"}}
@@ -706,9 +930,9 @@
                       ))}
                     </div>}
                     {/* Close */}
-                    <button onClick={()=>setPinned(null)} style={{width:"100%",background:"#111122",border:"1px solid #2a2a44",color:"#7070a0",fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
-                      onMouseEnter={e=>e.currentTarget.style.background="#1a1a30"}
-                      onMouseLeave={e=>e.currentTarget.style.background="#111122"}
+                    <button onClick={()=>setPinned(null)} style={{width:"100%",background:T.bgBtn,border:`1px solid ${T.borderPanel}`,color:T.textFaint,fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
+                      onMouseEnter={e=>e.currentTarget.style.background=T.bgBtnHov}
+                      onMouseLeave={e=>e.currentTarget.style.background=T.bgBtn}
                     >CLOSE ✕</button>
                   </div>
                 );
@@ -717,33 +941,33 @@
               {/* Scrubber panel */}
               {panelMode==="scrub"&&(
                 <div style={{padding:"20px 18px",minWidth:300}}>
-                  <div style={{fontSize:7.5,color:"#505070",letterSpacing:".16em",marginBottom:6}}>📍 LOCKED AT</div>
+                  <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".16em",marginBottom:6}}>📍 LOCKED AT</div>
                   <div style={{fontSize:18,fontWeight:400,color:"#f5d050",marginBottom:16,letterSpacing:".05em"}}>{yearLbl(lockedYear)}</div>
                   {scrubItems.length===0
-                    ?<div style={{fontSize:10,color:"#404060",fontStyle:"italic"}}>No media at this point</div>
+                    ?<div style={{fontSize:10,color:T.textFaint,fontStyle:"italic"}}>No media at this point</div>
                     :<>
-                      <div style={{fontSize:7.5,color:"#505070",letterSpacing:".14em",marginBottom:10}}>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:10}}>
                         ACTIVE NOW · {scrubItems.length} title{scrubItems.length!==1?"s":""}
                       </div>
                       {scrubItems.map(d=>(
                         <div key={d.n} onClick={()=>setPinned(d.n)}
-                          style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",marginBottom:4,borderRadius:4,background:"#101022",border:"1px solid #1e1e38",cursor:"pointer"}}
-                          onMouseEnter={e=>e.currentTarget.style.background="#181832"}
-                          onMouseLeave={e=>e.currentTarget.style.background="#101022"}
+                          style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",marginBottom:4,borderRadius:4,background:isDark?"#101022":"#e8e8f8",border:`1px solid ${T.border}`,cursor:"pointer"}}
+                          onMouseEnter={e=>e.currentTarget.style.background=isDark?"#181832":"#dcdcf4"}
+                          onMouseLeave={e=>e.currentTarget.style.background=isDark?"#101022":"#e8e8f8"}
                         >
                           <span style={{width:8,height:8,borderRadius:2,flexShrink:0,background:TYPE_INFO[d.t].color}}/>
                           <div>
-                            <div style={{fontSize:10.5,color:"#e0e0f0",fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
+                            <div style={{fontSize:10.5,color:isDark?"#e0e0f0":"#1a1a3e",fontStyle:d.t==="s"?"italic":"normal"}}>{d.n}</div>
                             <div style={{fontSize:8.5,color:TYPE_INFO[d.t].color,opacity:.7,marginTop:1}}>{TYPE_INFO[d.t].label}{d.t==="s"?" · soft canon":""}</div>
                           </div>
                         </div>
                       ))}
-                      <div style={{fontSize:8.5,color:"#404060",marginTop:10,fontStyle:"italic"}}>click a title to pin its details</div>
+                      <div style={{fontSize:8.5,color:T.textFaint,marginTop:10,fontStyle:"italic"}}>click a title to pin its details</div>
                     </>
                   }
-                  <button onClick={()=>{setScrubLocked(false);setLockedYear(null);}} style={{marginTop:16,width:"100%",background:"#111122",border:"1px solid #2a2a44",color:"#7070a0",fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
-                    onMouseEnter={e=>e.currentTarget.style.background="#1a1a30"}
-                    onMouseLeave={e=>e.currentTarget.style.background="#111122"}
+                  <button onClick={()=>{setScrubLocked(false);setLockedYear(null);}} style={{marginTop:16,width:"100%",background:T.bgBtn,border:`1px solid ${T.borderPanel}`,color:T.textFaint,fontSize:9,padding:"7px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",letterSpacing:".12em"}}
+                    onMouseEnter={e=>e.currentTarget.style.background=T.bgBtnHov}
+                    onMouseLeave={e=>e.currentTarget.style.background=T.bgBtn}
                   >UNLOCK ✕</button>
                 </div>
               )}
@@ -751,7 +975,7 @@
           </div>
 
           {/* ── Footnote ── */}
-          <div style={{padding:"10px 24px 12px",fontSize:9,color:"#404060",lineHeight:1.8,borderTop:"1px solid #12121e"}}>
+          <div style={{padding:"10px 24px 12px",fontSize:9,color:T.textFaint,lineHeight:1.8,borderTop:`1px solid ${T.borderFaint}`}}>
             High Republic: 3 phases — Phase II (~382 BBY), Phase I (~232 BBY), Phase III (~132 BBY). &nbsp;
             Soft Canon: Legends media with confirmed references in Disney canon — not fully canonical but not ignored. &nbsp;
             <a href="https://github.com/Simmonsstummer/starwars-gantt" target="_blank" rel="noopener"
@@ -762,8 +986,8 @@
           </div>
 
           {/* ── Disclaimer ── */}
-          <div style={{padding:"10px 24px 24px",fontSize:8.5,color:"#303050",lineHeight:1.9,borderTop:"1px solid #0e0e1e"}}>
-            <span style={{color:"#404065",fontWeight:500,letterSpacing:".1em"}}>DISCLAIMER</span>
+          <div style={{padding:"10px 24px 24px",fontSize:8.5,color:T.textFaint,lineHeight:1.9,borderTop:`1px solid ${T.borderFaint}`}}>
+            <span style={{color:T.textDim,fontWeight:500,letterSpacing:".1em"}}>DISCLAIMER</span>
             &nbsp;—&nbsp;
             This is an unofficial fan project created for informational and entertainment purposes only. It is not affiliated with, endorsed by, or connected to Lucasfilm Ltd., The Walt Disney Company, or any of their subsidiaries or affiliates.
             Star Wars and all related names, characters, titles, and indicia are trademarks and/or copyrights of Lucasfilm Ltd. / The Walt Disney Company. All rights reserved.
