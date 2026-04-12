@@ -55,6 +55,7 @@
       v: { label: "Novel",       color: "#c077d4" },
       g: { label: "Video Game",  color: "#e09830" },
       s: { label: "Soft Canon",  color: "#c8a060" },
+      p: { label: "Character",   color: "#e87090" },
     };
 
     // ── Data ─────────────────────────────────────────────────────────────────
@@ -80,10 +81,11 @@
         after:["Andor"],
         desc:"A young Han Solo navigates the criminal underworld, assembles a ragtag crew, and pulls off a daring heist that will shape who he becomes.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Solo:_A_Star_Wars_Story"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Solo:_A_Star_Wars_Story"}] },
-      { n: "Rogue One",               t:"f", seg:[[-0.5,0]],
+      { n: "Rogue One",               t:"f", seg:[[-13,-12.5],[-0.5,0]], lbl:["prologue","main"],
         release:"Dec 2016",
         before:["Andor"], after:["A New Hope (Ep. IV)"], connects:["A New Hope (Ep. IV)"],
         desc:"A band of Rebel fighters launches a desperate mission to steal the plans of the Empire's planet-killing superweapon. A war story with no guarantees of survival.",
+        note:"Prologue ~13 BBY: Krennic seizes Galen Erso, young Jyn escapes into hiding",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Rogue_One:_A_Star_Wars_Story"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Rogue_One"}] },
       { n: "A New Hope (Ep. IV)",     t:"f", seg:[[0,0.5]],
         release:"May 1977",
@@ -117,7 +119,7 @@
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_The_Rise_of_Skywalker"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_The_Rise_of_Skywalker"}] },
 
       // ─ ANIMATED ─────────────────────────────────────────────────────────────
-      { n: "Young Jedi Adventures",   t:"a", seg:[[-132,-131]], lbl:["132 BBY"],
+      { n: "Young Jedi Adventures",   t:"a", seg:[[-232,-231]], lbl:["232 BBY"],
         release:"May 2023",
         desc:"A young Jedi Padawan and her friends go on adventures during the High Republic era, learning the ways of the Force and what it means to be a Jedi.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Young_Jedi_Adventures"}] },
@@ -201,10 +203,11 @@
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Resistance"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Resistance"}] },
 
       // ─ LIVE-ACTION ──────────────────────────────────────────────────────────
-      { n: "The Acolyte",             t:"l", seg:[[-132,-131]], lbl:["132 BBY"],
+      { n: "The Acolyte",             t:"l", seg:[[-148,-147],[-132,-131]], lbl:["flashback","present"],
         release:"Jun 2024",
         after:["Young Jedi Adventures"],
         desc:"At the height of the High Republic, a former Padawan investigates a series of murders targeting Jedi Masters, uncovering a hidden side of the Force the Order refuses to acknowledge.",
+        note:"Flashback ~148 BBY: the Brendok massacre (16 years before the main story at 132 BBY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_Acolyte"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/The_Acolyte_(TV_series)"}] },
       { n: "Obi-Wan Kenobi",          t:"l", seg:[[-9,-8]],
         release:"May 2022",
@@ -300,6 +303,11 @@
         desc:"The core narrative of the High Republic initiative: Jedi Knights and Republic pioneers protect the frontier from threats both ancient and new, across three distinct chronological phases.",
         note:"Same three chronological phases as the HR comics",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/The_High_Republic"}] },
+      { n: "Master & Apprentice",      t:"v", seg:[[-40,-39]],
+        release:"Apr 2019",
+        desc:"Una missione su un pianeta remoto mette alla prova il legame tra il Maestro Jedi Qui-Gon Jinn e il suo giovane Padawan Obi-Wan Kenobi, tra profezie antiche e crisi politiche.",
+        note:"Qui-Gon & Obi-Wan, ~8 anni prima di The Phantom Menace (~40 BBY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Master_%26_Apprentice"}] },
       { n: "Ahsoka (C. Gray 2016)",   t:"v", seg:[[-18,-17]],
         release:"Oct 2016",
         desc:"A year after Order 66, Ahsoka Tano tries to disappear into the Outer Rim — but a world under threat pulls her out of hiding and forces her to decide who she really is.",
@@ -320,6 +328,11 @@
         desc:"Immediately after the Battle of Endor, a New Republic pilot returns home and stumbles into a secret Imperial gathering. A trilogy charting the Empire's chaotic collapse.",
         note:"Trilogy covering the Empire's collapse after ROTJ",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Aftermath_(novel)"}] },
+      { n: "Bloodline (C. Gray)",       t:"v", seg:[[28,29]],
+        release:"May 2016",
+        desc:"Sei anni prima dell'ascesa del Primo Ordine, la senatrice Leia Organa naviga un senato della Nuova Repubblica sempre più diviso — e scopre una cospirazione che cambierà tutto.",
+        note:"Leia nel senato della Nuova Repubblica, ~6 anni prima di TFA (~28 ABY)",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Bloodline"}] },
       { n: "Alphabet Squadron",       t:"v", seg:[[4,8]],
         release:"Jun 2019",
         desc:"A New Republic X-wing squadron, assembled from pilots with troubled pasts, is tasked with hunting down the last remnants of a feared Imperial starfighter unit.",
@@ -344,6 +357,11 @@
         desc:"Kay Vess, a small-time scoundrel, attempts the biggest heist in the Outer Rim — a job that means crossing the galaxy's most powerful criminal syndicates.",
         note:"Kay Vess, between ESB and ROTJ (3 ABY)",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars_Outlaws"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars_Outlaws"}] },
+      { n: "Star Wars Squadrons",      t:"g", seg:[[4,5]],
+        release:"Oct 2020",
+        desc:"Due squadriglie di caccia rivali — la Vanguard Squadron per la Nuova Repubblica e la Titan Squadron per l'Impero — si scontrano in un'ultima disperata battaglia dopo Endor.",
+        note:"Vanguard vs Titan Squadron, ~4–5 ABY",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Squadrons"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Star_Wars:_Squadrons"}] },
       { n: "Battlefront II (story)",  t:"g", seg:[[4,5]],
         release:"Nov 2017",
         before:["Return of the Jedi"],
@@ -382,6 +400,111 @@
         desc:"Set between The Empire Strikes Back and Return of the Jedi: a ruthless crime lord moves to fill the power vacuum in the criminal underworld while the galaxy teeters on the edge of war. (Legends; Black Sun canonized in Clone Wars/Rebels.)",
         note:"Black Sun crime syndicate fully canonical in Clone Wars S5 and Rebels; fills the ESB→ROTJ gap; Falleen species canonized in Clone Wars",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Star_Wars:_Shadows_of_the_Empire"},{l:"Wikipedia",u:"https://en.wikipedia.org/wiki/Shadows_of_the_Empire"}] },
+
+      // ─ PERSONAGGI ────────────────────────────────────────────────────────────
+      // bornApprox=true → data di nascita incerta  |  diedApprox=true → data di morte incerta / ancora vivo
+      { n:"Ahsoka Tano",         t:"p", seg:[[-36,11]], diedApprox:true,
+        desc:"Padawan di Anakin Skywalker, sopravvissuta all'Ordine 66 e guida spirituale della Ribellione nascente. Ultima apparizione confermata: ~9–11 ABY (Ahsoka S1).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ahsoka_Tano"}] },
+      { n:"Anakin Skywalker",    t:"p", seg:[[-41,4]],
+        desc:"Il Prescelto della profezia Jedi. Schiavo su Tatooine, poi il più potente Cavaliere dell'Ordine, infine Darth Vader. Si redime salvando il figlio. Muore a 4 ABY (ROTJ).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Anakin_Skywalker"}] },
+      { n:"Asajj Ventress",      t:"p", seg:[[-50,-19]], bornApprox:true,
+        desc:"Ex Padawan abbandonata, poi assassina di Dooku, poi Sorella della Notte. Muore ~19 BBY (Dark Disciple). Archi di flashback in Tales of the Underworld.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Asajj_Ventress"}] },
+      { n:"BB-8",                t:"p", seg:[[28,35]], bornApprox:true, diedApprox:true,
+        desc:"Astromeccanico sferoidale di Poe Dameron. Data di costruzione sconosciuta — attivo almeno dal periodo della Nuova Repubblica.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/BB-8"}] },
+      { n:"Ben Solo / Kylo Ren", t:"p", seg:[[5,35]],
+        desc:"Figlio di Han Solo e Leia Organa. Corrotto da Snoke come Kylo Ren. Si redime su Exegol e muore salvando Rey (35 ABY, TROS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ben_Solo"}] },
+      { n:"Bo-Katan Kryze",      t:"p", seg:[[-57,11]], bornApprox:true, diedApprox:true,
+        desc:"Principessa di Mandalore, leader della Guardia della Morte e poi dei Night Owls. Cerca di riunificare il suo popolo per decenni. Ultima vista ~11 ABY (Mandalorian S3).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Bo-Katan_Kryze"}] },
+      { n:"Boba Fett",           t:"p", seg:[[-32,10]], diedApprox:true,
+        desc:"Clone non modificato di Jango Fett, il cacciatore di taglie più temuto della galassia. Sopravvissuto al Sarlacc. Daimyo di Tatooine. Ultimo visto ~9–10 ABY (BoBF).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Boba_Fett"}] },
+      { n:"C-3PO",               t:"p", seg:[[-32,35]], bornApprox:true, diedApprox:true,
+        desc:"Droide protocollare costruito da Anakin Skywalker su Tatooine. Compagno fedele per oltre 65 anni di storia galattica.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/C-3PO"}] },
+      { n:"Cal Kestis",          t:"p", seg:[[-34,-8]], bornApprox:true, diedApprox:true,
+        desc:"Padawan sopravvissuto all'Ordine 66, poi operativo ribelle. Protagonista di Jedi: Fallen Order e Jedi: Survivor. Destino dopo ~9 BBY sconosciuto.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Cal_Kestis"}] },
+      { n:"Captain Rex",         t:"p", seg:[[-32,4]], diedApprox:true,
+        desc:"CT-7567, capitano della 501ª Legione. Tra i cloni più leali della Repubblica. Rimuove il chip prima dell'Ordine 66. Visto nell'epilogo di Rebels (4 ABY). Destino dopo incerto.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Rex"}] },
+      { n:"Cassian Andor",       t:"p", seg:[[-26,0]],
+        desc:"Spia ribelle cresciuto tra i criminali dopo la caduta del suo pianeta. Costruisce la rete dell'Alleanza dall'interno. Muore sulla spiaggia di Scarif (0 BBY, Rogue One).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Cassian_Andor"}] },
+      { n:"Count Dooku",         t:"p", seg:[[-102,-19]],
+        desc:"Ex Maestro Jedi e allievo di Yoda, poi Lord Sith Darth Tyranus e leader dei Separatisti. Ucciso da Anakin su ordine di Palpatine (19 BBY, ROTS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Dooku"}] },
+      { n:"Darth Maul",          t:"p", seg:[[-54,-2]], bornApprox:true,
+        desc:"Primo apprendista Sith di Sidious, cresciuto come arma vivente. Sopravvissuto alla mutilazione su Naboo. Muore su Tatooine ucciso da Obi-Wan (~2 BBY, Rebels S3).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Maul"}] },
+      { n:"Din Djarin",          t:"p", seg:[[-29,11]], bornApprox:true, diedApprox:true,
+        desc:"Il Mandaloriano, foundling adottato durante la Notte delle Mille Lacrime. Cacciatore di taglie e padre adottivo di Grogu. Ultimo visto ~11 ABY (Mandalorian S3).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Din_Djarin"}] },
+      { n:"Ezra Bridger",        t:"p", seg:[[-19,9]], diedApprox:true,
+        desc:"Nato il giorno della proclamazione dell'Impero. Jedi di Lothal, si sacrifica trascinando Thrawn nell'ignoto. Riappare in Ahsoka S1 (~9 ABY). Destino dopo incerto.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ezra_Bridger"}] },
+      { n:"Finn",                t:"p", seg:[[11,35]], bornApprox:true, diedApprox:true,
+        desc:"FN-2187, ex stormtrooper del Primo Ordine sottratto alla sua famiglia da bambino. Diventa un eroe della Resistenza. Vivo al termine della saga.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Finn"}] },
+      { n:"Grand Moff Tarkin",   t:"p", seg:[[-64,0]],
+        desc:"Governatore regionale supremo dell'Impero Galattico e architetto della Morte Nera. Simbolo del terrore imperiale. Muore nell'esplosione della Morte Nera (0 ABY, ANH).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Wilhuff_Tarkin"}] },
+      { n:"Grogu",               t:"p", seg:[[-41,11]], diedApprox:true,
+        desc:"Della stessa specie misteriosa di Yoda, nato nello stesso anno di Anakin (41 BBY). Sopravvissuto all'Ordine 66. Il Bambino. Ultimo visto ~11 ABY (Mandalorian S3).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Grogu"}] },
+      { n:"Han Solo",            t:"p", seg:[[-29,34]],
+        desc:"Contrabbandiere del Millennium Falcon, poi generale della Ribellione. Eroe di Yavin ed Endor. Ucciso dal figlio Ben su Starkiller Base (34 ABY, TFA).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Han_Solo"}] },
+      { n:"Jyn Erso",            t:"p", seg:[[-21,0]],
+        desc:"Figlia di Galen Erso, cresciuta tra i ribelli di Saw Gerrera. Leader dell'Equipaggio Rogue One. Muore sulla spiaggia di Scarif (0 BBY, Rogue One).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Jyn_Erso"}] },
+      { n:"Kanan Jarrus",        t:"p", seg:[[-33,-1]],
+        desc:"Caleb Dume, Padawan sopravvissuto all'Ordine 66 e poi Maestro Jedi auto-formato. Guida del Ghost Crew. Muore salvando l'equipaggio su Lothal (~1 BBY, Rebels S4).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Kanan_Jarrus"}] },
+      { n:"Leia Organa",         t:"p", seg:[[-19,35]],
+        desc:"Principessa di Alderaan, senatrice, fondatrice della Resistenza. Gemella di Luke Skywalker. Muore usando la Forza per guidare il figlio Ben (35 ABY, TROS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Leia_Organa"}] },
+      { n:"Luke Skywalker",      t:"p", seg:[[-19,34]],
+        desc:"Figlio di Vader e il più grande Jedi della sua era. Salvatore di Yavin, Hoth, Endor. Muore diventando uno con la Forza su Ahch-To (34 ABY, TLJ).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Luke_Skywalker"}] },
+      { n:"Mace Windu",          t:"p", seg:[[-72,-19]], bornApprox:true, diedApprox:true,
+        desc:"Gran Maestro del Consiglio Jedi, il più abile combattente con la spada laser della sua era. Sconfitto da Sidious e defenestrato da Anakin. Destino ufficiale: presunto morto (19 BBY).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Mace_Windu"}] },
+      { n:"Obi-Wan Kenobi",      t:"p", seg:[[-57,0]], bornApprox:true,
+        desc:"Maestro Jedi, mentore di Anakin e Luke, guardiano di Tatooine per 19 anni. Si sacrifica sul Falcon lasciando che Vader lo colpisca (0 ABY, ANH).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Obi-Wan_Kenobi"}] },
+      { n:"Padmé Amidala",       t:"p", seg:[[-46,-19]],
+        desc:"Regina di Naboo a 14 anni, poi senatrice della Repubblica. Moglie segreta di Anakin Skywalker. Muore dando alla luce Luke e Leia (19 BBY, ROTS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Padm%C3%A9_Amidala"}] },
+      { n:"Palpatine / Sidious", t:"p", seg:[[-84,35]], bornApprox:true,
+        desc:"Senatore di Naboo, Cancelliere Supremo, Imperatore. 'Muore' a 4 ABY (ROTJ), ma resuscita come clone. Definitivamente sconfitto su Exegol (35 ABY, TROS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Palpatine"}] },
+      { n:"Poe Dameron",         t:"p", seg:[[2,35]], bornApprox:true, diedApprox:true,
+        desc:"Il miglior pilota della Resistenza, figlio di veterani di Endor. Diventa generale nella battaglia di Exegol. Vivo al termine della saga.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Poe_Dameron"}] },
+      { n:"Qui-Gon Jinn",        t:"p", seg:[[-92,-32]], bornApprox:true,
+        desc:"Maestro Jedi non ortodosso, allievo di Dooku e mentore di Obi-Wan. Scopritore di Anakin Skywalker. Ucciso da Darth Maul su Naboo (32 BBY, TPM).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Qui-Gon_Jinn"}] },
+      { n:"R2-D2",               t:"p", seg:[[-32,35]], bornApprox:true, diedApprox:true,
+        desc:"Astromeccanico irriverente e fedele. Compagno di Anakin, poi di Luke e Leia. Data di costruzione incerta — attivo almeno dal tempo della crisi di Naboo (32 BBY).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/R2-D2"}] },
+      { n:"Rey",                 t:"p", seg:[[15,35]], diedApprox:true,
+        desc:"Figlia di un clone di Palpatine, cresciuta sola su Jakku. Ultima Jedi, sconfigge definitivamente il nonno su Exegol. Si proclama Rey Skywalker. Viva al termine.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Rey"}] },
+      { n:"Sabine Wren",         t:"p", seg:[[-21,9]], diedApprox:true,
+        desc:"Mandaloriana, artista e membro del Ghost Crew. Portatrice del Darksaber. Apprendista di Ahsoka. Ultima vista ~9 ABY (Ahsoka S1). Destino sconosciuto.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Sabine_Wren"}] },
+      { n:"Thrawn",              t:"p", seg:[[-11,9]], bornApprox:true, diedApprox:true,
+        desc:"Grande Ammiraglio Chiss, stratega supremo dell'Impero. Prima comparsa: ~11 BBY (Rebels). Portato nell'ignoto con Ezra. Vivo ~9 ABY (Ahsoka S1). Destino incerto.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Mitth%27raw%27nuruodo"}] },
+      { n:"Yoda",                t:"p", seg:[[-896,4]],
+        desc:"Gran Maestro dell'Ordine Jedi per oltre 800 anni. Maestro di Dooku e poi di Luke Skywalker. Muore serenamente a Dagobah a 900 anni (4 ABY, ROTJ).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Yoda"}] },
     ];
 
     // ── Groups & colors ──────────────────────────────────────────────────────
@@ -393,12 +516,14 @@
       { t:"v", label:"NOVELS  (selection)",              color:"#c077d4" },
       { t:"g", label:"VIDEO GAMES  (selection)",         color:"#e09830" },
       { t:"s", label:"SOFT CANON  (Legends ref. in canon)", color:"#c8a060" },
+      { t:"p", label:"PERSONAGGI  (nascita → morte)",      color:"#e87090" },
     ];
     const TC = {
       f:{bar:"#f5c030",dim:"#b08820"}, a:{bar:"#38b4f0",dim:"#2888b8"},
       l:{bar:"#f07248",dim:"#b05030"}, c:{bar:"#6dc87a",dim:"#408850"},
       v:{bar:"#c077d4",dim:"#8040a0"}, g:{bar:"#e09830",dim:"#a06820"},
       s:{bar:"#c8a060",dim:"#806030"},
+      p:{bar:"#e87090",dim:"#b04060"},
     };
 
     const LW=222, RH=28, AH=58;
@@ -467,7 +592,8 @@
       const setDone   = (name, val) => setUserdata(u => ({...u, [name]: {...(u[name]||{}), done: val}}));
       const setRating = (name, val) => setUserdata(u => ({...u, [name]: {...(u[name]||{}), rating: val}}));
 
-      const watchedCount = DATA.filter(d => userdata[d.n]?.done).length;
+      const MEDIA = DATA.filter(d => d.t !== 'p');
+      const watchedCount = MEDIA.filter(d => userdata[d.n]?.done).length;
 
       const toggleCollapse = t => setCollapsed(s=>{ const n=new Set(s); n.has(t)?n.delete(t):n.add(t); return n; });
 
@@ -632,7 +758,7 @@
             </div>
             <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0,paddingTop:6,flexWrap:"wrap"}}>
               {/* Watched counter */}
-              <span style={{fontSize:9.5,color:T.textDim,letterSpacing:".05em",marginRight:4}}>{watchedCount} / {DATA.length} watched</span>
+              <span style={{fontSize:9.5,color:T.textDim,letterSpacing:".05em",marginRight:4}}>{watchedCount} / {MEDIA.length} watched</span>
               <div style={{width:1,height:20,background:T.border,margin:"0 2px"}}/>
               {/* Theme toggle */}
               <button onClick={()=>setTheme(isDark?'light':'dark')}
@@ -681,6 +807,14 @@
                 {g.label.split("(")[0].trim()}
               </span>
             ))}
+            <span style={{display:"flex",alignItems:"center",gap:6,fontSize:9.5,color:T.textFaint}}>
+              <svg width={22} height={12} style={{flexShrink:0}}>
+                <polygon points="0,1 7,6 0,11" fill="#e87090" opacity={0.6}/>
+                <rect x={7} y={1} width={8} height={10} rx={2} fill="#e87090" opacity={0.7}/>
+                <polygon points={`22,1 15,6 22,11`} fill="#e87090" opacity={0.6}/>
+              </svg>
+              <span>frecce sui personaggi = <span style={{color:"#e87090"}}>data incerta / ancora in vita</span></span>
+            </span>
             <span style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
               <span style={{display:"flex",alignItems:"center",gap:6,fontSize:9.5,color:T.textFaint}}>
                 <svg width={18} height={12} style={{flexShrink:0}}>
@@ -792,12 +926,18 @@
                       ))}
                       {row.seg.map((s,si)=>{
                         const bx=px(s[0]),bw=Math.max(5,px(s[1])-px(s[0])),bh=RH-10,by=ry+5,lbl=row.lbl?.[si];
+                        const isFirst=si===0, isLast=si===row.seg.length-1;
+                        const showBornMark  = row.bornApprox  && isFirst;
+                        const showDiedMark  = row.diedApprox  && isLast;
+                        const barOpacity    = isActive?0.98:isScrub?0.95:row.t==="s"?0.70:0.85;
                         return(<g key={si}>
                           <rect x={bx+1} y={by+2} width={bw} height={bh} rx={3} fill="#000" opacity={.4}/>
-                          <rect x={bx} y={by} width={bw} height={bh} rx={3} fill={c.bar} opacity={isActive?0.98:isScrub?0.95:row.t==="s"?0.70:0.85}/>
+                          <rect x={bx} y={by} width={bw} height={bh} rx={3} fill={c.bar} opacity={barOpacity}/>
                           {row.t==="s"&&<rect x={bx} y={by} width={bw} height={bh} rx={3} fill="none" stroke={c.bar} strokeWidth={1} strokeDasharray="4,3" opacity={0.6}/>}
                           <rect x={bx} y={by} width={bw} height={Math.min(5,bh*.3)} rx={3} fill="rgba(255,255,255,.25)" style={{pointerEvents:"none"}}/>
                           {lbl&&bw>24&&<text x={bx+bw/2} y={by+bh/2+3.5} textAnchor="middle" fill="rgba(0,0,0,.85)" fontSize={6.5} fontFamily="DM Mono,monospace" fontWeight="500" style={{pointerEvents:"none"}}>{lbl}</text>}
+                          {showBornMark&&<polygon points={`${bx-1},${by} ${bx-8},${by+bh/2} ${bx-1},${by+bh}`} fill={c.bar} opacity={barOpacity*0.7} style={{pointerEvents:"none"}}/>}
+                          {showDiedMark&&<polygon points={`${bx+bw+1},${by} ${bx+bw+8},${by+bh/2} ${bx+bw+1},${by+bh}`} fill={c.bar} opacity={barOpacity*0.7} style={{pointerEvents:"none"}}/>}
                         </g>);
                       })}
                     </g>
@@ -854,7 +994,7 @@
                     {d.desc&&<div style={{fontSize:11.5,color:isDark?"#a0a8c0":"#3a3a60",lineHeight:1.7,marginBottom:16,fontStyle:"normal"}}>{d.desc}</div>}
 
                     {/* Watched + Rating */}
-                    <div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:14}}>
+                    {d.t!=="p"&&<div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:14}}>
                       <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:10}}>MY STATUS</div>
                       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
                         <label style={{display:"flex",alignItems:"center",gap:7,cursor:"pointer",fontSize:11,color:ud.done?"#6dc87a":T.textDim,userSelect:"none"}}
@@ -876,7 +1016,7 @@
                         ))}
                         {rating>0&&<span style={{fontSize:10,color:T.textDim,marginLeft:2}}>{rating}/5</span>}
                       </div>
-                    </div>
+                    </div>}
 
                     {/* Before / After */}
                     {(d.before||d.after)&&<div style={{borderTop:`1px solid ${T.borderPanel}`,paddingTop:14,marginBottom:14}}>
@@ -908,7 +1048,7 @@
                     </div>}
                     {/* Timeline segments */}
                     <div style={{marginBottom:d.seasons?16:0}}>
-                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>TIMELINE</div>
+                      <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>{d.t==="p"?"LIFESPAN":"TIMELINE"}</div>
                       {d.seg.map((s,i)=>(
                         <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
                           <div style={{width:3,height:18,borderRadius:2,flexShrink:0,marginTop:1,background:ti.color,opacity:.8}}/>

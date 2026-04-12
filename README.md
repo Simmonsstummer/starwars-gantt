@@ -1,6 +1,6 @@
 # Star Wars Canonical Timeline Gantt
 
-An interactive Gantt chart visualizing the complete Star Wars canon timeline (BBY/ABY), covering all major media: films, animated series, live-action series, comics, novels, video games, and Legends soft-canon references.
+An interactive Gantt chart visualizing the complete Star Wars canon timeline (BBY/ABY), covering all major media: films, animated series, live-action series, comics, novels, video games, Legends soft-canon references, and character lifespans.
 
 ![Star Wars Timeline](https://img.shields.io/badge/Star%20Wars-Canon%20Timeline-f5c030?style=flat&labelColor=090910)
 ![React](https://img.shields.io/badge/React-18-38b4f0?style=flat&labelColor=090910)
@@ -15,11 +15,12 @@ An interactive Gantt chart visualizing the complete Star Wars canon timeline (BB
 - **3-zone non-linear scale** — ultra-compressed before 392 BBY (Old Republic era), compressed between 392–30 BBY (High Republic era), expanded for the main saga
 - **Scale-break indicators** — zigzag lines mark where the scale changes, with legend explaining the compression factor
 - **Split bars** — broken bars with dashed connectors show temporal jumps within the same series (e.g. Clone Wars, Andor S2)
-- **7 media categories** — films, animated series, live-action, comics, novels, video games, and soft canon (Legends references in Disney canon)
+- **8 categories** — films, animated series, live-action, comics, novels, video games, soft canon (Legends references in Disney canon), and **character lifespans**
 - **Collapsible categories** — click any category header to collapse/expand its rows; expand-all / collapse-all buttons in the label header
 - **Era backgrounds** — color-coded bands for High Republic, Fall of the Republic, Imperial Era, Rebellion, New Republic, Rise of the First Order
+- **Character lifespans** — dedicated section showing 34 major characters (including droids) as birth-to-death bars; triangular arrowheads mark uncertain/approximate dates; scrubber shows who is alive at any given year
 - **Side panel** — click any row to pin a detail panel showing: spoiler-free description, release date, era, timeline segments, seasons/arcs, canonical notes, source links, watch order (before/after), personal completion checkbox, and 5-star rating
-- **Scrubber line** — move the mouse over the chart to see what media is active at any point in time; click to lock the scrubber and get a list of active titles at that exact year
+- **Scrubber line** — move the mouse over the chart to see what media and characters are active at any point in time; click to lock the scrubber and get a list at that exact year
 - **Connection lines** — toggleable SVG bezier arcs linking related/sequential media across the chart (Links on/off button)
 - **Personal tracking** — completion status and star rating saved per-title in localStorage; watched counter in header
 - **Light/dark mode** — toggle between dark (default) and light themes; preference persisted in localStorage
@@ -38,9 +39,10 @@ An interactive Gantt chart visualizing the complete Star Wars canon timeline (BB
 | Animated | Clone Wars, Rebels, Bad Batch, Resistance, Tales of the Jedi, Tales of the Empire, Tales of the Underworld, Maul: Shadow Lord, Young Jedi Adventures, The Acolyte |
 | Live-action | Mandalorian, Andor (S1+S2), Obi-Wan Kenobi, Ahsoka, Book of Boba Fett, Skeleton Crew |
 | Comics | High Republic (3 phases), Shadow of Maul, Darth Vader: Dark Lord, Doctor Aphra, Star Wars (Marvel 2015), War of the Bounty Hunters / Crimson Reign |
-| Novels | High Republic (3 phases), Ahsoka, Thrawn, Lost Stars, Aftermath, Alphabet Squadron |
-| Video games | Jedi: Fallen Order, Jedi: Survivor, Star Wars Outlaws, Battlefront II (story mode) |
+| Novels | High Republic (3 phases), Ahsoka, Master & Apprentice, Thrawn, Lost Stars, Aftermath, Alphabet Squadron, Bloodline |
+| Video games | Jedi: Fallen Order, Jedi: Survivor, Star Wars Outlaws, Star Wars Squadrons, Battlefront II (story mode) |
 | Soft Canon | KOTOR I & II, The Old Republic (MMO), Republic Commando, The Force Unleashed I+II, Shadows of the Empire |
+| Characters | 34 major characters — lifespan bars (birth → death) with uncertainty markers (◂▸) for approximate or unknown dates |
 
 ### Season / arc breakdowns
 
