@@ -564,6 +564,7 @@
       const dragMoved     = useRef(false);
       const chartRef      = useRef(null);
       const svgRef        = useRef(null);
+      const rulerSvgRef   = useRef(null);
       const pendingScroll = useRef(null);
 
       const isDark = theme === 'dark';
@@ -620,7 +621,7 @@
         const full=`<svg xmlns="http://www.w3.org/2000/svg" width="${totalW}" height="${CH}">
           <rect width="${totalW}" height="${CH}" fill="${T.bg}"/>
           ${lbl}
-          <g transform="translate(${LW},0)">${svgRef.current.innerHTML}</g>
+          <g transform="translate(${LW},0)">${rulerSvgRef.current.innerHTML}<g transform="translate(0,${AH})">${svgRef.current.innerHTML}</g></g>
         </svg>`;
         const url=URL.createObjectURL(new Blob([full],{type:"image/svg+xml;charset=utf-8"}));
         const img=new Image();
@@ -725,9 +726,9 @@
             const di = ROWS.findIndex(r => r.kind==="E" && r.n===name);
             if(di===-1) return;
             const x1 = px(d.seg[d.seg.length-1][1]);
-            const y1 = AH + si*RH + RH/2;
+            const y1 = si*RH + RH/2;
             const x2 = px(target.seg[0][0]);
-            const y2 = AH + di*RH + RH/2;
+            const y2 = di*RH + RH/2;
             // Route arc to the RIGHT of both endpoints so it's always visible
             const bulge = Math.max(x1, x2) + Math.max(40, Math.abs(y2-y1)*0.25);
             connectionLines.push({x1,y1,x2,y2,bulge,key:`${d.n}->${name}`});
@@ -744,7 +745,7 @@
       });
 
       return (
-        <div style={{minHeight:"100vh",background:T.bg,fontFamily:"'DM Mono','Fira Mono','Courier New',monospace",color:T.text,userSelect:"none"}}>
+        <div style={{height:"100vh",overflow:"hidden",display:"flex",flexDirection:"column",background:T.bg,fontFamily:"'DM Mono','Fira Mono','Courier New',monospace",color:T.text,userSelect:"none"}}>
           <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap'); a{transition:color .15s;}`}</style>
 
           {/* ── Header ── */}
@@ -832,13 +833,14 @@
           </div>
 
           {/* ── Chart + Panel ── */}
-          <div style={{display:"flex"}}>
-            <div ref={chartRef} style={{flex:1,minWidth:0,display:"flex",overflowX:"auto",cursor:isDragging?"grabbing":"grab"}}
+          <div style={{display:"flex",flex:1,minHeight:0,overflow:"hidden"}}>
+            <div ref={chartRef} style={{flex:1,minWidth:0,display:"flex",flexDirection:"column",overflow:"auto",cursor:isDragging?"grabbing":"grab"}}
               onMouseDown={onChartMouseDown} onMouseMove={onChartMouseMove}>
 
-              {/* Sticky labels */}
-              <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:T.bg,borderRight:`1px solid ${T.border}`}}>
-                <div style={{height:AH,background:T.bgSurface,borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"flex-end",justifyContent:"space-between",paddingBottom:8,paddingLeft:12,paddingRight:8}}>
+              {/* ── Ruler row (sticky top) ── */}
+              <div style={{position:"sticky",top:0,zIndex:5,display:"flex",flexShrink:0}}>
+                {/* Labels header */}
+                <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:T.bgSurface,borderRight:`1px solid ${T.border}`,borderBottom:`1px solid ${T.border}`,height:AH,display:"flex",alignItems:"flex-end",justifyContent:"space-between",paddingBottom:8,paddingLeft:12,paddingRight:8}}>
                   <span style={{fontSize:8,color:T.textFaint,letterSpacing:".2em"}}>TITLE</span>
                   <div style={{display:"flex",gap:4}}>
                     {[["▾","expand all",()=>setCollapsed(new Set())],["▸","collapse all",()=>setCollapsed(new Set(GROUPS.map(g=>g.t)))]].map(([icon,title,fn])=>(
@@ -850,129 +852,149 @@
                     ))}
                   </div>
                 </div>
-                {ROWS.map((row,i)=>(
-                  <div key={i}
-                    onClick={e=>{ if(dragMoved.current)return; row.kind==="H"?toggleCollapse(row.t):togglePin(row.n); }}
-                    style={{height:RH,display:"flex",alignItems:"center",gap:5,
-                      paddingLeft:row.kind==="H"?8:14,paddingRight:6,
-                      background:row.kind==="H"?T.bgRowH:pinned===row.n?(isDark?"#181838":"#d8d8f8"):hov===row.n?(isDark?"#131330":"#e0e0f4"):"transparent",
-                      borderBottom:`1px solid ${T.borderFaint}`,
-                      borderLeft:pinned===row.n?"3px solid "+(TC[row.t]?.bar??"#fff"):row.kind==="H"?"3px solid "+row.C:"3px solid transparent",
-                      color:row.kind==="H"?row.C:(pinned===row.n||hov===row.n)?(isDark?"#ffffff":"#0a0a2e"):row.t==="s"?"#c8a060bb":T.text,
-                      fontSize:row.kind==="H"?9.5:11,fontWeight:row.kind==="H"?700:300,
-                      fontStyle:row.t==="s"&&row.kind==="E"?"italic":"normal",
-                      letterSpacing:row.kind==="H"?".12em":".02em",
-                      whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",
-                      transition:"color .1s, background .1s",cursor:"pointer"}}
-                  >
-                    {row.kind==="H"&&(
-                      <span style={{fontSize:8,opacity:0.7,flexShrink:0,transition:"transform .15s",
-                        display:"inline-block",transform:collapsed.has(row.t)?"rotate(-90deg)":"rotate(0deg)"}}>▾</span>
-                    )}
-                    <span style={{overflow:"hidden",textOverflow:"ellipsis",flex:1}}>{row.kind==="H"?row.label:row.n}</span>
-                    {row.kind==="E"&&userdata[row.n]?.done&&(
-                      <span style={{fontSize:9,color:"#6dc87a",flexShrink:0,marginLeft:2}}>✓</span>
-                    )}
-                  </div>
-                ))}
+                {/* Ruler SVG */}
+                <svg ref={rulerSvgRef} width={CW} height={AH} style={{display:"block",flexShrink:0}}>
+                  {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={AH} fill={e.bg}/>)}
+                  {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={AH} stroke="#2a2a50" strokeWidth={1}/>)}
+                  {[BREAK2,BREAK].map((brk,bi)=>{
+                    const bx=px(brk),pts=[];
+                    for(let y=0;y<AH;y+=5)pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
+                    return<polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none"/>;
+                  })}
+                  {ERAS.map((e,i)=>(
+                    <text key={i} x={(px(e.s)+px(e.e))/2} y={16} textAnchor="middle"
+                      fill={e.color} fillOpacity={0.6} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
+                    >{e.name}</text>
+                  ))}
+                  {[[BREAK2,"×"+(S_EARLY/S_ULTRA).toFixed(0)+"× COMPRESSED"],[BREAK,"×"+(S_MAIN/S_EARLY).toFixed(0)+"× EXPANDED"]].map(([brk,lbl],bi)=>(
+                    <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill="#505090" fontSize={6}
+                      fontFamily="DM Mono,monospace" transform={`rotate(-90,${px(brk)-5},${AH/2+4})`}
+                    >{lbl}</text>
+                  ))}
+                  <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke="#303050"/>
+                  {TICKS.map(({y,lo})=>{
+                    const x=px(y),ty=lo?AH-11:AH-24;
+                    return(<g key={y}>
+                      <line x1={x} y1={AH-9} x2={x} y2={AH} stroke="#6060a0" strokeWidth={1.5}/>
+                      <text x={x} y={ty} textAnchor="middle" fill={y===0?"#f0d030":"#9898d0"}
+                        fontSize={y===0?9:8} fontWeight={y===0?"500":"300"} fontFamily="DM Mono,monospace"
+                      >{yl(y)}</text>
+                    </g>);
+                  })}
+                  {displayScrubX!=null&&(()=>{
+                    const lbl=yearLbl(displayYear),tw=lbl.length*6.2+14,lxC=Math.min(Math.max(displayScrubX-tw/2,2),CW-tw-2);
+                    return(<g style={{pointerEvents:"none"}}>
+                      <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={AH} stroke={scrubLocked?"#f5c030":"#aaaadd"} strokeWidth={scrubLocked?1.5:1} strokeDasharray={scrubLocked?"none":"4,3"} strokeOpacity={scrubLocked?0.9:0.7}/>
+                      <rect x={lxC} y={AH-27} width={tw} height={18} rx={4} fill={scrubLocked?"#302000":"#101020"} stroke={scrubLocked?"#f5c030":"#6060a0"} strokeWidth={1} opacity={0.95}/>
+                      <text x={lxC+tw/2} y={AH-14} textAnchor="middle" fill={scrubLocked?"#f5d050":"#c0c0f0"} fontSize={8.5} fontFamily="DM Mono,monospace">{lbl}</text>
+                    </g>);
+                  })()}
+                </svg>
               </div>
 
-              {/* SVG */}
-              <svg ref={svgRef} width={CW} height={CH}
-                style={{display:"block",flexShrink:0,cursor:isDragging?"grabbing":"crosshair"}}
-                onMouseMove={onSvgMouseMove} onMouseLeave={onSvgMouseLeave} onClick={onSvgClick}
-              >
-                {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH} fill={e.bg}/>)}
-                {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH} stroke="#2a2a50" strokeWidth={1}/>)}
-                {[BREAK2,BREAK].map((brk,bi)=>{
-                  const bx=px(brk),pts=[];
-                  for(let y=0;y<CH;y+=5)pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
-                  return<polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none"/>;
-                })}
-                {ERAS.map((e,i)=>(
-                  <text key={i} x={(px(e.s)+px(e.e))/2} y={16} textAnchor="middle"
-                    fill={e.color} fillOpacity={0.6} fontSize={8.5} fontFamily="DM Mono,monospace" letterSpacing=".13em"
-                  >{e.name}</text>
-                ))}
-                {[[BREAK2,"×"+(S_EARLY/S_ULTRA).toFixed(0)+"× COMPRESSED"],[BREAK,"×"+(S_MAIN/S_EARLY).toFixed(0)+"× EXPANDED"]].map(([brk,lbl],bi)=>(
-                  <text key={bi} x={px(brk)-5} y={AH/2+4} textAnchor="end" fill="#505090" fontSize={6}
-                    fontFamily="DM Mono,monospace" transform={`rotate(-90,${px(brk)-5},${AH/2+4})`}
-                  >{lbl}</text>
-                ))}
-                <line x1={0} y1={AH-1} x2={CW} y2={AH-1} stroke="#303050"/>
-                {TICKS.map(({y,lo})=>{
-                  const x=px(y),ty=lo?AH-11:AH-24;
-                  return(<g key={y}>
-                    <line x1={x} y1={AH-9} x2={x} y2={AH} stroke="#6060a0" strokeWidth={1.5}/>
-                    <text x={x} y={ty} textAnchor="middle" fill={y===0?"#f0d030":"#9898d0"}
-                      fontSize={y===0?9:8} fontWeight={y===0?"500":"300"} fontFamily="DM Mono,monospace"
-                    >{yl(y)}</text>
-                    <line x1={x} y1={AH} x2={x} y2={CH} stroke={y===0?"#585820":"#1e1e38"} strokeWidth={y===0?1.5:1}/>
-                  </g>);
-                })}
-                <line x1={px(0)} y1={AH} x2={px(0)} y2={CH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
+              {/* ── Rows area ── */}
+              <div style={{display:"flex",flexShrink:0}}>
+                {/* Sticky labels column */}
+                <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:T.bg,borderRight:`1px solid ${T.border}`}}>
+                  {ROWS.map((row,i)=>(
+                    <div key={i}
+                      onClick={e=>{ if(dragMoved.current)return; row.kind==="H"?toggleCollapse(row.t):togglePin(row.n); }}
+                      style={{height:RH,display:"flex",alignItems:"center",gap:5,
+                        paddingLeft:row.kind==="H"?8:14,paddingRight:6,
+                        background:row.kind==="H"?T.bgRowH:pinned===row.n?(isDark?"#181838":"#d8d8f8"):hov===row.n?(isDark?"#131330":"#e0e0f4"):"transparent",
+                        borderBottom:`1px solid ${T.borderFaint}`,
+                        borderLeft:pinned===row.n?"3px solid "+(TC[row.t]?.bar??"#fff"):row.kind==="H"?"3px solid "+row.C:"3px solid transparent",
+                        color:row.kind==="H"?row.C:(pinned===row.n||hov===row.n)?(isDark?"#ffffff":"#0a0a2e"):row.t==="s"?"#c8a060bb":T.text,
+                        fontSize:row.kind==="H"?9.5:11,fontWeight:row.kind==="H"?700:300,
+                        fontStyle:row.t==="s"&&row.kind==="E"?"italic":"normal",
+                        letterSpacing:row.kind==="H"?".12em":".02em",
+                        whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",
+                        transition:"color .1s, background .1s",cursor:"pointer"}}
+                    >
+                      {row.kind==="H"&&(
+                        <span style={{fontSize:8,opacity:0.7,flexShrink:0,transition:"transform .15s",
+                          display:"inline-block",transform:collapsed.has(row.t)?"rotate(-90deg)":"rotate(0deg)"}}>▾</span>
+                      )}
+                      <span style={{overflow:"hidden",textOverflow:"ellipsis",flex:1}}>{row.kind==="H"?row.label:row.n}</span>
+                      {row.kind==="E"&&userdata[row.n]?.done&&(
+                        <span style={{fontSize:9,color:"#6dc87a",flexShrink:0,marginLeft:2}}>✓</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
-                {ROWS.map((row,i)=>{
-                  const ry=AH+i*RH;
-                  if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill={T.bgRowH}/>;
-                  const c=TC[row.t],isActive=(pinned??hov)===row.n,isScrub=displayYear!=null&&row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
-                  return(
-                    <g key={i} onMouseEnter={()=>setHov(row.n)} onMouseLeave={()=>setHov(null)}
-                      onClick={e=>{e.stopPropagation();if(!dragMoved.current)togglePin(row.n);}} style={{cursor:"pointer"}}>
-                      <rect x={0} y={ry} width={CW} height={RH} fill={isActive?(isDark?"#161640":"#c8c8f0"):isScrub?(isDark?"#121228":"#d0d0f0"):i%2===0?T.bgRowEven:T.bgRowBase}/>
-                      {row.seg.slice(1).map((s,si)=>(
-                        <line key={si} x1={px(row.seg[si][1])} y1={ry+RH/2} x2={px(s[0])} y2={ry+RH/2}
-                          stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4"/>
-                      ))}
-                      {row.seg.map((s,si)=>{
-                        const bx=px(s[0]),bw=Math.max(5,px(s[1])-px(s[0])),bh=RH-10,by=ry+5,lbl=row.lbl?.[si];
-                        const isFirst=si===0, isLast=si===row.seg.length-1;
-                        const showBornMark  = row.bornApprox  && isFirst;
-                        const showDiedMark  = row.diedApprox  && isLast;
-                        const barOpacity    = isActive?0.98:isScrub?0.95:row.t==="s"?0.70:0.85;
-                        return(<g key={si}>
-                          <rect x={bx+1} y={by+2} width={bw} height={bh} rx={3} fill="#000" opacity={.4}/>
-                          <rect x={bx} y={by} width={bw} height={bh} rx={3} fill={c.bar} opacity={barOpacity}/>
-                          {row.t==="s"&&<rect x={bx} y={by} width={bw} height={bh} rx={3} fill="none" stroke={c.bar} strokeWidth={1} strokeDasharray="4,3" opacity={0.6}/>}
-                          <rect x={bx} y={by} width={bw} height={Math.min(5,bh*.3)} rx={3} fill="rgba(255,255,255,.25)" style={{pointerEvents:"none"}}/>
-                          {lbl&&bw>24&&<text x={bx+bw/2} y={by+bh/2+3.5} textAnchor="middle" fill="rgba(0,0,0,.85)" fontSize={6.5} fontFamily="DM Mono,monospace" fontWeight="500" style={{pointerEvents:"none"}}>{lbl}</text>}
-                          {showBornMark&&<polygon points={`${bx-1},${by} ${bx-8},${by+bh/2} ${bx-1},${by+bh}`} fill={c.bar} opacity={barOpacity*0.7} style={{pointerEvents:"none"}}/>}
-                          {showDiedMark&&<polygon points={`${bx+bw+1},${by} ${bx+bw+8},${by+bh/2} ${bx+bw+1},${by+bh}`} fill={c.bar} opacity={barOpacity*0.7} style={{pointerEvents:"none"}}/>}
-                        </g>);
-                      })}
+                {/* Rows SVG */}
+                <svg ref={svgRef} width={CW} height={CH-AH}
+                  style={{display:"block",flexShrink:0,cursor:isDragging?"grabbing":"crosshair"}}
+                  onMouseMove={onSvgMouseMove} onMouseLeave={onSvgMouseLeave} onClick={onSvgClick}
+                >
+                  {ERAS.map((e,i)=><rect key={i} x={px(e.s)} y={0} width={px(e.e)-px(e.s)} height={CH-AH} fill={e.bg}/>)}
+                  {ERAS.slice(1).map((e,i)=><line key={i} x1={px(e.s)} y1={0} x2={px(e.s)} y2={CH-AH} stroke="#2a2a50" strokeWidth={1}/>)}
+                  {[BREAK2,BREAK].map((brk,bi)=>{
+                    const bx=px(brk),pts=[];
+                    for(let y=0;y<CH-AH;y+=5)pts.push(`${bx+(y%10<5?2.5:-2.5)},${y}`);
+                    return<polyline key={bi} points={pts.join(" ")} stroke="#383878" strokeWidth={2} fill="none"/>;
+                  })}
+                  {TICKS.map(({y})=>(
+                    <line key={y} x1={px(y)} y1={0} x2={px(y)} y2={CH-AH} stroke={y===0?"#585820":"#1e1e38"} strokeWidth={y===0?1.5:1}/>
+                  ))}
+                  <line x1={px(0)} y1={0} x2={px(0)} y2={CH-AH} stroke="#f5c03055" strokeWidth={1.5} strokeDasharray="2,7"/>
+
+                  {ROWS.map((row,i)=>{
+                    const ry=i*RH;
+                    if(row.kind==="H")return<rect key={i} x={0} y={ry} width={CW} height={RH} fill={T.bgRowH}/>;
+                    const c=TC[row.t],isActive=(pinned??hov)===row.n,isScrub=displayYear!=null&&row.seg.some(([a,b])=>displayYear>=a&&displayYear<=b);
+                    return(
+                      <g key={i} onMouseEnter={()=>setHov(row.n)} onMouseLeave={()=>setHov(null)}
+                        onClick={e=>{e.stopPropagation();if(!dragMoved.current)togglePin(row.n);}} style={{cursor:"pointer"}}>
+                        <rect x={0} y={ry} width={CW} height={RH} fill={isActive?(isDark?"#161640":"#c8c8f0"):isScrub?(isDark?"#121228":"#d0d0f0"):i%2===0?T.bgRowEven:T.bgRowBase}/>
+                        {row.seg.slice(1).map((s,si)=>(
+                          <line key={si} x1={px(row.seg[si][1])} y1={ry+RH/2} x2={px(s[0])} y2={ry+RH/2}
+                            stroke={c.dim} strokeWidth={1.5} strokeDasharray="3,4"/>
+                        ))}
+                        {row.seg.map((s,si)=>{
+                          const bx=px(s[0]),bw=Math.max(5,px(s[1])-px(s[0])),bh=RH-10,by=ry+5,lbl=row.lbl?.[si];
+                          const isFirst=si===0, isLast=si===row.seg.length-1;
+                          const showBornMark  = row.bornApprox  && isFirst;
+                          const showDiedMark  = row.diedApprox  && isLast;
+                          const barOpacity    = isActive?0.98:isScrub?0.95:row.t==="s"?0.70:0.85;
+                          return(<g key={si}>
+                            <rect x={bx+1} y={by+2} width={bw} height={bh} rx={3} fill="#000" opacity={.4}/>
+                            <rect x={bx} y={by} width={bw} height={bh} rx={3} fill={c.bar} opacity={barOpacity}/>
+                            {row.t==="s"&&<rect x={bx} y={by} width={bw} height={bh} rx={3} fill="none" stroke={c.bar} strokeWidth={1} strokeDasharray="4,3" opacity={0.6}/>}
+                            <rect x={bx} y={by} width={bw} height={Math.min(5,bh*.3)} rx={3} fill="rgba(255,255,255,.25)" style={{pointerEvents:"none"}}/>
+                            {lbl&&bw>24&&<text x={bx+bw/2} y={by+bh/2+3.5} textAnchor="middle" fill="rgba(0,0,0,.85)" fontSize={6.5} fontFamily="DM Mono,monospace" fontWeight="500" style={{pointerEvents:"none"}}>{lbl}</text>}
+                            {showBornMark&&<polygon points={`${bx-1},${by} ${bx-8},${by+bh/2} ${bx-1},${by+bh}`} fill={c.bar} opacity={barOpacity*0.7} style={{pointerEvents:"none"}}/>}
+                            {showDiedMark&&<polygon points={`${bx+bw+1},${by} ${bx+bw+8},${by+bh/2} ${bx+bw+1},${by+bh}`} fill={c.bar} opacity={barOpacity*0.7} style={{pointerEvents:"none"}}/>}
+                          </g>);
+                        })}
+                      </g>
+                    );
+                  })}
+                  <line x1={0} y1={CH-AH-1} x2={CW} y2={CH-AH-1} stroke={T.border}/>
+
+                  {/* Connection lines */}
+                  {connectionLines.map(({x1,y1,x2,y2,bulge,key})=>(
+                    <g key={key} style={{pointerEvents:"none"}}>
+                      <path d={`M ${x1},${y1} C ${bulge},${y1} ${bulge},${y2} ${x2},${y2}`}
+                        stroke="rgba(255,220,80,0.75)" strokeWidth={2} strokeDasharray="5,4" fill="none"/>
+                      <circle cx={x2} cy={y2} r={3.5} fill="rgba(255,220,80,0.9)"/>
                     </g>
-                  );
-                })}
-                <line x1={0} y1={CH-1} x2={CW} y2={CH-1} stroke={T.border}/>
+                  ))}
 
-                {/* Connection lines (above row backgrounds, below scrubber) */}
-                {connectionLines.map(({x1,y1,x2,y2,bulge,key})=>(
-                  <g key={key} style={{pointerEvents:"none"}}>
-                    <path d={`M ${x1},${y1} C ${bulge},${y1} ${bulge},${y2} ${x2},${y2}`}
-                      stroke="rgba(255,220,80,0.75)" strokeWidth={2} strokeDasharray="5,4" fill="none"/>
-                    <circle cx={x2} cy={y2} r={3.5} fill="rgba(255,220,80,0.9)"/>
-                  </g>
-                ))}
-
-                {displayScrubX!=null&&(
-                  <g style={{pointerEvents:"none"}}>
-                    <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH} stroke={scrubLocked?"#f5c030":"#ffffff"} strokeWidth={scrubLocked?8:6} strokeOpacity={0.06}/>
-                    <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH} stroke={scrubLocked?"#f5c030":"#aaaadd"} strokeWidth={scrubLocked?1.5:1} strokeDasharray={scrubLocked?"none":"4,3"} strokeOpacity={scrubLocked?0.9:0.7}/>
-                    {(()=>{
-                      const lbl=yearLbl(displayYear),tw=lbl.length*6.2+14,lxC=Math.min(Math.max(displayScrubX-tw/2,2),CW-tw-2);
-                      return(<>
-                        <rect x={lxC} y={AH-27} width={tw} height={18} rx={4} fill={scrubLocked?"#302000":"#101020"} stroke={scrubLocked?"#f5c030":"#6060a0"} strokeWidth={1} opacity={0.95}/>
-                        <text x={lxC+tw/2} y={AH-14} textAnchor="middle" fill={scrubLocked?"#f5d050":"#c0c0f0"} fontSize={8.5} fontFamily="DM Mono,monospace">{lbl}</text>
-                      </>);
-                    })()}
-                    {scrubLocked&&<circle cx={displayScrubX} cy={AH+6} r={4} fill="#f5c030" opacity={0.9}/>}
-                  </g>
-                )}
-              </svg>
+                  {displayScrubX!=null&&(
+                    <g style={{pointerEvents:"none"}}>
+                      <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH-AH} stroke={scrubLocked?"#f5c030":"#ffffff"} strokeWidth={scrubLocked?8:6} strokeOpacity={0.06}/>
+                      <line x1={displayScrubX} y1={0} x2={displayScrubX} y2={CH-AH} stroke={scrubLocked?"#f5c030":"#aaaadd"} strokeWidth={scrubLocked?1.5:1} strokeDasharray={scrubLocked?"none":"4,3"} strokeOpacity={scrubLocked?0.9:0.7}/>
+                      {scrubLocked&&<circle cx={displayScrubX} cy={6} r={4} fill="#f5c030" opacity={0.9}/>}
+                    </g>
+                  )}
+                </svg>
+              </div>
             </div>
 
             {/* ── Side panel ── */}
-            <div style={{width:panelMode?320:0,minWidth:panelMode?320:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:T.bgPanel,borderLeft:panelMode?`1px solid ${T.borderPanel}`:"none",flexShrink:0,position:"sticky",top:0,alignSelf:"flex-start",maxHeight:"100vh",overflowY:"auto"}}>
+            <div style={{width:panelMode?320:0,minWidth:panelMode?320:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:T.bgPanel,borderLeft:panelMode?`1px solid ${T.borderPanel}`:"none",flexShrink:0,overflowY:"auto"}}>
 
               {/* Row detail */}
               {panelMode==="row"&&rowDetail&&(()=>{
