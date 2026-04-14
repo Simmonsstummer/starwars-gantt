@@ -15,19 +15,22 @@ An interactive Gantt chart visualizing the complete Star Wars canon timeline (BB
 - **3-zone non-linear scale** — ultra-compressed before 392 BBY (Old Republic era), compressed between 392–30 BBY (High Republic era), expanded for the main saga
 - **Scale-break indicators** — zigzag lines mark where the scale changes, with legend explaining the compression factor
 - **Split bars** — broken bars with dashed connectors show temporal jumps within the same series (e.g. Clone Wars, Andor S2)
-- **8 categories** — films, animated series, live-action, comics, novels, video games, soft canon (Legends references in Disney canon), and **character lifespans**
+- **8 categories** — films, animated series, live-action, comics, novels, video games, soft canon (Legends references in Disney canon), and **character lifespans** (Characters category collapsed by default)
 - **Collapsible categories** — click any category header to collapse/expand its rows; expand-all / collapse-all buttons in the label header
 - **Era backgrounds** — color-coded bands for High Republic, Fall of the Republic, Imperial Era, Rebellion, New Republic, Rise of the First Order
-- **Character lifespans** — dedicated section showing 34 major characters (including droids) as birth-to-death bars; triangular arrowheads mark uncertain/approximate dates; scrubber shows who is alive at any given year
+- **Galactic events** — toggleable vertical dashed markers for key events (Order 66, Death Star destructions, Battle of Endor, Starkiller, Rule of Two, New Jedi Order founding, etc.), color-coded: red for wars/battles, indigo for historical/institutional milestones; hover/tap shows full description banner
+- **Character lifespans** — dedicated section showing 46 major characters (including droids and KOTOR-era Jedi: Revan, Malak, Bane) as birth-to-death bars; triangular arrowheads mark uncertain/approximate dates; lifespan in years shown next to death date when both dates are certain; scrubber shows who is alive at any given year
 - **Side panel** — click any row to pin a detail panel showing: spoiler-free description, release date, era, timeline segments, seasons/arcs, canonical notes, source links, watch order (before/after), personal completion checkbox, and 5-star rating
 - **Scrubber line** — move the mouse over the chart to see what media and characters are active at any point in time; click to lock the scrubber and get a list at that exact year
-- **Connection lines** — toggleable SVG bezier arcs linking related/sequential media across the chart (Links on/off button)
+- **Connection lines** — toggleable orthogonal step-path connectors linking related/sequential media across the chart (Links on/off button)
+- **Sticky timeline ruler** — year axis stays visible at the top while scrolling vertically through rows
 - **Personal tracking** — completion status and star rating saved per-title in localStorage; watched counter in header
 - **Light/dark mode** — toggle between dark (default) and light themes; preference persisted in localStorage
 - **PNG export** — export the full timeline as a high-resolution PNG image
 - **Drag to pan** — click and drag to scroll the timeline horizontally
 - **Ctrl+scroll to zoom** — zoom in/out with Ctrl+mouse wheel anchored at the cursor position; plain scroll moves the page normally
 - **Zoom buttons** — −/reset/+ buttons in the header for keyboard-free zoom control
+- **Mobile responsive** — under 760px width the app switches to a touch-optimized layout: compact header, hamburger menu with all controls, pinch-to-zoom, native touch pan, tap-to-reveal event banners, slide-up bottom sheet for detail panels, and a one-tap fullscreen+landscape button (Android). Desktop layout is preserved pixel-for-pixel.
 
 ---
 
@@ -42,7 +45,7 @@ An interactive Gantt chart visualizing the complete Star Wars canon timeline (BB
 | Novels | High Republic (3 phases), Ahsoka, Master & Apprentice, Thrawn, Lost Stars, Aftermath, Alphabet Squadron, Bloodline |
 | Video games | Jedi: Fallen Order, Jedi: Survivor, Star Wars Outlaws, Star Wars Squadrons, Battlefront II (story mode) |
 | Soft Canon | KOTOR I & II, The Old Republic (MMO), Republic Commando, The Force Unleashed I+II, Shadows of the Empire |
-| Characters | 34 major characters — lifespan bars (birth → death) with uncertainty markers (◂▸) for approximate or unknown dates |
+| Characters | 46 major characters — lifespan bars (birth → death) with uncertainty markers (◂▸) for approximate or unknown dates; includes Jedi Council members (Plo Koon, Ki-Adi-Mundi, Kit Fisto, Shaak Ti, Luminara, Aayla Secura, Depa Billaba), bounty hunters (Jango Fett), Sith Lords of the old era (Darth Bane), and KOTOR-era figures (Revan, Malak) |
 
 ### Season / arc breakdowns
 
