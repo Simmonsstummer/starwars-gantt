@@ -589,7 +589,7 @@
       p:{bar:"#e87090",dim:"#b04060"},
     };
 
-    const LW=222, RH=28, AH=58;
+    const RH=28, AH=58;
 
     const TICKS = [
       {y:-3956,lo:false},{y:-3640,lo:true},
@@ -623,6 +623,9 @@
       const [showLinks,setShowLinks]     = useState(false);
       const [showEvents,setShowEvents]   = useState(true);
       const [hoveredEvent,setHoveredEvent] = useState(null);
+      const [isMobile,setIsMobile]       = useState(() => typeof window!=='undefined' && window.matchMedia('(max-width: 760px)').matches);
+      const [menuOpen,setMenuOpen]       = useState(false);
+      const zoomRef                      = useRef(1);
       const [userdata,setUserdata]       = useState(() => { try { return JSON.parse(localStorage.getItem('sw-userdata')||'{}'); } catch(e){ return {}; } });
       const [theme,setTheme]             = useState(() => localStorage.getItem('sw-theme')||'dark');
       const dragStart     = useRef(null);
@@ -633,6 +636,34 @@
       const pendingScroll = useRef(null);
 
       const isDark = theme === 'dark';
+      const LW = isMobile ? 110 : 222;
+
+      useEffect(() => {
+        const mq = window.matchMedia('(max-width: 760px)');
+        const h = e => setIsMobile(e.matches);
+        if(mq.addEventListener) mq.addEventListener('change', h);
+        else if(mq.addListener) mq.addListener(h);
+        return () => {
+          if(mq.removeEventListener) mq.removeEventListener('change', h);
+          else if(mq.removeListener) mq.removeListener(h);
+        };
+      }, []);
+
+      useEffect(() => { zoomRef.current = zoom; }, [zoom]);
+
+      const goFullscreen = async () => {
+        const el = document.documentElement;
+        try {
+          if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (el.requestFullscreen) await el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+          }
+          if (screen.orientation && screen.orientation.lock) {
+            try { await screen.orientation.lock('landscape'); } catch(_) {}
+          }
+        } catch(_) {}
+        setMenuOpen(false);
+      };
 
       const T = {
         bg:          isDark ? '#06060f' : '#f5f5fa',
@@ -747,12 +778,53 @@
 
       useEffect(()=>{ const up=()=>setIsDragging(false); window.addEventListener("mouseup",up); return()=>window.removeEventListener("mouseup",up); },[]);
 
+      // Mobile: native touch scroll handles pan; we only add pinch-to-zoom
+      useEffect(() => {
+        if (!isMobile) return;
+        const el = chartRef.current;
+        if (!el) return;
+        let pinchDist = 0, startZoom = 1, startScrollLeft = 0, startMidX = 0;
+        const getDist = (a,b) => Math.hypot(a.clientX-b.clientX, a.clientY-b.clientY);
+        const onStart = e => {
+          if (e.touches.length === 2) {
+            const rect = el.getBoundingClientRect();
+            pinchDist = getDist(e.touches[0], e.touches[1]);
+            startZoom = zoomRef.current;
+            startScrollLeft = el.scrollLeft;
+            startMidX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+          }
+        };
+        const onMove = e => {
+          if (e.touches.length === 2 && pinchDist > 0) {
+            e.preventDefault();
+            const newDist = getDist(e.touches[0], e.touches[1]);
+            const newZ = Math.min(6, Math.max(0.3, +(startZoom * (newDist / pinchDist)).toFixed(3)));
+            const ratio = newZ / startZoom;
+            pendingScroll.current = startScrollLeft * ratio + startMidX * (ratio - 1);
+            setZoom(newZ);
+          }
+        };
+        const onEnd = () => { pinchDist = 0; };
+        el.addEventListener('touchstart', onStart, { passive: true });
+        el.addEventListener('touchmove', onMove, { passive: false });
+        el.addEventListener('touchend', onEnd);
+        el.addEventListener('touchcancel', onEnd);
+        return () => {
+          el.removeEventListener('touchstart', onStart);
+          el.removeEventListener('touchmove', onMove);
+          el.removeEventListener('touchend', onEnd);
+          el.removeEventListener('touchcancel', onEnd);
+        };
+      }, [isMobile]);
+
       const onChartMouseDown = e => {
+        if(isMobile)return;
         if(e.button!==0)return;
         dragMoved.current=false; setIsDragging(true);
         dragStart.current={clientX:e.clientX,scrollLeft:chartRef.current.scrollLeft};
       };
       const onChartMouseMove = e => {
+        if(isMobile)return;
         if(isDragging&&dragStart.current){
           const dx=e.clientX-dragStart.current.clientX;
           if(Math.abs(dx)>3)dragMoved.current=true;
@@ -766,6 +838,7 @@
       };
       const onSvgMouseLeave = ()=>{ if(!scrubLocked){setScrubX(null);setScrubYear(null);} };
       const onSvgClick = e => {
+        if(isMobile) setHoveredEvent(null);
         if(dragMoved.current)return;
         const r=svgRef.current.getBoundingClientRect(), x=e.clientX-r.left, y=invPx(x);
         if(scrubLocked&&Math.abs(x-px(lockedYear))<8){setScrubLocked(false);setLockedYear(null);}
@@ -815,11 +888,19 @@
           <div style={{padding:"20px 24px 10px",display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:16,flexWrap:"wrap",borderBottom:`1px solid ${T.border}`}}>
             <div>
               <div style={{fontSize:9,letterSpacing:".32em",color:"#f5c030",marginBottom:7,fontWeight:500}}>A LONG TIME AGO IN A GALAXY FAR, FAR AWAY…</div>
-              <h1 style={{margin:0,fontSize:22,fontWeight:300,letterSpacing:".07em",color:isDark?"#ffffff":"#0a0a1e"}}>Star Wars — Complete Canon Timeline</h1>
-              <p style={{margin:"6px 0 0",fontSize:11,color:T.textDim,lineHeight:1.7}}>
+              <h1 style={{margin:0,fontSize:isMobile?15:22,fontWeight:300,letterSpacing:".07em",color:isDark?"#ffffff":"#0a0a1e"}}>Star Wars — Complete Canon Timeline</h1>
+              {!isMobile && <p style={{margin:"6px 0 0",fontSize:11,color:T.textDim,lineHeight:1.7}}>
                 drag to pan &nbsp;·&nbsp; Ctrl+scroll to zoom &nbsp;·&nbsp; click chart to lock scrubber &nbsp;·&nbsp; click row to pin details &nbsp;·&nbsp; click category header to collapse
-              </p>
+              </p>}
             </div>
+            {isMobile ? (
+              <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+                <button onClick={goFullscreen} title="Fullscreen landscape"
+                  style={{...btnStyle(false),fontSize:14,padding:"4px 10px"}}>⛶</button>
+                <button onClick={()=>setMenuOpen(o=>!o)} title="Menu"
+                  style={{...btnStyle(menuOpen),fontSize:16,padding:"3px 10px"}}>☰</button>
+              </div>
+            ) : (
             <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0,paddingTop:6,flexWrap:"wrap"}}>
               {/* Watched counter */}
               <span style={{fontSize:9.5,color:T.textDim,letterSpacing:".05em",marginRight:4}}>{watchedCount} / {MEDIA.length} watched</span>
@@ -867,10 +948,45 @@
                 {exporting?"exporting…":"export PNG"}
               </button>
             </div>
+            )}
           </div>
 
+          {/* ── Mobile menu sheet ── */}
+          {isMobile && menuOpen && (
+            <div style={{position:"fixed",top:56,right:8,zIndex:100,background:T.bgPanel,border:`1px solid ${T.borderPanel}`,borderRadius:6,padding:12,display:"flex",flexDirection:"column",gap:8,minWidth:200,boxShadow:"0 8px 24px rgba(0,0,0,0.5)"}}>
+              <div style={{fontSize:9.5,color:T.textDim,letterSpacing:".05em",textAlign:"center",paddingBottom:4,borderBottom:`1px solid ${T.borderFaint}`}}>
+                {watchedCount} / {MEDIA.length} watched
+              </div>
+              <button onClick={()=>{setTheme(isDark?'light':'dark');}} style={{...btnStyle(false),padding:"8px 12px",textAlign:"left"}}>
+                {isDark?"☀ Light mode":"☾ Dark mode"}
+              </button>
+              <button onClick={()=>setShowLinks(s=>!s)} style={{...btnStyle(showLinks),padding:"8px 12px",textAlign:"left"}}>
+                {showLinks?"✓ Connections on":"○ Connections off"}
+              </button>
+              <button onClick={()=>setShowEvents(s=>!s)} style={{...btnStyle(showEvents),padding:"8px 12px",textAlign:"left"}}>
+                {showEvents?"✓ Events on":"○ Events off"}
+              </button>
+              <div style={{display:"flex",alignItems:"center",gap:6,paddingTop:4}}>
+                <span style={{fontSize:9,color:T.textFaint,letterSpacing:".1em",minWidth:38}}>ZOOM</span>
+                {[["−",z=>Math.max(0.3,+(z-0.25).toFixed(2))],["reset",()=>1],["+",z=>Math.min(6,+(z+0.25).toFixed(2))]].map(([l,fn])=>(
+                  <button key={l} onClick={()=>setZoom(fn)}
+                    style={{background:T.bgBtn,border:`1px solid ${T.border}`,color:T.textDim,fontSize:12,padding:"6px 10px",cursor:"pointer",borderRadius:4,fontFamily:"inherit",flex:l==="reset"?1:"none"}}
+                  >{l}</button>
+                ))}
+              </div>
+              <div style={{fontSize:10,color:T.textDim,textAlign:"center"}}>{Math.round(zoom*100)}%</div>
+              <button onClick={()=>{ exportPNG(); setMenuOpen(false); }} disabled={exporting}
+                style={{...btnStyle(false),padding:"8px 12px",textAlign:"left",opacity:exporting?0.6:1}}>
+                {exporting?"exporting…":"⬇ Export PNG"}
+              </button>
+              <button onClick={()=>setMenuOpen(false)} style={{...btnStyle(false),padding:"6px 12px",fontSize:9,letterSpacing:".15em",marginTop:4}}>
+                CLOSE ✕
+              </button>
+            </div>
+          )}
+
           {/* ── Legend ── */}
-          <div style={{display:"flex",gap:16,padding:"10px 24px",flexWrap:"wrap",alignItems:"center",borderBottom:`1px solid ${T.borderFaint}`}}>
+          {!isMobile && <div style={{display:"flex",gap:16,padding:"10px 24px",flexWrap:"wrap",alignItems:"center",borderBottom:`1px solid ${T.borderFaint}`}}>
             {GROUPS.map(g=>(
               <span key={g.t} style={{display:"flex",alignItems:"center",gap:7,fontSize:10.5,color:T.text}}>
                 <span style={{width:14,height:5,background:g.color,display:"inline-block",borderRadius:2,
@@ -900,7 +1016,7 @@
                 <span>scale break — left of zig-zag is <span style={{color:"#8080c0"}}>×{(S_MAIN/S_EARLY).toFixed(0)} compressed</span> (Old Republic era)</span>
               </span>
             </span>
-          </div>
+          </div>}
 
           {/* ── Chart + Panel ── */}
           <div style={{display:"flex",flex:1,minHeight:0,overflow:"hidden"}}>
@@ -957,8 +1073,12 @@
                       ? <polygon points={`${x},2 ${x+5},7 ${x},12 ${x-5},7`} fill={isHov?clr.hov:clr.base} opacity={0.95}/>
                       : <polygon points={`${x-5},2 ${x+5},2 ${x},10`} fill={isHov?clr.hov:clr.base} opacity={0.95}/>;
                     return(
-                      <g key={i} onMouseEnter={()=>setHoveredEvent(ev)} onMouseLeave={()=>setHoveredEvent(null)} style={{cursor:"help"}}>
-                        <rect x={x-8} y={0} width={16} height={AH} fill="transparent"/>
+                      <g key={i}
+                         onMouseEnter={!isMobile?()=>setHoveredEvent(ev):undefined}
+                         onMouseLeave={!isMobile?()=>setHoveredEvent(null):undefined}
+                         onClick={e=>{ if(isMobile){ e.stopPropagation(); setHoveredEvent(h=>h===ev?null:ev); } }}
+                         style={{cursor:"help"}}>
+                        <rect x={x-10} y={0} width={20} height={AH} fill="transparent"/>
                         <line x1={x} y1={0} x2={x} y2={AH} stroke={isHov?clr.hov:clr.base} strokeWidth={isHov?1.5:1} strokeDasharray="3,3" opacity={isHov?0.95:0.7}/>
                         {marker}
                       </g>
@@ -974,15 +1094,31 @@
                   })()}
                 </svg>
                 {showEvents&&hoveredEvent&&(()=>{
+                  const clr=EVT_CLR[hoveredEvent.k||"w"];
+                  const baseStyle = {
+                    background:(isDark?clr.bg:clr.bgLight)+"f2",border:`1px solid ${clr.base}`,borderRadius:4,
+                    padding:"10px 12px",pointerEvents:"auto",fontFamily:"DM Mono,monospace",
+                    boxShadow:"0 6px 18px rgba(0,0,0,0.45)",
+                  };
+                  if(isMobile){
+                    // Fixed banner so it always stays visible regardless of chart scroll
+                    return(
+                      <div onClick={()=>setHoveredEvent(null)} style={{...baseStyle,position:"fixed",top:56,left:8,right:8,zIndex:55}}>
+                        <div style={{fontSize:11,fontWeight:600,color:isDark?clr.title:clr.titleLight,letterSpacing:".04em",marginBottom:4}}>
+                          {yearLbl(hoveredEvent.y)} — {hoveredEvent.n}
+                        </div>
+                        <div style={{fontSize:10.5,color:isDark?clr.body:clr.bodyLight,lineHeight:1.5}}>
+                          {hoveredEvent.d}
+                        </div>
+                        <div style={{fontSize:8.5,color:isDark?clr.body:clr.bodyLight,opacity:0.6,marginTop:6,letterSpacing:".12em"}}>TAP TO DISMISS</div>
+                      </div>
+                    );
+                  }
                   const w=300, x=LW+px(hoveredEvent.y);
                   // Keep tooltip right of the sticky labels column so it's always in the foreground
                   const left=Math.min(Math.max(x-w/2,LW+8),LW+CW-w-8);
-                  const clr=EVT_CLR[hoveredEvent.k||"w"];
                   return(
-                    <div style={{position:"absolute",left,top:AH+4,width:w,padding:"10px 12px",
-                      background:(isDark?clr.bg:clr.bgLight)+"f2",border:`1px solid ${clr.base}`,borderRadius:4,
-                      zIndex:20,pointerEvents:"none",fontFamily:"DM Mono,monospace",
-                      boxShadow:"0 6px 18px rgba(0,0,0,0.45)"}}>
+                    <div style={{...baseStyle,position:"absolute",left,top:AH+4,width:w,zIndex:20,pointerEvents:"none"}}>
                       <div style={{fontSize:10.5,fontWeight:600,color:isDark?clr.title:clr.titleLight,letterSpacing:".05em",marginBottom:6}}>
                         {yearLbl(hoveredEvent.y)} — {hoveredEvent.n}
                       </div>
@@ -1109,7 +1245,14 @@
             </div>
 
             {/* ── Side panel ── */}
-            <div style={{width:panelMode?320:0,minWidth:panelMode?320:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:T.bgPanel,borderLeft:panelMode?`1px solid ${T.borderPanel}`:"none",flexShrink:0,overflowY:"auto"}}>
+            <div style={isMobile ? {
+              position:"fixed", bottom:0, left:0, right:0, maxHeight:"65vh",
+              transform: panelMode ? "translateY(0)" : "translateY(100%)",
+              transition: "transform .25s ease", zIndex:60,
+              background: T.bgPanel, borderTop: `1px solid ${T.borderPanel}`,
+              overflowY: "auto", boxShadow: "0 -6px 20px rgba(0,0,0,0.5)",
+              pointerEvents: panelMode ? "auto" : "none"
+            } : {width:panelMode?320:0,minWidth:panelMode?320:0,overflow:"hidden",transition:"width .2s ease, min-width .2s ease",background:T.bgPanel,borderLeft:panelMode?`1px solid ${T.borderPanel}`:"none",flexShrink:0,overflowY:"auto"}}>
 
               {/* Row detail */}
               {panelMode==="row"&&rowDetail&&(()=>{
