@@ -623,7 +623,8 @@
       const [showLinks,setShowLinks]     = useState(false);
       const [showEvents,setShowEvents]   = useState(true);
       const [hoveredEvent,setHoveredEvent] = useState(null);
-      const [isMobile,setIsMobile]       = useState(() => typeof window!=='undefined' && window.matchMedia('(max-width: 760px)').matches);
+      const MOBILE_MQ = '(max-width: 760px), (pointer: coarse) and (max-height: 500px)';
+      const [isMobile,setIsMobile]       = useState(() => typeof window!=='undefined' && window.matchMedia(MOBILE_MQ).matches);
       const [menuOpen,setMenuOpen]       = useState(false);
       const zoomRef                      = useRef(1);
       const [userdata,setUserdata]       = useState(() => { try { return JSON.parse(localStorage.getItem('sw-userdata')||'{}'); } catch(e){ return {}; } });
@@ -639,7 +640,7 @@
       const LW = isMobile ? 110 : 222;
 
       useEffect(() => {
-        const mq = window.matchMedia('(max-width: 760px)');
+        const mq = window.matchMedia(MOBILE_MQ);
         const h = e => setIsMobile(e.matches);
         if(mq.addEventListener) mq.addEventListener('change', h);
         else if(mq.addListener) mq.addListener(h);
