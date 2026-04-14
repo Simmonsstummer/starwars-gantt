@@ -48,21 +48,33 @@
     ];
 
     // ── Historical events (vertical markers) ─────────────────────────────────
+    // k: "w" = war/battle (red)   ·   "h" = historical/institutional (indigo)
     const EVENTS = [
-      { y: -3956, n: "Jedi Civil War",                d: "Revan and Malak's war against the Republic. The KOTOR-era conflict that defined the Old Republic." },
-      { y: -1032, n: "Battle of Ruusan",              d: "The Ruusan Reformation ends a millennium of Sith Wars. Darth Bane's Rule of Two begins in secret." },
-      { y:  -232, n: "Great Hyperspace Disaster",     d: "The destruction of the Legacy Run reveals the Nihil marauders and sparks the High Republic's greatest crisis." },
-      { y:   -32, n: "Invasion of Naboo",             d: "The Trade Federation blockade of Naboo — the Sith return from the shadows and the Skywalker saga begins." },
-      { y:   -22, n: "First Battle of Geonosis",      d: "The Clone Wars begin. The Grand Army of the Republic engages the Separatist droid army for the first time." },
-      { y:   -19, n: "Order 66 · Empire is Born",     d: "Clone troopers turn on the Jedi. The Republic is reorganized into the First Galactic Empire under Palpatine." },
-      { y:     0, n: "Destruction of the Death Star", d: "Battle of Yavin: Luke Skywalker destroys the Empire's first planet-killing superweapon. The zero-point of the galactic calendar." },
-      { y:     3, n: "Battle of Hoth",                d: "The Empire overruns Echo Base. The Rebellion scatters and Darth Vader hunts Luke Skywalker across the galaxy." },
-      { y:     4, n: "Battle of Endor",               d: "The second Death Star is destroyed. Emperor Palpatine and Darth Vader die. The Galactic Empire begins to collapse." },
-      { y:     5, n: "Battle of Jakku",               d: "The final stand of the Galactic Empire. The Galactic Concordance is signed and the New Republic is consolidated." },
-      { y:    34, n: "Hosnian Cataclysm",             d: "Starkiller Base destroys the Hosnian system — the New Republic capital, fleet, and Senate are annihilated in seconds." },
-      { y:  34.2, n: "Destruction of Starkiller Base",d: "Resistance pilots destroy the First Order's superweapon shortly after the Hosnian Cataclysm." },
-      { y:    35, n: "Battle of Exegol",              d: "The resurrected Emperor and the Final Order are destroyed. The Sith are ended; Rey takes the Skywalker name." },
+      { y: -3956, n: "Jedi Civil War",                 k:"w", d: "Revan and Malak's war against the Republic. The KOTOR-era conflict that defined the Old Republic." },
+      { y: -1032, n: "Battle of Ruusan",               k:"w", d: "The climactic battle of the New Sith Wars. The Jedi defeat the Brotherhood of Darkness; only Darth Bane survives." },
+      { y: -1000, n: "Rule of Two Established",        k:"h", d: "Darth Bane institutes the Rule of Two — only two Sith shall exist at any time, master and apprentice. The Sith vanish from galactic awareness and begin a thousand-year plot against the Jedi." },
+      { y:  -382, n: "Starlight Beacon Inaugurated",   k:"h", d: "The Republic and Jedi dedicate the Starlight Beacon in the Outer Rim — the defining symbol of the High Republic's golden age of peace and expansion." },
+      { y:  -232, n: "Great Hyperspace Disaster",      k:"w", d: "The destruction of the Legacy Run reveals the Nihil marauders and sparks the High Republic's greatest crisis." },
+      { y:   -32, n: "Invasion of Naboo",              k:"w", d: "The Trade Federation blockade of Naboo — the Sith return from the shadows and the Skywalker saga begins." },
+      { y:   -22, n: "First Battle of Geonosis",       k:"w", d: "The Clone Wars begin. The Grand Army of the Republic engages the Separatist droid army for the first time." },
+      { y:   -19, n: "Order 66 · Empire is Born",      k:"w", d: "Clone troopers turn on the Jedi. The Republic is reorganized into the First Galactic Empire under Palpatine." },
+      { y:    -2, n: "Declaration of Rebellion",       k:"h", d: "Mon Mothma publicly denounces Palpatine on the Senate floor. The scattered rebel cells unite as the Alliance to Restore the Republic." },
+      { y:     0, n: "Destruction of the Death Star",  k:"w", d: "Battle of Yavin: Luke Skywalker destroys the Empire's first planet-killing superweapon. The zero-point of the galactic calendar." },
+      { y:     3, n: "Battle of Hoth",                 k:"w", d: "The Empire overruns Echo Base. The Rebellion scatters and Darth Vader hunts Luke Skywalker across the galaxy." },
+      { y:     4, n: "Battle of Endor",                k:"w", d: "The second Death Star is destroyed. Emperor Palpatine and Darth Vader die. The Galactic Empire begins to collapse." },
+      { y:     5, n: "Battle of Jakku",                k:"w", d: "The final stand of the Galactic Empire. The Imperial fleet is annihilated over the desert world of Jakku." },
+      { y:   5.1, n: "Galactic Concordance Signed",    k:"h", d: "Signed on Chandrila after Jakku, the Concordance ends the Galactic Civil War. Imperial remnants are stripped of territory; the New Republic is formally established." },
+      { y:    11, n: "New Jedi Order Founded",         k:"h", d: "Luke Skywalker opens his Jedi temple to begin rebuilding the Order annihilated in the Purge. Ben Solo is among his first apprentices." },
+      { y:    28, n: "First Order Rises",              k:"h", d: "Imperial loyalists withdrawn to the Unknown Regions after Jakku emerge as the First Order under Supreme Leader Snoke, rebuilding in violation of the Concordance." },
+      { y:  28.2, n: "Resistance Founded",             k:"h", d: "General Leia Organa forms the Resistance as a paramilitary force to oppose the rising First Order while the New Republic remains politically paralyzed." },
+      { y:    34, n: "Hosnian Cataclysm",              k:"w", d: "Starkiller Base destroys the Hosnian system — the New Republic capital, fleet, and Senate are annihilated in seconds." },
+      { y:  34.2, n: "Destruction of Starkiller Base", k:"w", d: "Resistance pilots destroy the First Order's superweapon shortly after the Hosnian Cataclysm." },
+      { y:    35, n: "Battle of Exegol",               k:"w", d: "The resurrected Emperor and the Final Order are destroyed. The Sith are ended; Rey takes the Skywalker name." },
     ];
+    const EVT_CLR = {
+      w: { base: "#d04030", hov: "#ff9966", bg: "#1a0808", bgLight: "#fff5ee", title: "#ff9966", titleLight: "#a02a10", body: "#d0c0b0", bodyLight: "#3a1e10" },
+      h: { base: "#7878d0", hov: "#b0b0ff", bg: "#0a0a22", bgLight: "#eeeefc", title: "#b0b0ff", titleLight: "#2a2a80", body: "#c0c0e0", bodyLight: "#1e1e4a" },
+    };
 
     const TYPE_INFO = {
       f: { label: "Film",        color: "#f5c030" },
@@ -748,9 +760,7 @@
             const y1 = si*RH + RH/2;
             const x2 = px(target.seg[0][0]);
             const y2 = di*RH + RH/2;
-            // Route arc to the RIGHT of both endpoints so it's always visible
-            const bulge = Math.max(x1, x2) + Math.max(40, Math.abs(y2-y1)*0.25);
-            connectionLines.push({x1,y1,x2,y2,bulge,key:`${d.n}->${name}`});
+            connectionLines.push({x1,y1,x2,y2,key:`${d.n}->${name}`});
           });
         });
       }
@@ -908,28 +918,18 @@
                     </g>);
                   })}
                   {showEvents&&EVENTS.map((ev,i)=>{
-                    const x=px(ev.y), isHov=hoveredEvent===ev;
+                    const x=px(ev.y), isHov=hoveredEvent===ev, clr=EVT_CLR[ev.k||"w"];
+                    const marker = ev.k==="h"
+                      ? <polygon points={`${x},2 ${x+5},7 ${x},12 ${x-5},7`} fill={isHov?clr.hov:clr.base} opacity={0.95}/>
+                      : <polygon points={`${x-5},2 ${x+5},2 ${x},10`} fill={isHov?clr.hov:clr.base} opacity={0.95}/>;
                     return(
                       <g key={i} onMouseEnter={()=>setHoveredEvent(ev)} onMouseLeave={()=>setHoveredEvent(null)} style={{cursor:"help"}}>
                         <rect x={x-8} y={0} width={16} height={AH} fill="transparent"/>
-                        <line x1={x} y1={0} x2={x} y2={AH} stroke={isHov?"#ff9966":"#d04030"} strokeWidth={isHov?1.5:1} strokeDasharray="3,3" opacity={isHov?0.95:0.7}/>
-                        <polygon points={`${x-5},2 ${x+5},2 ${x},10`} fill={isHov?"#ff9966":"#d04030"} opacity={0.95}/>
+                        <line x1={x} y1={0} x2={x} y2={AH} stroke={isHov?clr.hov:clr.base} strokeWidth={isHov?1.5:1} strokeDasharray="3,3" opacity={isHov?0.95:0.7}/>
+                        {marker}
                       </g>
                     );
                   })}
-                  {showEvents&&hoveredEvent&&(()=>{
-                    const x=px(hoveredEvent.y), w=280, h=58;
-                    const lx=Math.min(Math.max(x-w/2,4),CW-w-4);
-                    return(
-                      <g style={{pointerEvents:"none"}}>
-                        <rect x={lx} y={AH-h-2} width={w} height={h} rx={4} fill={isDark?"#1a0808":"#fff5ee"} stroke="#d04030" strokeWidth={1} opacity={0.98}/>
-                        <text x={lx+10} y={AH-h+12} fill={isDark?"#ff9966":"#a02a10"} fontSize={9.5} fontWeight="600" fontFamily="DM Mono,monospace" letterSpacing=".05em">{yearLbl(hoveredEvent.y)} — {hoveredEvent.n}</text>
-                        <foreignObject x={lx+10} y={AH-h+18} width={w-20} height={h-24}>
-                          <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:10,color:isDark?"#d0c0b0":"#3a1e10",lineHeight:1.45,fontFamily:"DM Mono,monospace"}}>{hoveredEvent.d}</div>
-                        </foreignObject>
-                      </g>
-                    );
-                  })()}
                   {displayScrubX!=null&&(()=>{
                     const lbl=yearLbl(displayYear),tw=lbl.length*6.2+14,lxC=Math.min(Math.max(displayScrubX-tw/2,2),CW-tw-2);
                     return(<g style={{pointerEvents:"none"}}>
@@ -939,6 +939,24 @@
                     </g>);
                   })()}
                 </svg>
+                {showEvents&&hoveredEvent&&(()=>{
+                  const w=300, x=LW+px(hoveredEvent.y);
+                  const left=Math.min(Math.max(x-w/2,8),LW+CW-w-8);
+                  const clr=EVT_CLR[hoveredEvent.k||"w"];
+                  return(
+                    <div style={{position:"absolute",left,top:AH+4,width:w,padding:"10px 12px",
+                      background:(isDark?clr.bg:clr.bgLight)+"f2",border:`1px solid ${clr.base}`,borderRadius:4,
+                      zIndex:20,pointerEvents:"none",fontFamily:"DM Mono,monospace",
+                      boxShadow:"0 6px 18px rgba(0,0,0,0.45)"}}>
+                      <div style={{fontSize:10.5,fontWeight:600,color:isDark?clr.title:clr.titleLight,letterSpacing:".05em",marginBottom:6}}>
+                        {yearLbl(hoveredEvent.y)} — {hoveredEvent.n}
+                      </div>
+                      <div style={{fontSize:10.5,color:isDark?clr.body:clr.bodyLight,lineHeight:1.55}}>
+                        {hoveredEvent.d}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
 
               {/* ── Rows area ── */}
@@ -1022,20 +1040,24 @@
                   })}
                   <line x1={0} y1={CH-AH-1} x2={CW} y2={CH-AH-1} stroke={T.border}/>
 
-                  {/* Connection lines */}
-                  {connectionLines.map(({x1,y1,x2,y2,bulge,key})=>(
-                    <g key={key} style={{pointerEvents:"none"}}>
-                      <path d={`M ${x1},${y1} C ${bulge},${y1} ${bulge},${y2} ${x2},${y2}`}
-                        stroke="rgba(255,220,80,0.75)" strokeWidth={2} strokeDasharray="5,4" fill="none"/>
-                      <circle cx={x2} cy={y2} r={3.5} fill="rgba(255,220,80,0.9)"/>
-                    </g>
-                  ))}
+                  {/* Connection lines — orthogonal Z-step */}
+                  {connectionLines.map(({x1,y1,x2,y2,key})=>{
+                    const midX = (x1 + x2) / 2;
+                    const d = `M ${x1},${y1} L ${midX},${y1} L ${midX},${y2} L ${x2},${y2}`;
+                    return(
+                      <g key={key} style={{pointerEvents:"none"}}>
+                        <path d={d} stroke="rgba(255,220,80,0.75)" strokeWidth={2}
+                          strokeDasharray="5,4" fill="none" strokeLinejoin="round"/>
+                        <circle cx={x2} cy={y2} r={3.5} fill="rgba(255,220,80,0.9)"/>
+                      </g>
+                    );
+                  })}
 
                   {showEvents&&EVENTS.map((ev,i)=>{
-                    const x=px(ev.y), isHov=hoveredEvent===ev;
+                    const x=px(ev.y), isHov=hoveredEvent===ev, clr=EVT_CLR[ev.k||"w"];
                     return(
                       <line key={i} x1={x} y1={0} x2={x} y2={CH-AH}
-                        stroke={isHov?"#ff9966":"#d04030"} strokeWidth={isHov?1.5:1}
+                        stroke={isHov?clr.hov:clr.base} strokeWidth={isHov?1.5:1}
                         strokeDasharray="3,4" opacity={isHov?0.85:0.35} style={{pointerEvents:"none"}}/>
                     );
                   })}
