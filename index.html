@@ -47,6 +47,23 @@
       { name: "FIRST ORDER",      s:    34, e:    38, bg: "#0d0d30", color: "#6677ff" },
     ];
 
+    // ── Historical events (vertical markers) ─────────────────────────────────
+    const EVENTS = [
+      { y: -3956, n: "Jedi Civil War",                d: "Revan and Malak's war against the Republic. The KOTOR-era conflict that defined the Old Republic." },
+      { y: -1032, n: "Battle of Ruusan",              d: "The Ruusan Reformation ends a millennium of Sith Wars. Darth Bane's Rule of Two begins in secret." },
+      { y:  -232, n: "Great Hyperspace Disaster",     d: "The destruction of the Legacy Run reveals the Nihil marauders and sparks the High Republic's greatest crisis." },
+      { y:   -32, n: "Invasion of Naboo",             d: "The Trade Federation blockade of Naboo — the Sith return from the shadows and the Skywalker saga begins." },
+      { y:   -22, n: "First Battle of Geonosis",      d: "The Clone Wars begin. The Grand Army of the Republic engages the Separatist droid army for the first time." },
+      { y:   -19, n: "Order 66 · Empire is Born",     d: "Clone troopers turn on the Jedi. The Republic is reorganized into the First Galactic Empire under Palpatine." },
+      { y:     0, n: "Destruction of the Death Star", d: "Battle of Yavin: Luke Skywalker destroys the Empire's first planet-killing superweapon. The zero-point of the galactic calendar." },
+      { y:     3, n: "Battle of Hoth",                d: "The Empire overruns Echo Base. The Rebellion scatters and Darth Vader hunts Luke Skywalker across the galaxy." },
+      { y:     4, n: "Battle of Endor",               d: "The second Death Star is destroyed. Emperor Palpatine and Darth Vader die. The Galactic Empire begins to collapse." },
+      { y:     5, n: "Battle of Jakku",               d: "The final stand of the Galactic Empire. The Galactic Concordance is signed and the New Republic is consolidated." },
+      { y:    34, n: "Hosnian Cataclysm",             d: "Starkiller Base destroys the Hosnian system — the New Republic capital, fleet, and Senate are annihilated in seconds." },
+      { y:  34.2, n: "Destruction of Starkiller Base",d: "Resistance pilots destroy the First Order's superweapon shortly after the Hosnian Cataclysm." },
+      { y:    35, n: "Battle of Exegol",              d: "The resurrected Emperor and the Final Order are destroyed. The Sith are ended; Rey takes the Skywalker name." },
+    ];
+
     const TYPE_INFO = {
       f: { label: "Film",        color: "#f5c030" },
       a: { label: "Animated",    color: "#38b4f0" },
@@ -558,6 +575,8 @@
       const [collapsed,setCollapsed]     = useState(new Set());
       const [exporting,setExporting]     = useState(false);
       const [showLinks,setShowLinks]     = useState(false);
+      const [showEvents,setShowEvents]   = useState(true);
+      const [hoveredEvent,setHoveredEvent] = useState(null);
       const [userdata,setUserdata]       = useState(() => { try { return JSON.parse(localStorage.getItem('sw-userdata')||'{}'); } catch(e){ return {}; } });
       const [theme,setTheme]             = useState(() => localStorage.getItem('sw-theme')||'dark');
       const dragStart     = useRef(null);
@@ -775,6 +794,13 @@
                 onMouseEnter={e=>{ e.currentTarget.style.background=T.bgBtnHov; }}
                 onMouseLeave={e=>{ e.currentTarget.style.background=showLinks?T.bgBtnHov:T.bgBtn; }}
               >{showLinks?"links on":"links off"}</button>
+              {/* Events toggle */}
+              <button onClick={()=>setShowEvents(s=>!s)}
+                style={btnStyle(showEvents)}
+                onMouseEnter={e=>{ e.currentTarget.style.background=T.bgBtnHov; }}
+                onMouseLeave={e=>{ e.currentTarget.style.background=showEvents?T.bgBtnHov:T.bgBtn; }}
+                title="Toggle historical event markers"
+              >{showEvents?"events on":"events off"}</button>
               <div style={{width:1,height:20,background:T.border,margin:"0 2px"}}/>
               <span style={{fontSize:9,letterSpacing:".14em",color:T.textFaint}}>ZOOM</span>
               {[["−",z=>Math.max(0.3,+(z-0.25).toFixed(2))],["reset",()=>1],["+",z=>Math.min(6,+(z+0.25).toFixed(2))]].map(([l,fn])=>(
@@ -881,6 +907,29 @@
                       >{yl(y)}</text>
                     </g>);
                   })}
+                  {showEvents&&EVENTS.map((ev,i)=>{
+                    const x=px(ev.y), isHov=hoveredEvent===ev;
+                    return(
+                      <g key={i} onMouseEnter={()=>setHoveredEvent(ev)} onMouseLeave={()=>setHoveredEvent(null)} style={{cursor:"help"}}>
+                        <rect x={x-8} y={0} width={16} height={AH} fill="transparent"/>
+                        <line x1={x} y1={0} x2={x} y2={AH} stroke={isHov?"#ff9966":"#d04030"} strokeWidth={isHov?1.5:1} strokeDasharray="3,3" opacity={isHov?0.95:0.7}/>
+                        <polygon points={`${x-5},2 ${x+5},2 ${x},10`} fill={isHov?"#ff9966":"#d04030"} opacity={0.95}/>
+                      </g>
+                    );
+                  })}
+                  {showEvents&&hoveredEvent&&(()=>{
+                    const x=px(hoveredEvent.y), w=280, h=58;
+                    const lx=Math.min(Math.max(x-w/2,4),CW-w-4);
+                    return(
+                      <g style={{pointerEvents:"none"}}>
+                        <rect x={lx} y={AH-h-2} width={w} height={h} rx={4} fill={isDark?"#1a0808":"#fff5ee"} stroke="#d04030" strokeWidth={1} opacity={0.98}/>
+                        <text x={lx+10} y={AH-h+12} fill={isDark?"#ff9966":"#a02a10"} fontSize={9.5} fontWeight="600" fontFamily="DM Mono,monospace" letterSpacing=".05em">{yearLbl(hoveredEvent.y)} — {hoveredEvent.n}</text>
+                        <foreignObject x={lx+10} y={AH-h+18} width={w-20} height={h-24}>
+                          <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:10,color:isDark?"#d0c0b0":"#3a1e10",lineHeight:1.45,fontFamily:"DM Mono,monospace"}}>{hoveredEvent.d}</div>
+                        </foreignObject>
+                      </g>
+                    );
+                  })()}
                   {displayScrubX!=null&&(()=>{
                     const lbl=yearLbl(displayYear),tw=lbl.length*6.2+14,lxC=Math.min(Math.max(displayScrubX-tw/2,2),CW-tw-2);
                     return(<g style={{pointerEvents:"none"}}>
@@ -981,6 +1030,15 @@
                       <circle cx={x2} cy={y2} r={3.5} fill="rgba(255,220,80,0.9)"/>
                     </g>
                   ))}
+
+                  {showEvents&&EVENTS.map((ev,i)=>{
+                    const x=px(ev.y), isHov=hoveredEvent===ev;
+                    return(
+                      <line key={i} x1={x} y1={0} x2={x} y2={CH-AH}
+                        stroke={isHov?"#ff9966":"#d04030"} strokeWidth={isHov?1.5:1}
+                        strokeDasharray="3,4" opacity={isHov?0.85:0.35} style={{pointerEvents:"none"}}/>
+                    );
+                  })}
 
                   {displayScrubX!=null&&(
                     <g style={{pointerEvents:"none"}}>
