@@ -62,6 +62,20 @@ Series with non-linear or multi-era timelines include per-season year placements
 
 ---
 
+## Mobile support
+
+The desktop layout is preserved pixel-for-pixel — nothing changes when viewed on a normal computer. Under 760px of width, or on any touch device in landscape with a short viewport, the app switches to a touch-optimized layout:
+
+- **Compact header** — reduced title and hidden legend/hint line to save vertical space
+- **Hamburger menu (☰)** — dark/light toggle, connections toggle, events toggle, zoom −/reset/+, export PNG, and watched counter all gathered into a single overlay sheet
+- **Fullscreen + landscape button (⛶)** — taps into the Fullscreen API and requests a landscape orientation lock (works on Android; iOS Safari enters fullscreen but doesn't honor the orientation lock, so the user rotates the device manually)
+- **Pinch-to-zoom** — two-finger gesture zooms anchored to the midpoint between fingers; one-finger drag pans horizontally via native touch scroll
+- **Tap-to-reveal event banners** — tap an event marker on the ruler and its description appears as a fixed banner at the top of the screen; tap anywhere to dismiss
+- **Slide-up bottom sheet** — the detail panel animates up from the bottom (max 65vh) when a row is tapped, instead of opening as a fixed side column
+- **Scrollable page** — the full timeline fills the viewport, and the shortcuts / disclaimer / data-sources footers live below the chart so the user can swipe down to read them without them ever covering the timeline itself
+
+---
+
 ## Architecture
 
 The project is a **single self-contained `index.html`** file — no build step required. It uses:
