@@ -67,6 +67,7 @@
       { y:    11, n: "New Jedi Order Founded",         k:"h", d: "Luke Skywalker opens his Jedi temple to begin rebuilding the Order annihilated in the Purge. Ben Solo is among his first apprentices." },
       { y:    28, n: "First Order Rises",              k:"h", d: "Imperial loyalists withdrawn to the Unknown Regions after Jakku emerge as the First Order under Supreme Leader Snoke, rebuilding in violation of the Concordance." },
       { y:  28.2, n: "Resistance Founded",             k:"h", d: "General Leia Organa forms the Resistance as a paramilitary force to oppose the rising First Order while the New Republic remains politically paralyzed." },
+      { y:  28.5, n: "Fall of the New Jedi Order",     k:"w", d: "Ben Solo, Luke's nephew and most gifted apprentice, is turned by Snoke. He destroys the Jedi temple and slaughters his fellow students; a devastated Luke exiles himself on Ahch-To and Ben becomes Kylo Ren." },
       { y:    34, n: "Hosnian Cataclysm",              k:"w", d: "Starkiller Base destroys the Hosnian system — the New Republic capital, fleet, and Senate are annihilated in seconds." },
       { y:  34.2, n: "Destruction of Starkiller Base", k:"w", d: "Resistance pilots destroy the First Order's superweapon shortly after the Hosnian Cataclysm." },
       { y:    35, n: "Battle of Exegol",               k:"w", d: "The resurrected Emperor and the Final Order are destroyed. The Sith are ended; Rey takes the Skywalker name." },
@@ -432,6 +433,9 @@
 
       // ─ CHARACTERS ────────────────────────────────────────────────────────────
       // bornApprox:true → uncertain birth date  |  diedApprox:true → uncertain/unknown death or still alive
+      { n:"Aayla Secura",        t:"p", seg:[[-48,-19]], bornApprox:true,
+        desc:"Twi'lek Jedi Knight and General in the Grand Army of the Republic. Shot down by Commander Bly and her own 327th Star Corps on Felucia during Order 66 (19 BBY, ROTS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Aayla_Secura"}] },
       { n:"Ahsoka Tano",         t:"p", seg:[[-36,11]], diedApprox:true,
         desc:"Anakin Skywalker's Padawan, survivor of Order 66, and spiritual guide of the early Rebellion. Last confirmed appearance: ~9–11 ABY (Ahsoka S1). Fate beyond that unknown.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ahsoka_Tano"}] },
@@ -468,9 +472,18 @@
       { n:"Count Dooku",         t:"p", seg:[[-102,-19]],
         desc:"Former Jedi Master and Yoda's student, later Sith Lord Darth Tyranus and leader of the Separatists. Killed by Anakin on Palpatine's orders (19 BBY, ROTS).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Dooku"}] },
+      { n:"Darth Bane",          t:"p", seg:[[-1040,-980]], bornApprox:true, diedApprox:true,
+        desc:"Sith Lord who survived the Battle of Ruusan and instituted the Rule of Two. Founded the thousand-year Sith lineage that would culminate in Darth Sidious's conquest of the Republic.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Darth_Bane"}] },
+      { n:"Darth Malak",         t:"p", seg:[[-3993,-3956]], bornApprox:true, diedApprox:true,
+        desc:"Revan's Jedi apprentice-turned-Sith apprentice. After Revan's capture he seized the Sith Empire and waged the Jedi Civil War against the Republic before dying at the Star Forge (Legends-origin; canon-referenced).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Malak"}] },
       { n:"Darth Maul",          t:"p", seg:[[-54,-2]], bornApprox:true,
         desc:"Sidious's first Sith apprentice, raised as a living weapon. Survived his bisection on Naboo. Killed by Obi-Wan on Tatooine (~2 BBY, Rebels S3).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Maul"}] },
+      { n:"Depa Billaba",        t:"p", seg:[[-73,-19]], bornApprox:true,
+        desc:"Chalactan Jedi Master, High Council member, and Mace Windu's former Padawan. Kanan Jarrus's teacher. Killed on Kaller defending her Padawan from her own clone troopers during Order 66.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Depa_Billaba"}] },
       { n:"Din Djarin",          t:"p", seg:[[-29,11]], bornApprox:true, diedApprox:true,
         desc:"The Mandalorian, a foundling taken in during the Night of a Thousand Tears. Bounty hunter and adoptive father of Grogu. Last seen ~11 ABY (Mandalorian S3).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Din_Djarin"}] },
@@ -489,15 +502,27 @@
       { n:"Han Solo",            t:"p", seg:[[-29,34]],
         desc:"Smuggler of the Millennium Falcon, later Rebel general. Hero of Yavin and Endor. Killed by his son Ben on Starkiller Base (34 ABY, TFA).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Han_Solo"}] },
+      { n:"Jango Fett",          t:"p", seg:[[-66,-22]],
+        desc:"Mandalorian bounty hunter hired as the genetic template for the Grand Army of the Republic. Boba Fett's 'father' (unaltered clone). Beheaded by Mace Windu at the First Battle of Geonosis (22 BBY, AOTC).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Jango_Fett"}] },
       { n:"Jyn Erso",            t:"p", seg:[[-21,0]],
         desc:"Daughter of Galen Erso, raised among Saw Gerrera's rebels. Leader of Rogue One. Dies on the beaches of Scarif (0 BBY, Rogue One).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Jyn_Erso"}] },
       { n:"Kanan Jarrus",        t:"p", seg:[[-33,-1]],
         desc:"Caleb Dume, a Padawan who survived Order 66 and became a self-taught Jedi Master. Ghost Crew leader. Dies saving his crew on Lothal (~1 BBY, Rebels S4).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Kanan_Jarrus"}] },
+      { n:"Ki-Adi-Mundi",        t:"p", seg:[[-92,-19]], bornApprox:true,
+        desc:"Cerean Jedi Master and High Council member. Commanded Republic forces on Mygeeto during the Clone Wars, where his own 21st Nova Corps executed him under Order 66.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Ki-Adi-Mundi"}] },
+      { n:"Kit Fisto",           t:"p", seg:[[-80,-19]], bornApprox:true,
+        desc:"Nautolan Jedi Master and High Council member, famed for his cheerful demeanor and lightsaber skill. Killed in Palpatine's office alongside Agen Kolar and Saesee Tiin when Mace Windu confronted the Sith Lord.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Kit_Fisto"}] },
       { n:"Leia Organa",         t:"p", seg:[[-19,35]],
         desc:"Princess of Alderaan, senator, founder of the Resistance. Twin sister of Luke Skywalker. Dies using the Force to reach her son Ben (35 ABY, TROS).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Leia_Organa"}] },
+      { n:"Luminara Unduli",     t:"p", seg:[[-58,-18]], bornApprox:true,
+        desc:"Mirialan Jedi Master known for her discipline and precision. Barriss Offee's master. Survived Order 66 only to be executed by the Empire; her body was later used to lure hunted Jedi into traps.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Luminara_Unduli"}] },
       { n:"Luke Skywalker",      t:"p", seg:[[-19,34]],
         desc:"Son of Vader and the greatest Jedi of his generation. Savior of Yavin, Hoth, Endor. Dies becoming one with the Force on Ahch-To (34 ABY, TLJ).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Luke_Skywalker"}] },
@@ -513,6 +538,9 @@
       { n:"Palpatine / Sidious", t:"p", seg:[[-84,35]], bornApprox:true,
         desc:"Senator of Naboo, Supreme Chancellor, Emperor. 'Dies' at 4 ABY (ROTJ) but returns as a clone. Finally defeated on Exegol (35 ABY, TROS).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Palpatine"}] },
+      { n:"Plo Koon",            t:"p", seg:[[-87,-19]], bornApprox:true,
+        desc:"Kel Dor Jedi Master and High Council member. Ahsoka Tano's discoverer and mentor. Shot down over Cato Neimoidia by his own clone pilots during Order 66.",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Plo_Koon"}] },
       { n:"Poe Dameron",         t:"p", seg:[[2,35]], bornApprox:true, diedApprox:true,
         desc:"The Resistance's best pilot, son of Endor veterans. Becomes general at the Battle of Exegol. Alive at the end of the saga.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Poe_Dameron"}] },
@@ -522,12 +550,18 @@
       { n:"R2-D2",               t:"p", seg:[[-32,35]], bornApprox:true, diedApprox:true,
         desc:"Plucky and resourceful astromech droid. Companion of Anakin, then Luke and Leia. Construction date uncertain — active at least since the Naboo crisis (32 BBY).",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/R2-D2"}] },
+      { n:"Revan",               t:"p", seg:[[-3994,-3950]], bornApprox:true, diedApprox:true,
+        desc:"Legendary Jedi Knight who led the Republic during the Mandalorian Wars, fell to the dark side as Darth Revan, was redeemed, and helped shatter the Sith Empire. Canonically referenced via the Malachor Sith temple and the Sith Eternal (Legends origin).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Revan"}] },
       { n:"Rey",                 t:"p", seg:[[15,35]], diedApprox:true,
         desc:"Daughter of a Palpatine clone, raised alone on Jakku. The Last Jedi, she defeats her grandfather on Exegol and takes the name Rey Skywalker. Alive at the end.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Rey"}] },
       { n:"Sabine Wren",         t:"p", seg:[[-21,9]], diedApprox:true,
         desc:"Mandalorian warrior, artist, weapons expert, and Ghost Crew member. Darksaber bearer. Ahsoka's apprentice. Last seen ~9 ABY (Ahsoka S1). Fate unknown.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Sabine_Wren"}] },
+      { n:"Shaak Ti",            t:"p", seg:[[-63,-19]], bornApprox:true,
+        desc:"Togruta Jedi Master and High Council member. Oversaw clone trooper training on Kamino throughout the Clone Wars. Killed by Anakin Skywalker during the attack on the Jedi Temple (19 BBY, ROTS).",
+        links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Shaak_Ti"}] },
       { n:"Thrawn",              t:"p", seg:[[-11,9]], bornApprox:true, diedApprox:true,
         desc:"Chiss Grand Admiral and the Empire's supreme strategist. First appears ~11 BBY (Rebels). Dragged into the Unknown Regions with Ezra. Alive ~9 ABY (Ahsoka S1). Fate unknown.",
         links:[{l:"Wookieepedia",u:"https://starwars.fandom.com/wiki/Mitth%27raw%27nuruodo"}] },
@@ -584,7 +618,7 @@
       const [scrubLocked,setScrubLocked] = useState(false);
       const [lockedYear,setLockedYear]   = useState(null);
       const [isDragging,setIsDragging]   = useState(false);
-      const [collapsed,setCollapsed]     = useState(new Set());
+      const [collapsed,setCollapsed]     = useState(new Set(["p"]));
       const [exporting,setExporting]     = useState(false);
       const [showLinks,setShowLinks]     = useState(false);
       const [showEvents,setShowEvents]   = useState(true);
@@ -874,7 +908,7 @@
               onMouseDown={onChartMouseDown} onMouseMove={onChartMouseMove}>
 
               {/* ── Ruler row (sticky top) ── */}
-              <div style={{position:"sticky",top:0,zIndex:5,display:"flex",flexShrink:0}}>
+              <div style={{position:"sticky",top:0,zIndex:15,display:"flex",flexShrink:0}}>
                 {/* Labels header */}
                 <div style={{width:LW,flexShrink:0,position:"sticky",left:0,zIndex:10,background:T.bgSurface,borderRight:`1px solid ${T.border}`,borderBottom:`1px solid ${T.border}`,height:AH,display:"flex",alignItems:"flex-end",justifyContent:"space-between",paddingBottom:8,paddingLeft:12,paddingRight:8}}>
                   <span style={{fontSize:8,color:T.textFaint,letterSpacing:".2em"}}>TITLE</span>
@@ -941,7 +975,8 @@
                 </svg>
                 {showEvents&&hoveredEvent&&(()=>{
                   const w=300, x=LW+px(hoveredEvent.y);
-                  const left=Math.min(Math.max(x-w/2,8),LW+CW-w-8);
+                  // Keep tooltip right of the sticky labels column so it's always in the foreground
+                  const left=Math.min(Math.max(x-w/2,LW+8),LW+CW-w-8);
                   const clr=EVT_CLR[hoveredEvent.k||"w"];
                   return(
                     <div style={{position:"absolute",left,top:AH+4,width:w,padding:"10px 12px",
@@ -1151,15 +1186,21 @@
                     {/* Timeline segments */}
                     <div style={{marginBottom:d.seasons?16:0}}>
                       <div style={{fontSize:7.5,color:T.textFaint,letterSpacing:".14em",marginBottom:8}}>{d.t==="p"?"LIFESPAN":"TIMELINE"}</div>
-                      {d.seg.map((s,i)=>(
-                        <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
-                          <div style={{width:3,height:18,borderRadius:2,flexShrink:0,marginTop:1,background:ti.color,opacity:.8}}/>
-                          <div>
-                            <div style={{fontSize:12,color:isDark?"#d0d0f0":"#1a1a3e"}}>{sfmt(s)}</div>
-                            {d.lbl?.[i]&&<div style={{fontSize:9.5,color:T.textFaint,marginTop:2}}>{d.lbl[i]}</div>}
+                      {d.seg.map((s,i)=>{
+                        const showAge = d.t==="p" && !d.bornApprox && !d.diedApprox && d.seg.length===1;
+                        return(
+                          <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
+                            <div style={{width:3,height:18,borderRadius:2,flexShrink:0,marginTop:1,background:ti.color,opacity:.8}}/>
+                            <div>
+                              <div style={{fontSize:12,color:isDark?"#d0d0f0":"#1a1a3e"}}>
+                                {sfmt(s)}
+                                {showAge&&<span style={{color:T.textFaint,marginLeft:7,fontSize:11}}>({s[1]-s[0]} years)</span>}
+                              </div>
+                              {d.lbl?.[i]&&<div style={{fontSize:9.5,color:T.textFaint,marginTop:2}}>{d.lbl[i]}</div>}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                       {d.seg.length>1&&<div style={{fontSize:9,color:T.textFaint,fontStyle:"italic",marginTop:2}}>{d.seg.length} segments with time gaps</div>}
                     </div>
                     {/* Seasons */}
